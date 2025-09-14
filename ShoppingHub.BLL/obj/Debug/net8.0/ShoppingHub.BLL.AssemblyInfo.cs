@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ShoppingHub.BLL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+64635b29ffb1a9f9fab31d0887969856a261c276")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3537ecc88aa1bf0fad26a43a2ba4b666b49fce6d")]
 [assembly: System.Reflection.AssemblyProductAttribute("ShoppingHub.BLL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ShoppingHub.BLL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
