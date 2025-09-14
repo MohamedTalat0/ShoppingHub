@@ -1,7 +1,32 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.DAL\\Migrations\\20250914141846_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ShoppingHub.DAL\\Migrations\\20250914141846_init.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0412619-2F52-404F-90FE-666B68E7ED63}|ShoppingHub.DAL\\ShoppingHub.DAL.csproj|d:\\projects\\iti .net training\\mvc\\shoppinghub\\shoppinghub.dal\\database\\shoppinghubdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B0412619-2F52-404F-90FE-666B68E7ED63}|ShoppingHub.DAL\\ShoppingHub.DAL.csproj|solutionrelative:shoppinghub.dal\\database\\shoppinghubdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DAF6C24-35E8-41CC-8956-24F2F3F7AD91}|ShoppingHub.PL\\ShoppingHub.PL.csproj|d:\\projects\\iti .net training\\mvc\\shoppinghub\\shoppinghub.pl\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DAF6C24-35E8-41CC-8956-24F2F3F7AD91}|ShoppingHub.PL\\ShoppingHub.PL.csproj|solutionrelative:shoppinghub.pl\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DAF6C24-35E8-41CC-8956-24F2F3F7AD91}|ShoppingHub.PL\\ShoppingHub.PL.csproj|d:\\projects\\iti .net training\\mvc\\shoppinghub\\shoppinghub.pl\\language\\sharedresources.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5DAF6C24-35E8-41CC-8956-24F2F3F7AD91}|ShoppingHub.PL\\ShoppingHub.PL.csproj|solutionrelative:shoppinghub.pl\\language\\sharedresources.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5DAF6C24-35E8-41CC-8956-24F2F3F7AD91}|ShoppingHub.PL\\ShoppingHub.PL.csproj|d:\\projects\\iti .net training\\mvc\\shoppinghub\\shoppinghub.pl\\language\\sharedresources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
+      "RelativeMoniker": "D:0:0:{5DAF6C24-35E8-41CC-8956-24F2F3F7AD91}|ShoppingHub.PL\\ShoppingHub.PL.csproj|solutionrelative:shoppinghub.pl\\language\\sharedresources.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B0412619-2F52-404F-90FE-666B68E7ED63}|ShoppingHub.DAL\\ShoppingHub.DAL.csproj|d:\\projects\\iti .net training\\mvc\\shoppinghub\\shoppinghub.dal\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B0412619-2F52-404F-90FE-666B68E7ED63}|ShoppingHub.DAL\\ShoppingHub.DAL.csproj|solutionrelative:shoppinghub.dal\\class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +34,88 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "20250914141846_init.cs",
+              "DocumentMoniker": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.DAL\\Migrations\\20250914141846_init.cs",
+              "RelativeDocumentMoniker": "ShoppingHub.DAL\\Migrations\\20250914141846_init.cs",
+              "ToolTip": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.DAL\\Migrations\\20250914141846_init.cs",
+              "RelativeToolTip": "ShoppingHub.DAL\\Migrations\\20250914141846_init.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T14:18:46.475Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.PL\\Program.cs",
+              "RelativeDocumentMoniker": "ShoppingHub.PL\\Program.cs",
+              "ToolTip": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.PL\\Program.cs",
+              "RelativeToolTip": "ShoppingHub.PL\\Program.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAgwBwAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T11:31:02.819Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "sharedResources.cs",
+              "DocumentMoniker": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.PL\\Language\\sharedResources.cs",
+              "RelativeDocumentMoniker": "ShoppingHub.PL\\Language\\sharedResources.cs",
+              "ToolTip": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.PL\\Language\\sharedResources.cs",
+              "RelativeToolTip": "ShoppingHub.PL\\Language\\sharedResources.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T11:29:17.638Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "sharedResources.resx",
+              "DocumentMoniker": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.PL\\Language\\sharedResources.resx",
+              "RelativeDocumentMoniker": "ShoppingHub.PL\\Language\\sharedResources.resx",
+              "ToolTip": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.PL\\Language\\sharedResources.resx",
+              "RelativeToolTip": "ShoppingHub.PL\\Language\\sharedResources.resx",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2025-09-14T11:28:50.959Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "shoppingHubDbContext.cs",
+              "DocumentMoniker": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.DAL\\DataBase\\shoppingHubDbContext.cs",
+              "RelativeDocumentMoniker": "ShoppingHub.DAL\\DataBase\\shoppingHubDbContext.cs",
+              "ToolTip": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.DAL\\DataBase\\shoppingHubDbContext.cs",
+              "RelativeToolTip": "ShoppingHub.DAL\\DataBase\\shoppingHubDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T11:05:07.248Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.DAL\\Class1.cs",
+              "RelativeDocumentMoniker": "ShoppingHub.DAL\\Class1.cs",
+              "ToolTip": "D:\\Projects\\ITI .net Training\\MVC\\ShoppingHub\\ShoppingHub.DAL\\Class1.cs",
+              "RelativeToolTip": "ShoppingHub.DAL\\Class1.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-14T11:01:44.94Z",
+              "EditorCaption": ""
             }
           ]
         }

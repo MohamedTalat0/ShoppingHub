@@ -1,0 +1,16 @@
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\bin\Debug\net8.0\ShoppingHub.BLL.deps.json
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\bin\Debug\net8.0\ShoppingHub.BLL.dll
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\bin\Debug\net8.0\ShoppingHub.BLL.pdb
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\bin\Debug\net8.0\ShoppingHub.DAL.dll
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\bin\Debug\net8.0\ShoppingHub.DAL.pdb
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\ShoppingHub.BLL.csproj.AssemblyReference.cache
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\ShoppingHub.BLL.GeneratedMSBuildEditorConfig.editorconfig
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\ShoppingHub.BLL.AssemblyInfoInputs.cache
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\ShoppingHub.BLL.AssemblyInfo.cs
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\ShoppingHub.BLL.csproj.CoreCompileInputs.cache
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\ShoppingHub.BLL.sourcelink.json
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\Shopping.669D3918.Up2Date
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\ShoppingHub.BLL.dll
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\refint\ShoppingHub.BLL.dll
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\ShoppingHub.BLL.pdb
+D:\Projects\ITI .net Training\MVC\ShoppingHub\ShoppingHub.BLL\obj\Debug\net8.0\ref\ShoppingHub.BLL.dll
