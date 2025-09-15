@@ -15,6 +15,9 @@ namespace ShoppingHub.DAL.Entities
         public string Status { get; private set; }
         public string ShippingAddress { get; private set; }
         public string PaymentMethod { get; private set; }
+        //public double TotalPrice { get; private set; }
+        //public int TotalItems { get; private set; }
+
         [ForeignKey("User")]
         public int? UserId { get; set; }
         public User? User { get; set; }

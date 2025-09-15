@@ -17,6 +17,7 @@ namespace ShoppingHub.DAL.Entities
         public string ImagePath { get; private set; }
         public List<Order> Orders { get; private set; } = new List<Order>();
         public List<CartItem> cartItems { get; private set; } = new List<CartItem>();
+        public List<ProductRating> Ratings { get; private set; } = new List<ProductRating>();
 
     }
 }

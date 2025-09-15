@@ -17,6 +17,7 @@ namespace ShoppingHub.DAL.DataBase
         {
             modelBuilder.Entity<CartItem>().HasKey(a=> new {a.ProductID,a.UserID });
             modelBuilder.Entity<OrderItem>().HasKey(a => new { a.ProductID, a.OrderID });
+            modelBuilder.Entity<ProductRating>().HasKey(a => new { a.ProductID, a.UserID });
 
         }
         public DbSet<User> Users { get; set; }
@@ -24,7 +25,7 @@ namespace ShoppingHub.DAL.DataBase
         public DbSet<Order> Orders { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
-        public DbSet<Category> Categories { get; set; }  
-
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<ProductRating> ProductRatings { get; set; }
     }
 }
