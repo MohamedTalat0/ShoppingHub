@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using ShoppingHub.DAL.DataBase;
+using ShoppingHub.PL.Language;
 using System.Globalization;
 
 namespace ShoppingHub.PL
@@ -12,7 +14,12 @@ namespace ShoppingHub.PL
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+              .AddDataAnnotationsLocalization(options =>
+              {
+                  options.DataAnnotationLocalizerProvider = (type,        factory)    =>
+                      factory.Create(typeof(sharedResources));
+              });
             var connectionString = builder.Configuration.GetConnectionString("Connection");
 
             builder.Services.AddDbContext<shoppingHubDbContext>(options =>
