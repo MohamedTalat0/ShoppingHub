@@ -1,5 +1,7 @@
-using System.Globalization;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.EntityFrameworkCore;
+using ShoppingHub.DAL.DataBase;
+using System.Globalization;
 
 namespace ShoppingHub.PL
 {
@@ -11,6 +13,10 @@ namespace ShoppingHub.PL
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            var connectionString = builder.Configuration.GetConnectionString("Connection");
+
+            builder.Services.AddDbContext<shoppingHubDbContext>(options =>
+            options.UseSqlServer(connectionString));
 
             var app = builder.Build();
 

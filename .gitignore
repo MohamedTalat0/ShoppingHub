@@ -1,0 +1,26 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.dbmdl
+
+# Build Folders
+bin/
+obj/
+
+# NuGet Packages
+*.nupkg
+packages/
+
+# Dotnet
+*.dll
+*.pdb
+*.runtimeconfig.json
+*.deps.json
+
+# Logs
+*.log
+
+# Rider IDE
+.idea/

@@ -1,17 +1,30 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using ShoppingHub.DAL.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace ShoppingHub.DAL.DataBase
 {
-    internal class shoppingHubDbContext:DbContext
+    public class shoppingHubDbContext:DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public shoppingHubDbContext(DbContextOptions<shoppingHubDbContext> options) : base(options)
         {
-            optionsBuilder.UseSqlServer(@"Server=.;Database=ShoppingHubDb;Trusted_Connection=True;TrustServerCertificate=True");
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CartItem>().HasKey(a=> new {a.ProductID,a.UserID });
+            modelBuilder.Entity<OrderItem>().HasKey(a => new { a.ProductID, a.OrderID });
+
+        }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<Category> Categories { get; set; }  
+
     }
 }
