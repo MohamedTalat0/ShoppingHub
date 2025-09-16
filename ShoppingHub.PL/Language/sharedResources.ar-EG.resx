@@ -120,6 +120,12 @@
   <data name="AboutUs" xml:space="preserve">
     <value>من نحن</value>
   </data>
+  <data name="Address" xml:space="preserve">
+    <value>العنوان</value>
+  </data>
+  <data name="Address_placeHolder" xml:space="preserve">
+    <value>ساكن فين؟</value>
+  </data>
   <data name="Arabic" xml:space="preserve">
     <value>اللغة العربية</value>
   </data>
@@ -130,10 +136,13 @@
     <value>علامات تجارية</value>
   </data>
   <data name="Cart" xml:space="preserve">
-    <value>العربة</value>
+    <value>عربة التسوق</value>
   </data>
   <data name="Categories" xml:space="preserve">
     <value>الفئات</value>
+  </data>
+  <data name="ChooseProfilePicture" xml:space="preserve">
+    <value>اختار صورتك</value>
   </data>
   <data name="Clothing" xml:space="preserve">
     <value>الملابس</value>
@@ -141,14 +150,26 @@
   <data name="Contact" xml:space="preserve">
     <value>تواصل</value>
   </data>
+  <data name="createAccountBtn" xml:space="preserve">
+    <value>سجل معانا</value>
+  </data>
   <data name="CustomerService" xml:space="preserve">
     <value>خدمة العميل</value>
   </data>
   <data name="Deals" xml:space="preserve">
-    <value>العروض</value>
+    <value>عروض وخصومات</value>
   </data>
   <data name="Electronics" xml:space="preserve">
     <value>الالكترونيات</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>الإيميل</value>
+  </data>
+  <data name="Email_placeHolder" xml:space="preserve">
+    <value>دخل الايميل بتاعك</value>
+  </data>
+  <data name="EncourageJoin_Register" xml:space="preserve">
+    <value>انضم ل ShopHub وابدأ التسوق اليوم</value>
   </data>
   <data name="English" xml:space="preserve">
     <value>اللغة الانجليزية</value>
@@ -162,11 +183,17 @@
   <data name="FollowUs" xml:space="preserve">
     <value>تابعنا</value>
   </data>
+  <data name="haveAccount" xml:space="preserve">
+    <value>عندك حساب بالفعل؟</value>
+  </data>
   <data name="Home" xml:space="preserve">
     <value>الرئيسية</value>
   </data>
   <data name="Home&amp;Garden" xml:space="preserve">
     <value>المنزل و الاطفال</value>
+  </data>
+  <data name="ImageSelected" xml:space="preserve">
+    <value>اللهم صلى علي النبى</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>اللغة</value>
@@ -177,11 +204,32 @@
   <data name="Logout" xml:space="preserve">
     <value>تسجيل خروج</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>الإسم</value>
+  </data>
+  <data name="Name_placeHolder" xml:space="preserve">
+    <value>نتشرف باسمك....</value>
+  </data>
   <data name="NewArrivals" xml:space="preserve">
     <value>وصل حديثا</value>
   </data>
+  <data name="Password" xml:space="preserve">
+    <value>كلمة السر</value>
+  </data>
+  <data name="password_placeHolder" xml:space="preserve">
+    <value>دخل باسورد قوى</value>
+  </data>
+  <data name="PhoneNumber" xml:space="preserve">
+    <value>رقم التليفون</value>
+  </data>
+  <data name="phone_placeHolder" xml:space="preserve">
+    <value>دخل رقم موبايلك</value>
+  </data>
   <data name="PrivacyPolicy" xml:space="preserve">
-    <value>الخصوصية</value>
+    <value>ساكن فين؟</value>
+  </data>
+  <data name="ProfileImage" xml:space="preserve">
+    <value>الصورة الشخصية (اختياري)</value>
   </data>
   <data name="QuickLinks" xml:space="preserve">
     <value>روابط سريعة</value>
@@ -189,14 +237,17 @@
   <data name="Register" xml:space="preserve">
     <value>تسجيل مستخدم جديد</value>
   </data>
-  <data name="Returns" xml:space="preserve">
+  <data name="Retuns" xml:space="preserve">
     <value>المرتجعات</value>
   </data>
   <data name="Search products..." xml:space="preserve">
-    <value>بحث....</value>
+    <value>بتدور علي حاجة؟....</value>
   </data>
   <data name="ShippingInfo" xml:space="preserve">
     <value>تفاصيل الشحن</value>
+  </data>
+  <data name="signInHere" xml:space="preserve">
+    <value>سجل الدخول هنا </value>
   </data>
   <data name="Sports" xml:space="preserve">
     <value>الرياضة</value>

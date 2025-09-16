@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using ShoppingHub.BLL.Service.Abstraction;
+using ShoppingHub.BLL.Service.Implementaion;
 using ShoppingHub.DAL.DataBase;
+using ShoppingHub.DAL.Repository.Abstraction;
+using ShoppingHub.DAL.Repository.Implementation;
 using ShoppingHub.PL.Language;
 using System.Globalization;
 
@@ -24,7 +28,9 @@ namespace ShoppingHub.PL
 
             builder.Services.AddDbContext<shoppingHubDbContext>(options =>
             options.UseSqlServer(connectionString));
+            builder.Services.AddScoped<IuserRepo, UserRepo>();
 
+            builder.Services.AddScoped<IUserService, UserService>();
             var app = builder.Build();
 
             var supportedCultures = new[] {

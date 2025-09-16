@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Helper\" />
     <Folder Include="Mapper\" />
-    <Folder Include="ModelVm\" />
-    <Folder Include="Services\Abstraction\" />
-    <Folder Include="Services\Implementation\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
   </ItemGroup>
 
   <ItemGroup>
