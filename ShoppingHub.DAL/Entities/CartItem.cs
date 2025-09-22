@@ -10,7 +10,7 @@ namespace ShoppingHub.DAL.Entities
     public class CartItem
     {
         [ForeignKey("User")]
-        public int UserID { get; private set; }
+        public string UserID { get; private set; }
         public User User { get; set; }
         [ForeignKey("Product")]
         public int ProductID { get; private set; }

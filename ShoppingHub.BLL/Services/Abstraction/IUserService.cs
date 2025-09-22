@@ -1,11 +1,12 @@
 ﻿
+using Microsoft.AspNetCore.Identity;
 using ShoppingHub.BLL.ModelVM;
 
-namespace ShoppingHub.BLL.Service.Abstraction
+namespace ShoppingHub.Serviese
 {
     public interface IUserService
     {
         public (bool, string) Create(CreateUserVM user);
-        //public (bool, string, List<GetAllVM>) GetAll();
     }
+
 }

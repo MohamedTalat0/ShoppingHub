@@ -1,42 +1,93 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using ShoppingHub.BLL.Helper;
+using ShoppingHub.BLL.ModelVm;
 using ShoppingHub.BLL.ModelVM;
-using ShoppingHub.BLL.Service.Abstraction;
 using ShoppingHub.BLL.Service.Implementaion;
+using ShoppingHub.DAL.Entities;
+using ShoppingHub.Serviese;
 
 namespace ShoppingHub.PL.Controllers.Account
 {
     public class AccountController : Controller
     {
-        IUserService userService;
-        
-        public AccountController(IUserService _service)
+        private readonly UserManager<User> userManger;
+        private readonly SignInManager<User> signInManager;
+        public AccountController(UserManager<User> userManger, SignInManager<User> signInManager)
         {
-            userService = _service;
+            this.userManger = userManger;
+            this.signInManager = signInManager;
         }
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
             return View();
         }
         [HttpPost]
-        public IActionResult Register(CreateUserVM user)
+        public async Task<IActionResult> Register(CreateUserVM usr)
         {
             if (!ModelState.IsValid)
             {
-               
-                return View(user);
+
+                return View(usr);
 
             }
-
-            var result = userService.Create(user);
-            Console.WriteLine(result.Item1);
-            if (result.Item1)
+            var user = new User("User", Load.UploadFile("Files/images/usersImages", usr.profileImage), usr.Address, usr.createdOn.ToString())
             {
-                ViewBag.ErrorMessage = result.Item2;
-                return View(user);
-            }
+                UserName =usr.Name,
+                Email =usr.Email,
+                PhoneNumber = usr.PhoneNumber,
+            };
+            var result = await userManger.CreateAsync(user, usr.Password);
 
-            return RedirectToAction("index", "Home");
+            if (result.Succeeded)
+            {
+                var resultRole = await userManger.AddToRoleAsync(user, "User");
+                return RedirectToAction("Login");
+            }
+            else
+            {
+                foreach (var item in result.Errors)
+                {
+                    ModelState.AddModelError("Password", item.Description);
+                }
+            }
+            return View(usr);
+          
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Login()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginUserVM usr)
+        {
+            var result = await signInManager.PasswordSignInAsync(usr.UserName, usr.Password, false, false);
+
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ViewBag.ErrorMessage = "Invalid UserName Or Password";
+                return View(usr);
+
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
+
+
     }
 }

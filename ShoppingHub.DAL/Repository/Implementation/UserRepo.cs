@@ -19,7 +19,7 @@ namespace ShoppingHub.DAL.Repository.Implementation
             {
                 var result = _db.Users.Add(user);
                 _db.SaveChanges();
-                if (result.Entity.UserId > 0)
+                if (result.Entity.Id is not null)
                 {
                     return true;
                 }
@@ -33,11 +33,11 @@ namespace ShoppingHub.DAL.Repository.Implementation
             }
         }
 
-        public bool Delete(int id)
+        public bool Delete(string id)
         {
             try
             {
-                return _db.Users.First(a => a.UserId == id).delete();
+                return _db.Users.First(a => a.Id == id).delete();
             }
             catch (Exception ex)
 
@@ -59,11 +59,11 @@ namespace ShoppingHub.DAL.Repository.Implementation
             }
         }
 
-        public User GetById(int Id)
+        public User GetById(string Id)
         {
             try
             {
-                var result = _db.Users.FirstOrDefault(a => a.UserId == Id);
+                var result = _db.Users.FirstOrDefault(a => a.Id == Id);
                 return result;
             }
             catch (Exception ex)
@@ -76,7 +76,7 @@ namespace ShoppingHub.DAL.Repository.Implementation
         {
             try
             {
-                var result = _db.Users.FirstOrDefault(a => a.UserId == user.UserId);
+                var result = _db.Users.FirstOrDefault(a => a.Id == user.Id);
                 if (result != null)
                 {
 
@@ -93,11 +93,11 @@ namespace ShoppingHub.DAL.Repository.Implementation
             }
         }
 
-        public bool Restore(int id)
+        public bool Restore(string id)
         {
             try
             {
-                return _db.Users.First(a => a.UserId == id).delete();
+                return _db.Users.First(a => a.Id == id).delete();
             }
             catch (Exception ex)
             {

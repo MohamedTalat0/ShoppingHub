@@ -249,6 +249,15 @@
   <data name="signInHere" xml:space="preserve">
     <value>سجل الدخول هنا </value>
   </data>
+  <data name="Signup" xml:space="preserve">
+    <value>تسجيل دخول</value>
+  </data>
+  <data name="SignUpBtn" xml:space="preserve">
+    <value>دخول</value>
+  </data>
+  <data name="signUpHere" xml:space="preserve">
+    <value>سجل الان</value>
+  </data>
   <data name="Sports" xml:space="preserve">
     <value>الرياضة</value>
   </data>
@@ -257,6 +266,12 @@
   </data>
   <data name="TrackOrder" xml:space="preserve">
     <value>متابعة الطلب</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>اسم المستخدم</value>
+  </data>
+  <data name="UserName_placeHolder" xml:space="preserve">
+    <value>دخل اسم المستخدم</value>
   </data>
   <data name="Wishlist" xml:space="preserve">
     <value>قائمة الرغبات</value>

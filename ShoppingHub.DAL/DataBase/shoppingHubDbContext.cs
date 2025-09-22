@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ShoppingHub.DAL.Entities;
 using System;
 using System.Collections.Generic;
@@ -8,13 +9,14 @@ using System.Threading.Tasks;
 
 namespace ShoppingHub.DAL.DataBase
 {
-    public class shoppingHubDbContext:DbContext
+    public class shoppingHubDbContext: IdentityDbContext<User>
     {
-        public shoppingHubDbContext(DbContextOptions<shoppingHubDbContext> options) : base(options)
+        public shoppingHubDbContext(DbContextOptions<shoppingHubDbContext> options) :base(options)
         {
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<CartItem>().HasKey(a=> new {a.ProductID,a.UserID });
             modelBuilder.Entity<OrderItem>().HasKey(a => new { a.ProductID, a.OrderID });
             modelBuilder.Entity<ProductRating>().HasKey(a => new { a.ProductID, a.UserID });

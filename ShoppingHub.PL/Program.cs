@@ -1,21 +1,51 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
-using ShoppingHub.BLL.Service.Abstraction;
+using Microsoft.Extensions.Options;
 using ShoppingHub.BLL.Service.Implementaion;
 using ShoppingHub.DAL.DataBase;
+using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
 using ShoppingHub.DAL.Repository.Implementation;
 using ShoppingHub.PL.Language;
+using ShoppingHub.Serviese;
 using System.Globalization;
 
 namespace ShoppingHub.PL
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+             .AddCookie  (CookieAuthenticationDefaults.AuthenticationScheme,
+                options =>
+                {
+                    options.LoginPath = new PathString("/Account/     Login");
+                    options.AccessDeniedPath = new PathString("/    Account/Login");
+                });
+
+            //builder.Services.AddIdentityCore<User>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<shoppingHubDbContext>()
+            //    .AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
+
+            builder.Services.AddIdentity<User, IdentityRole>(options =>
+            {
+                // Default Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequiredUniqueChars = 0;
+            })
+            .AddEntityFrameworkStores<shoppingHubDbContext>()
+            .AddDefaultTokenProviders() ;
+
 
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
@@ -33,6 +63,21 @@ namespace ShoppingHub.PL
             builder.Services.AddScoped<IUserService, UserService>();
             var app = builder.Build();
 
+            using (var scope = app.Services.CreateScope())
+            {
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                string[] roleNames = { "Admin", "User" };
+
+                foreach (var roleName in roleNames)
+                {
+                    var roleExist = await roleManager.RoleExistsAsync(roleName);
+                    if (!roleExist)
+                    {
+                        await roleManager.CreateAsync(new IdentityRole(roleName));
+                    }
+                }
+            }
             var supportedCultures = new[] {
                       new CultureInfo("ar-EG"),
                       new CultureInfo("en-US"),
@@ -63,6 +108,7 @@ namespace ShoppingHub.PL
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

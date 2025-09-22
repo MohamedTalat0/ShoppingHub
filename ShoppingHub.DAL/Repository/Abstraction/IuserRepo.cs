@@ -6,11 +6,11 @@ namespace ShoppingHub.DAL.Repository.Abstraction
     public interface IuserRepo
     {
         List<User> GetAllUsers();
-        User GetById(int Id);
+        User GetById(string Id);
         bool Create(User user);
         bool Update(User user);
-        bool Delete(int id);
-        bool Restore(int id);
+        bool Delete(string id);
+        bool Restore(string id);
     }
 
 }

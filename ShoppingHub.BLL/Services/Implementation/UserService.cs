@@ -1,10 +1,8 @@
-﻿
-
-using ShoppingHub.BLL.Helper;
+﻿using ShoppingHub.BLL.Helper;
 using ShoppingHub.BLL.ModelVM;
-using ShoppingHub.BLL.Service.Abstraction;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
+using ShoppingHub.Serviese;
 
 
 
@@ -26,8 +24,8 @@ namespace ShoppingHub.BLL.Service.Implementaion
             try
             {
                 User dbuser= new User(
-                    user.Name,user.Email,
-            user.PhoneNumber,user.Password,
+            //        user.Name,user.Email,
+            //user.PhoneNumber,
                 Role.USER,Load.UploadFile("Files/images/usersImages",
                 user.profileImage),
                 user.Address==null?"Test":user.Address, user.createdOn.ToString());

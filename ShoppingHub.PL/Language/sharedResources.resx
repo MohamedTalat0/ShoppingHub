@@ -249,6 +249,15 @@
   <data name="signInHere" xml:space="preserve">
     <value>Sign in here</value>
   </data>
+  <data name="Signup" xml:space="preserve">
+    <value>Sign Up</value>
+  </data>
+  <data name="SignUpBtn" xml:space="preserve">
+    <value>Sign Up</value>
+  </data>
+  <data name="signUpHere" xml:space="preserve">
+    <value>Sign Up Here</value>
+  </data>
   <data name="Sports" xml:space="preserve">
     <value>Sports</value>
   </data>
@@ -257,6 +266,12 @@
   </data>
   <data name="TrackOrder" xml:space="preserve">
     <value>TrackOrder</value>
+  </data>
+  <data name="UserName" xml:space="preserve">
+    <value>User Name</value>
+  </data>
+  <data name="UserName_placeHolder" xml:space="preserve">
+    <value>Enter User Name</value>
   </data>
   <data name="Wishlist" xml:space="preserve">
     <value>Wishlist</value>

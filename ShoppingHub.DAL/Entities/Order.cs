@@ -19,7 +19,7 @@ namespace ShoppingHub.DAL.Entities
         //public int TotalItems { get; private set; }
 
         [ForeignKey("User")]
-        public int? UserId { get; set; }
+        public string? UserId { get; set; }
         public User? User { get; set; }
         public List<OrderItem> orderItems { get; private set; } = new List<OrderItem>();
 
