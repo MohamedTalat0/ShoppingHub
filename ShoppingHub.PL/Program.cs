@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using ShoppingHub.BLL.Service.Implementaion;
+using ShoppingHub.BLL.Services.Abstraction;
+using ShoppingHub.BLL.Services.Implementation;
 using ShoppingHub.DAL.DataBase;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
@@ -61,6 +63,9 @@ namespace ShoppingHub.PL
             builder.Services.AddScoped<IuserRepo, UserRepo>();
 
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
+            builder.Services.AddScoped<IProductRepo, ProductRepo>();
+            builder.Services.AddScoped<ICartService, CartService>();
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())

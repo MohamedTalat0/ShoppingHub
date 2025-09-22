@@ -16,5 +16,16 @@ namespace ShoppingHub.DAL.Entities
         public int ProductID { get; private set; }
         public Product Product { get; set; }
         public int Quantity { get; private set; }
+        public CartItem(string UserID, int ProductID, int Quantity)
+        {
+            this.UserID = UserID;
+            this.ProductID = ProductID;
+            this.Quantity = Quantity;
+        }
+        public bool update(int quantity)
+        {
+            this.Quantity = quantity;
+            return true;
+        }
     }
 }
