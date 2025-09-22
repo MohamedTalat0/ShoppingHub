@@ -22,15 +22,9 @@ namespace ShoppingHub.DAL.Entities
         public List<ProductRating> Ratings { get; private set; } = new List<ProductRating>();
 
         public User (
-            //string userName, 
-            //string Email ,
-            //string Phone ,
             string Role ,
             string ImagePath, 
             string Address,string createdOn) {
-            //this.UserName = userName;
-            //this.Email = Email;
-            //this.PhoneNumber = Phone;
             this.Role = Role;
             this.ImagePath = ImagePath;
             this.Address = Address;

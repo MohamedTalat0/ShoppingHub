@@ -482,7 +482,7 @@
                             <a class="dropdown-item d-flex justify-content-between"
                                href="@Url.Action("SetLanguage", "Home", new {
                                                   culture = "en-US",
-                                                  returnUrl = Context.Request.Path + Context.Request.QueryString
+                                                  returnUrl = Context.Request.Path 
                                               })">
                                 <img src="~/lib/famfamfam-flags/dist/png/us.png" width="25" height="15" class="mt-1" />
                                 <span>@SharedLocalizer["English"]</span>

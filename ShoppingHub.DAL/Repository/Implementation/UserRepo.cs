@@ -28,7 +28,6 @@ namespace ShoppingHub.DAL.Repository.Implementation
             catch (Exception ex)
 
             {
-                Console.WriteLine("wahhh");
                 throw ex;
             }
         }

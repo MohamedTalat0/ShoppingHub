@@ -12,12 +12,14 @@ namespace ShoppingHub.PL.Controllers.Account
 {
     public class AccountController : Controller
     {
+        private readonly IUserService _userService;
         private readonly UserManager<User> userManger;
         private readonly SignInManager<User> signInManager;
-        public AccountController(UserManager<User> userManger, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManger, SignInManager<User> signInManager,UserService userService)
         {
             this.userManger = userManger;
             this.signInManager = signInManager;
+            this._userService = userService;
         }
         [HttpGet]
         public async Task<IActionResult> Register()
@@ -33,17 +35,17 @@ namespace ShoppingHub.PL.Controllers.Account
                 return View(usr);
 
             }
-            var user = new User("User", Load.UploadFile("Files/images/usersImages", usr.profileImage), usr.Address, usr.createdOn.ToString())
+            var user = new User(Role.USER, Load.UploadFile("Files/images/usersImages", usr.profileImage!), usr.Address, usr.createdOn.ToString())
             {
                 UserName =usr.Name,
                 Email =usr.Email,
                 PhoneNumber = usr.PhoneNumber,
             };
-            var result = await userManger.CreateAsync(user, usr.Password);
+            IdentityResult? result = await userManger.CreateAsync(user, usr.Password);
 
             if (result.Succeeded)
             {
-                var resultRole = await userManger.AddToRoleAsync(user, "User");
+                var resultRole = await userManger.AddToRoleAsync(user, Role.USER);
                 return RedirectToAction("Login");
             }
             else
@@ -63,6 +65,8 @@ namespace ShoppingHub.PL.Controllers.Account
         {
             return View();
         }
+
+        
         [HttpPost]
         public async Task<IActionResult> Login(LoginUserVM usr)
         {
@@ -87,7 +91,30 @@ namespace ShoppingHub.PL.Controllers.Account
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            // Get the current user
+            var currentUser = await this.userManger.GetUserAsync(User);
 
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
 
+            // Get user profile using the current user's ID
+            var result = _userService.getUser(currentUser.Id);
+
+            if (result.Item1)
+            {
+                ViewBag.ErrorMessage = result.Item2;
+                return View();
+            }
+            else
+            {
+                return View(result.Item3);
+            }
+        }
+
+        }
     }
-}

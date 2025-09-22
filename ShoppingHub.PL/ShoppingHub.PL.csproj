@@ -25,4 +25,8 @@
     <ProjectReference Include="..\ShoppingHub.BLL\ShoppingHub.BLL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Files\images\usersImages\" />
+  </ItemGroup>
+
 </Project>

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using ShoppingHub.BLL.Helper;
 using ShoppingHub.BLL.Service.Implementaion;
 using ShoppingHub.DAL.DataBase;
 using ShoppingHub.DAL.Entities;
@@ -67,7 +68,7 @@ namespace ShoppingHub.PL
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                string[] roleNames = { "Admin", "User" };
+                string[] roleNames = { Role.ADMIN, Role.USER};
 
                 foreach (var roleName in roleNames)
                 {

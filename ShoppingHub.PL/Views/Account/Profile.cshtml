@@ -1,0 +1,390 @@
+﻿@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    var isRtl = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+}
+
+@model ShoppingHub.BLL.ModelVm.UserProfileVM
+
+<style>
+    /* ... (keep all your CSS styles the same) ... */
+</style>
+
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @ViewBag.SuccessMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (ViewBag.ErrorMessage != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @ViewBag.ErrorMessage
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (Model == null)
+{
+    <div class="alert alert-warning">
+        @SharedLocalizer["Profile information not available. Please try again later."]
+    </div>
+}
+else
+{
+    <div class="profile-container">
+        <!-- Profile Header -->
+        <div class="form-header">
+            <div class="profile-avatar">
+                <img src="@(Model.userImage ?? "/images/default-avatar.png")" alt="Profile Picture" id="profileImage">
+                <div class="avatar-overlay" onclick="document.getElementById('profileImageInput').click()">
+                    <i class="fas fa-camera"></i>
+                </div>
+            </div>
+            <h2><i class="fas fa-user"></i> @(Model.userName ?? SharedLocalizer["Unknown User"])</h2>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>@Model.totalOrders</h3>
+                <p>@SharedLocalizer["Total Orders"]</p>
+            </div>
+            @* Commented out as per your code
+            <div class="stat-card">
+                <h3>Model.WishlistCount</h3>
+                <p>@SharedLocalizer["Wishlist Items"]</p>
+            </div>
+            *@
+        </div>
+
+        <!-- Tabs -->
+        <div class="profile-tabs">
+            <button class="tab-button active" onclick="showTab('info')">
+                <i class="fas fa-info-circle"></i> @SharedLocalizer["Information"]
+            </button>
+            <button class="tab-button" onclick="showTab('edit')">
+                <i class="fas fa-edit"></i> @SharedLocalizer["Edit Profile"]
+            </button>
+            <button class="tab-button" onclick="showTab('security')">
+                <i class="fas fa-shield-alt"></i> @SharedLocalizer["Security"]
+            </button>
+        </div>
+
+        <!-- Information Tab -->
+        <div id="info-tab" class="tab-content active">
+            <div class="info-display">
+                <div class="info-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="info-content">
+                    <h4>@SharedLocalizer["Email"]</h4>
+                    <p>@(Model.email ?? SharedLocalizer["Not provided"])</p>
+                </div>
+            </div>
+
+            <div class="info-display">
+                <div class="info-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="info-content">
+                    <h4>@SharedLocalizer["Phone Number"]</h4>
+                    <p>@(Model.phoneNumber ?? SharedLocalizer["Not provided"])</p>
+                </div>
+            </div>
+
+            <div class="info-display">
+                <div class="info-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="info-content">
+                    <h4>@SharedLocalizer["Address"]</h4>
+                    <p>@(Model.Address ?? SharedLocalizer["Not provided"])</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Profile Tab -->
+        <div id="edit-tab" class="tab-content">
+            <form asp-action="UpdateProfile" asp-controller="Account" method="post" enctype="multipart/form-data" id="profileForm">
+                <input type="file" id="profileImageInput" name="ProfileImage" accept="image/*" style="display: none;" onchange="previewImage(event)" />
+
+                <div class="form-group">
+                    <label asp-for="userName" class="form-label">@SharedLocalizer["Name"]</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-user form-icon"></i>
+                        <input asp-for="userName" class="form-control-custom" placeholder="@SharedLocalizer["Name_placeHolder"]" value="@Model.userName" />
+                    </div>
+                    <span asp-validation-for="userName" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="email" class="form-label">@SharedLocalizer["Email"]</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-envelope form-icon"></i>
+                        <input asp-for="email" type="email" class="form-control-custom" placeholder="@SharedLocalizer["Email_placeHolder"]" value="@Model.email" disabled />
+                    </div>
+                    <small class="text-muted">@SharedLocalizer["Email cannot be changed"]</small>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="phoneNumber" class="form-label">@SharedLocalizer["Phone Number"]</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-phone form-icon"></i>
+                        <input asp-for="phoneNumber" type="tel" class="form-control-custom" placeholder="@SharedLocalizer["phone_placeHolder"]" value="@Model.phoneNumber" />
+                    </div>
+                    <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Address" class="form-label">@SharedLocalizer["Address"]</label>
+                    <div style="position: relative;">
+                        <i class="fas fa-map-marker-alt form-icon"></i>
+                        <textarea asp-for="Address" class="form-control-custom" rows="3" placeholder="@SharedLocalizer["Address_placeHolder"]" style="resize: vertical;">@Model.Address</textarea>
+                    </div>
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">@SharedLocalizer["ProfileImage"]</label>
+                    <div class="file-input-wrapper">
+                        <input type="file" name="ProfileImage" accept="image/*" class="file-input" onchange="previewImage(event)" id="profileImageUpload" />
+                        <label for="profileImageUpload" class="file-input-label">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            @SharedLocalizer["ChooseProfilePicture"]
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary-custom">
+                    <i class="fas fa-save"></i> @SharedLocalizer["Save Changes"]
+                </button>
+                <button type="button" class="btn-secondary-custom" onclick="resetForm()">
+                    <i class="fas fa-undo"></i> @SharedLocalizer["Reset"]
+                </button>
+            </form>
+        </div>
+
+        <!-- Security Tab -->
+        <div id="security-tab" class="tab-content">
+            <div class="password-form">
+                <h4 style="margin-bottom: 1.5rem; color: #333;">
+                    <i class="fas fa-key"></i> @SharedLocalizer["Change Password"]
+                </h4>
+
+                <form asp-action="ChangePassword" asp-controller="Account" method="post" id="passwordForm">
+                    <div class="form-group">
+                        <label class="form-label">@SharedLocalizer["Current Password"]</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-lock form-icon"></i>
+                            <input name="CurrentPassword" type="password" class="form-control-custom" placeholder="@SharedLocalizer["Enter current password"]" id="currentPassword" />
+                            <button type="button" class="password-toggle" onclick="togglePassword('currentPassword', 'currentPasswordIcon')">
+                                <i class="fas fa-eye" id="currentPasswordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">@SharedLocalizer["New Password"]</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-key form-icon"></i>
+                            <input name="NewPassword" type="password" class="form-control-custom" placeholder="@SharedLocalizer["Enter new password"]" id="newPassword" />
+                            <button type="button" class="password-toggle" onclick="togglePassword('newPassword', 'newPasswordIcon')">
+                                <i class="fas fa-eye" id="newPasswordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">@SharedLocalizer["Confirm New Password"]</label>
+                        <div style="position: relative;">
+                            <i class="fas fa-check-circle form-icon"></i>
+                            <input name="ConfirmNewPassword" type="password" class="form-control-custom" placeholder="@SharedLocalizer["Confirm new password"]" id="confirmPassword" />
+                            <button type="button" class="password-toggle" onclick="togglePassword('confirmPassword', 'confirmPasswordIcon')">
+                                <i class="fas fa-eye" id="confirmPasswordIcon"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary-custom">
+                        <i class="fas fa-shield-alt"></i> @SharedLocalizer["Update Password"]
+                    </button>
+                </form>
+            </div>
+
+            <!-- Two Factor Authentication -->
+            <div class="password-form" style="margin-top: 2rem;">
+                <h4 style="margin-bottom: 1.5rem; color: #333;">
+                    <i class="fas fa-mobile-alt"></i> @SharedLocalizer["Two-Factor Authentication"]
+                </h4>
+
+                @if (false)
+                {
+                    <div class="info-display" style="border-left-color: #28a745;">
+                        <div class="info-icon" style="color: #28a745;">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>@SharedLocalizer["Two-Factor Authentication Enabled"]</h4>
+                            <p>@SharedLocalizer["Your account is protected with 2FA"]</p>
+                        </div>
+                    </div>
+                    <a href="@Url.Action("DisableTwoFactor", "Account")" class="btn-secondary-custom" style="display: block; text-align: center;">
+                        <i class="fas fa-times"></i> @SharedLocalizer["Disable 2FA"]
+                    </a>
+                }
+                else
+                {
+                    <div class="info-display" style="border-left-color: #dc3545;">
+                        <div class="info-icon" style="color: #dc3545;">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="info-content">
+                            <h4>@SharedLocalizer["Two-Factor Authentication Disabled"]</h4>
+                            <p>@SharedLocalizer["Enable 2FA for extra security"]</p>
+                        </div>
+                    </div>
+                    <a href="@Url.Action("EnableTwoFactor", "Account")" class="btn-primary-custom" style="display: block; text-align: center;">
+                        <i class="fas fa-shield-alt"></i> @SharedLocalizer["Enable 2FA"]
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Tab functionality
+        function showTab(tabName) {
+            // Hide all tab contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab content
+            const tabContent = document.getElementById(tabName + '-tab');
+            if (tabContent) {
+                tabContent.classList.add('active');
+            }
+
+            // Add active class to clicked button
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+        }
+
+        // Password toggle functionality
+        function togglePassword(inputId, iconId) {
+            const passwordInput = document.getElementById(inputId);
+            const passwordIcon = document.getElementById(iconId);
+
+            if (passwordInput && passwordIcon) {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    passwordIcon.className = 'fas fa-eye-slash';
+                } else {
+                    passwordInput.type = 'password';
+                    passwordIcon.className = 'fas fa-eye';
+                }
+            }
+        }
+
+        // Image preview functionality
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const profileImg = document.getElementById('profileImage');
+            const label = document.querySelector('.file-input-label');
+
+            if (file && profileImg) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    profileImg.src = e.target.result;
+                    if (label) {
+                        label.innerHTML = '<i class="fas fa-check"></i> @SharedLocalizer["ImageSelected"]';
+                        label.style.borderColor = '#28a745';
+                        label.style.color = '#28a745';
+                    }
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Reset form functionality
+        function resetForm() {
+            const form = document.getElementById('profileForm');
+            const profileImg = document.getElementById('profileImage');
+            const label = document.querySelector('.file-input-label');
+
+            if (form) {
+                form.reset();
+            }
+
+            if (profileImg) {
+                profileImg.src = '@(Model?.userImage ?? "/images/default-avatar.png")';
+            }
+
+            if (label) {
+                label.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> @SharedLocalizer["ChooseProfilePicture"]';
+                label.style.borderColor = '#667eea';
+                label.style.color = '#667eea';
+            }
+        }
+
+        // Form validation feedback
+        document.addEventListener('DOMContentLoaded', function() {
+            // Real-time validation feedback for profile form
+            const profileFormInputs = document.querySelectorAll('#profileForm .form-control-custom');
+            if (profileFormInputs) {
+                profileFormInputs.forEach(function(input) {
+                    input.addEventListener('blur', function() {
+                        if (this.value.trim()) {
+                            this.style.borderColor = '#28a745';
+                        } else {
+                            this.style.borderColor = '#e9ecef';
+                        }
+                    });
+                });
+            }
+
+            // Real-time validation feedback for password form
+            const passwordFormInputs = document.querySelectorAll('#passwordForm .form-control-custom');
+            if (passwordFormInputs) {
+                passwordFormInputs.forEach(function(input) {
+                    input.addEventListener('blur', function() {
+                        if (this.value.trim()) {
+                            this.style.borderColor = '#28a745';
+                        } else {
+                            this.style.borderColor = '#e9ecef';
+                        }
+                    });
+                });
+            }
+
+            // Password match validation
+            const newPassword = document.getElementById('newPassword');
+            const confirmPassword = document.getElementById('confirmPassword');
+
+            if (newPassword && confirmPassword) {
+                confirmPassword.addEventListener('blur', function() {
+                    if (newPassword.value !== confirmPassword.value) {
+                        confirmPassword.style.borderColor = '#dc3545';
+                    } else if (confirmPassword.value.trim()) {
+                        confirmPassword.style.borderColor = '#28a745';
+                    }
+                });
+            }
+        });
+    </script>
+}
