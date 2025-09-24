@@ -138,8 +138,17 @@
   <data name="Cart" xml:space="preserve">
     <value>عربة التسوق</value>
   </data>
+  <data name="Cart is Empty !" xml:space="preserve">
+    <value>العربة فارغة !</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>نقدا</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>الفئات</value>
+  </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>إتمام الشراء</value>
   </data>
   <data name="ChooseProfilePicture" xml:space="preserve">
     <value>اختار صورتك</value>
@@ -192,8 +201,14 @@
   <data name="Home&amp;Garden" xml:space="preserve">
     <value>المنزل و الاطفال</value>
   </data>
+  <data name="Image" xml:space="preserve">
+    <value>صورة</value>
+  </data>
   <data name="ImageSelected" xml:space="preserve">
     <value>اللهم صلى علي النبى</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>منتج</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>اللغة</value>
@@ -213,11 +228,17 @@
   <data name="NewArrivals" xml:space="preserve">
     <value>وصل حديثا</value>
   </data>
+  <data name="Order Summary" xml:space="preserve">
+    <value>ملخص الطلب</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>كلمة السر</value>
   </data>
   <data name="password_placeHolder" xml:space="preserve">
     <value>دخل باسورد قوى</value>
+  </data>
+  <data name="Payment Method" xml:space="preserve">
+    <value>طريقة الدفع</value>
   </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>رقم التليفون</value>
@@ -225,11 +246,17 @@
   <data name="phone_placeHolder" xml:space="preserve">
     <value>دخل رقم موبايلك</value>
   </data>
+  <data name="Price" xml:space="preserve">
+    <value>السعر</value>
+  </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>ساكن فين؟</value>
   </data>
   <data name="ProfileImage" xml:space="preserve">
     <value>الصورة الشخصية (اختياري)</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>الكمية</value>
   </data>
   <data name="QuickLinks" xml:space="preserve">
     <value>روابط سريعة</value>
@@ -245,6 +272,9 @@
   </data>
   <data name="ShippingInfo" xml:space="preserve">
     <value>تفاصيل الشحن</value>
+  </data>
+  <data name="Shopping Cart" xml:space="preserve">
+    <value>عربة التسوق</value>
   </data>
   <data name="signInHere" xml:space="preserve">
     <value>سجل الدخول هنا </value>
@@ -272,6 +302,9 @@
   </data>
   <data name="UserName_placeHolder" xml:space="preserve">
     <value>دخل اسم المستخدم</value>
+  </data>
+  <data name="VISA" xml:space="preserve">
+    <value>الدفع بالبطاقة</value>
   </data>
   <data name="Wishlist" xml:space="preserve">
     <value>قائمة الرغبات</value>

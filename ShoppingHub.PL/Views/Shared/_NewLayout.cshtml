@@ -462,6 +462,8 @@
                 {
                     <a href="@Url.Action("Login", "Account")" class="header-action">
                         <i class="fas fa-sign-in-alt"></i> @SharedLocalizer["Login"]
+
+
                     </a>
                     <a href="@Url.Action("Register", "Account")" class="header-action">
                         <i class="fas fa-user-plus"></i> @SharedLocalizer["Register"]
@@ -698,18 +700,19 @@
         }
 
         // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function () {
-            // Update cart count on page load
-            fetch('@Url.Action("GetCartCount", "Cart")')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.count !== undefined) {
-                        document.querySelector('.cart-count').textContent = data.count;
-                    }
-                })
-                .catch(error => console.error('Error getting cart count:', error));
-        });
+        // document.addEventListener('DOMContentLoaded', function () {
+        //     // Update cart count on page load
+        //     fetch('@Url.Action("GetCartCount", "Cart")')
+        //         .then(response => response.json())
+        //         .then(data => {
+        //             if (data.count !== undefined) {
+        //                 document.querySelector('.cart-count').textContent = data.count;
+        //             }
+        //         })
+        //         .catch(error => console.error('Error getting cart count:', error));
+        // });
     </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

@@ -19,11 +19,11 @@ namespace ShoppingHub.BLL.Services.Implementation
             this._cartItemRepo = _cartItemRepo;
             this._productRepo = _productRepo;
         }
-        public (bool, string) AddToCart(CreateCartItemVM cartitem)
+        public (bool, string) AddToCart(string userID,CartItemVM cartitem)
         {
             try
             {
-                var item = _cartItemRepo.GetItem(cartitem.UserID, cartitem.ProductID);
+                var item = _cartItemRepo.GetItem(userID, cartitem.ProductID);
                 if (item != null)
                 {
                     var product = _productRepo.GetItem(item.ProductID);
@@ -115,6 +115,13 @@ namespace ShoppingHub.BLL.Services.Implementation
                     int newQuantity = quantity + item.Quantity;
                     if (newQuantity > maxQuantity)
                         return (true, "Quantity exceed the stock!!!!");
+                    else if (newQuantity <= 0) 
+                    {
+                        var result = _cartItemRepo.Delete(userId, productID);
+                        if (result) return (false, null);
+                        else return (true, "Item not found!!!");
+
+                    }
                     else
                     {
                         var result = _cartItemRepo.Update(userId, productID, newQuantity);
@@ -130,40 +137,50 @@ namespace ShoppingHub.BLL.Services.Implementation
             }
         }
 
-        public (bool, string, List<ViewCartVM>) ViewCart(string userID)
+        public (bool, string,ViewCartVM) ViewCart(string userID)
         {
             try
             {
                 var result = _cartItemRepo.GetUserItems(userID);
-                //List<Product> products = new List<Product>();
-                //foreach (var item in result) 
-                //{
-                //    var product = _productRepo.GetItem(item.ProductID);
-                //    products.Add(product);
-                //}
-                //var final = mapper.Map<List<ViewCartVM>>(products);
-                List<ViewCartVM> items = new List<ViewCartVM>();
-                foreach (var item in result)
+                ViewCartVM cart = new ViewCartVM();
+                if (result.Any())
                 {
-                    var product = _productRepo.GetItem(item.ProductID);
-                    items.Add(new ViewCartVM()
+                    List<ViewCartItemVM> items = new List<ViewCartItemVM>();
+                    double CartTotalPrice = 0.0;
+                    int numOfItems = 0;
+                    foreach (var item in result)
                     {
-                        Name = product.ProductName,
-                        Price = product.Price,
-                        Quantity = item.Quantity,
-                        MaxQuantity = product.Quantity,
-                        ImagePath = product.ImagePath,
-                        ProductID = item.ProductID
+                        var product = _productRepo.GetItem(item.ProductID);
+                        double ItemTotalPrice = item.Quantity * product.Price;
+                        items.Add(new ViewCartItemVM()
+                        {
+                            Name = product.ProductName,
+                            PricePerItem = Math.Round(product.Price,2),
+                            Quantity = item.Quantity,
+                            MaxQuantity = product.Quantity,
+                            ImagePath = product.ImagePath,
+                            ProductID = item.ProductID,
+                            TotalPrice = ItemTotalPrice
+                        }
+                        );
+                        CartTotalPrice += ItemTotalPrice;
+                        numOfItems += item.Quantity;
                     }
-                    );
+                    cart.TotalPrice = Math.Round(CartTotalPrice,2);
+                    cart.CartItems = items;
+                    cart.TotalItems = numOfItems;
+                    return (false, null, cart);
                 }
-                return (false, null, items);
+                else
+                {
+                    return (true, "Cart has no Items yet!!" ,cart);
+                }
+
             }
             catch (Exception ex)
             {
                 return (true, ex.Message, null);
             }
         }
-
     }
 }
