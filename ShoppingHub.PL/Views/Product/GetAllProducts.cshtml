@@ -213,9 +213,14 @@
                             </div>
 
                             <!-- Add to Cart -->
-                            <a href="#" class="btn btn-light btn-sm mt-3 w-100 fw-bold">
+                            
+                            <a class="btn btn-light btn-sm mt-3 w-100 fw-bold"
+                               asp-controller="Cart"
+                               asp-action="AddToCart"
+                               asp-route-id="@item.">
                                 <i class="bi bi-cart"></i> Add to Cart
                             </a>
+
                         </div>
                     </div>
                 </div>

@@ -7,8 +7,16 @@ using System.Threading.Tasks;
 
 namespace ShoppingHub.DAL.Repository.Abstraction
 {
-    public interface IProductRepo
+  public  interface IProductRepo
     {
-        Product GetItem(int productID);
+        List<Product> GetAllProducts();
+        Product GetProductByID(int id);
+        (bool,string?) AddProduct(Product product);
+        public void EditProduct(Product product);
+         (bool, string?) Remove(int id);
+    
+        
+          
+
     }
 }
