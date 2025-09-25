@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ShoppingHub.DAL.DataBase;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
@@ -118,6 +119,22 @@ namespace ShoppingHub.DAL.Repository.Implementation
                 throw ex;
             }
         }
+        public List<Order> GetUserOrders(string userId)
+        {
+            try
+            {
+                var result= dbContext.Orders.Where(o => o.UserId == userId).ToList();
+                return result;   
 
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+                
+        }
+
+     
     }
 }

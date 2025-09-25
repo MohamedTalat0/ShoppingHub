@@ -16,5 +16,7 @@ namespace ShoppingHub.DAL.Repository.Abstraction
         bool delete(int id);
         Order getById(int id);
         List<Order> getAllOrders();
+        List<Order> GetUserOrders(string userId);
+
     }
 }

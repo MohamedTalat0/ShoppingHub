@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingHub.DAL.DataBase;
 
@@ -11,9 +12,11 @@ using ShoppingHub.DAL.DataBase;
 namespace ShoppingHub.DAL.Migrations
 {
     [DbContext(typeof(shoppingHubDbContext))]
-    partial class shoppingHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250925085922_NameandDescriptionArabicColumns")]
+    partial class NameandDescriptionArabicColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -216,24 +219,8 @@ namespace ShoppingHub.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotalItems")
-                        .HasColumnType("int");
-
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("float");
-
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<bool?>("updated")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("updatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("updatedOn")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("OrderId");
 
@@ -488,9 +475,7 @@ namespace ShoppingHub.DAL.Migrations
                 {
                     b.HasOne("ShoppingHub.DAL.Entities.User", "User")
                         .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });

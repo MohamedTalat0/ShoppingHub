@@ -11,9 +11,11 @@ namespace ShoppingHub.DAL.Entities
     {
         public int ProductId { get; private set; }
         public string ProductName { get; private set; }
+        public string ProductNameAR { get; private set; }
         public double Price { get; private set; }
         public int Quantity { get; private set; }
         public string Description { get; private set; }
+        public string DescriptionAR { get; private set; }
         public string ImagePath { get; private set; }
         //public double? AvgRate { get; private set; }
 

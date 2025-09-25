@@ -38,6 +38,7 @@
         return gk_fileData[filename] || "";
         }
         </script>@using ShoppingHub.BLL.ModelVm
+@using ShoppingHub.BLL.ModelVm.order
 @{
     Layout = "~/Views/Shared/_NewLayout.cshtml";
 }
@@ -77,7 +78,7 @@
                             <input type="hidden" name="orderId" value="@item.OrderId" />
                             <select name="status" class="form-select form-select-sm">
                                 <option value="Pending" selected="@(item.Status == " Pending")">Pending</option>
-                                <option value="Processing" selected="@(item.Status == " Processing")">Shipping</option>
+                                <option value="Processing" selected="@(item.Status == " Shipping")">Shipping</option>
                                 <option value="Completed" selected="@(item.Status == " Completed")">Completed</option>
                                 <option value="Cancelled" selected="@(item.Status == " Cancelled")">Cancelled</option>
                             </select>

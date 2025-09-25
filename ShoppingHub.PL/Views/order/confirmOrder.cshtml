@@ -1,11 +1,4 @@
-﻿@using ShoppingHub.BLL.ModelVm
-@{
-    Layout = "~/Views/Shared/_NewLayout.cshtml";
-}
-@inject IStringLocalizer<sharedResources> SharedLocalizer
-@model CreateOrderVM
- 
-<script type="text/javascript">
+﻿<script type="text/javascript">
         var gk_isXlsx = false;
         var gk_xlsxFileLookup = {};
         var gk_fileData = {};
@@ -44,217 +37,435 @@
         }
         return gk_fileData[filename] || "";
         }
-        </script>
-        <style>
+        </script>@using ShoppingHub.BLL.ModelVm
+@using ShoppingHub.BLL.ModelVm.order
+@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+@inject IStringLocalizer<sharedResources> SharedLocalizer
+@model CreateOrderVM
+
+<script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+        return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                    row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                    headerRowIndex = 0;
+                }
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+    }
+</script>
+
+<style>
     .form-container {
         background-color: #ffffff;
-        padding: 40px;
-        border-radius: 12px;
-        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+        padding: 2.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         width: 100%;
-        max-width: 650px;
-        margin: 20px auto;
+        max-width: 700px;
+        margin: 2rem auto;
+        font-family: 'Segoe UI', Arial, sans-serif;
     }
 
     .input-group {
-        margin-bottom: 20px;
-    }
-
-    .input-group label {
-        font-weight: 600;
-        color: #343a40;
-        margin-bottom: 8px;
-        font-size: 16px;
-        display: block;
-    }
-
-    .form-control {
-        border: 1px solid #ced4da;
-        border-radius: 8px;
-        padding: 12px;
-        font-size: 16px;
-        width: 100%;
-        box-sizing: border-box;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .form-control:focus {
-        outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
-    }
-
-    .form-control:invalid:focus {
-        border-color: #dc3545;
-        box-shadow: 0 0 8px rgba(220, 53, 69, 0.3);
-    }
-
-    .form-control:disabled {
-        background-color: #e9ecef;
-        cursor: not-allowed;
-    }
-
-    .mb-3 {
-        margin-bottom: 20px;
+        margin-bottom: 1.5rem;
+        display: grid;
+        gap: 1rem;
     }
 
     .form-label {
         font-weight: 600;
-        color: #343a40;
-        margin-bottom: 8px;
-        font-size: 16px;
+        color: #2d3748;
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
         display: block;
     }
 
-    .form-select {
-        border: 1px solid #ced4da;
-        border-radius: 8px;
-        padding: 12px;
-        font-size: 16px;
-        background-color: #fff;
+    .form-control {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
         width: 100%;
         box-sizing: border-box;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        transition: all 0.3s ease;
+        background-color: #f7fafc;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        background-color: #fff;
+    }
+
+    .form-control.is-invalid {
+        border-color: #e53e3e;
+        background-color: #fff5f5;
+    }
+
+    .form-control:disabled {
+        background-color: #edf2f7;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+
+    .error-message {
+        color: #e53e3e;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: none;
+    }
+
+    .form-control.is-invalid ~ .error-message {
+        display: block;
+    }
+
+    .date-group {
+        position: relative;
+        margin-bottom: 1.5rem;
+    }
+
+    .date-group .form-control {
+        padding-left: 2.5rem;
+        height: 2.75rem;
+    }
+
+    .date-group .fa-calendar {
+        position: absolute;
+        top: 2.25rem;
+        left: 0.75rem;
+        color: #667eea;
+        font-size: 1rem;
+    }
+
+    .day-display {
+        font-size: 0.875rem;
+        color: #718096;
+        margin-top: 0.25rem;
+    }
+
+    .form-select {
+        border: 1px solid #e2e8f0;
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        background-color: #f7fafc;
+        width: 100%;
+        transition: all 0.3s ease;
     }
 
     .form-select:focus {
         outline: none;
-        border-color: #007bff;
-        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+    }
+
+    .mb-3 {
+        margin-bottom: 2rem;
     }
 
     .btn-primary {
-        background-color: #007bff;
-        border: none;
-        padding: 14px 24px;
-        font-size: 18px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: 2px solid transparent;
+        padding: 0.875rem 1.5rem;
+        font-size: 1.125rem;
         font-weight: 600;
-        border-radius: 8px;
+        border-radius: 0.5rem;
         width: 100%;
         color: #ffffff;
         cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
+        transition: all 0.3s ease;
     }
 
     .btn-primary:hover {
-        background-color: #0056b3;
-        transform: translateY(-2px);
+        background: transparent;
+        border: 3px solid #764ba2;
+        color: #764ba2;
+        box-shadow: 0 0 8px rgba(118, 75, 162, 0.3);
     }
 
-    .btn-primary:active {
-        transform: translateY(0);
+    .btn-primary:disabled {
+        background: linear-gradient(135deg, #a0aec0 0%, #a0aec0 100%);
+        border: 2px solid transparent;
+        color: #ffffff;
+        cursor: not-allowed;
     }
 
     .payment-option {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 0.5rem;
     }
 
     .fa-cc-visa { color: #1a1f71; }
     .fa-cc-mastercard { color: #eb001b; }
     .fa-money-bill { color: #15803d; }
+    .fa-fawry { color: #f28c38; }
+    .fa-vodafone { color: #e60000; }
 
-    .date-group {
-        position: relative;
-        margin-bottom: 20px;
+    /* أنماط ملخص الطلبية */
+    .order-summary {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        background-color: #f7fafc;
+        border: 1px solid #e2e8f0;
+        width: 100%;
+        box-sizing: border-box;
+        max-width: 100%;
     }
 
-    .date-group .form-control {
-        padding-left: 40px;
-        height: 44px;
+    .order-summary h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #2d3748;
+        margin-bottom: 0.75rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
-    .date-group .fa-calendar {
-        position: absolute;
-        top: 38px;
-        left: 12px;
-        color: #007bff;
-        font-size: 16px;
+    .summary-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
     }
 
-    .day-display {
-        font-size: 14px;
-        color: #6c757d;
-        margin-top: 5px;
+    .summary-table th,
+    .summary-table td {
+        padding: 0.5rem;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+        word-break: break-word;
     }
 
-    @@media (max-width: 576px) {
+    .summary-table th {
+        font-weight: 600;
+        color: #2d3748;
+    }
+
+    .summary-table td {
+        color: #4a5568;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .summary-table .total-row {
+        font-weight: 600;
+        background-color: #edf2f7;
+    }
+
+    .summary-table .total-row td {
+        color: #2d3748;
+    }
+
+    media (max-width: 576px) {
         .form-container {
-            padding: 25px;
-            max-width: 100%;
+            padding: 1.5rem;
+            margin: 1rem;
         }
 
         .form-control,
-        .form-select,
+        .form-select {
+            font-size: 0.875rem;
+            padding: 0.625rem;
+        }
+
         .form-label {
-            font-size: 14px;
-            padding: 10px;
+            font-size: 0.875rem;
         }
 
         .btn-primary {
-            font-size: 16px;
-            padding: 12px;
+            font-size: 1rem;
+            padding: 0.75rem;
         }
 
         .date-group .fa-calendar {
-            top: 36px;
-            font-size: 14px;
+            top: 2.125rem;
+            font-size: 0.875rem;
         }
 
         .date-group .form-control {
-            height: 40px;
+            height: 2.5rem;
+        }
+
+        .order-summary {
+            padding: 0.75rem;
+            overflow-x: auto;
+        }
+
+        .summary-table {
+            font-size: 0.8rem;
+        }
+
+        .summary-table th,
+        .summary-table td {
+            padding: 0.4rem;
+            max-width: 100px;
         }
     }
 </style>
 
 <div class="form-container">
-    <form asp-action="confirmOrder"  asp-controller="order">
+    @if (Model?.CartItems?.Any() == true)
+    {
+        <div class="order-summary">
+            <h3>@SharedLocalizer["OrderSummary"]</h3>
+            <table class="summary-table">
+                <thead>
+                    <tr>
+                        <th>@SharedLocalizer["Product"]</th>
+                        <th>@SharedLocalizer["Quantity"]</th>
+                        <th>@SharedLocalizer["UnitPrice"]</th>
+                        <th>@SharedLocalizer["Subtotal"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.CartItems)
+                    {
+                        <tr>
+                            <td>@(item.Product?.ProductName ?? "غير متوفر")</td>
+                            <td>@item.Quantity</td>
+                            <td>@(item.Product?.Price.ToString("C", new System.Globalization.CultureInfo("ar-EG")) ?? "غير متوفر")</td>
+                            <td>@((item.Quantity * (item.Product?.Price ?? 0)).ToString("C", new System.Globalization.CultureInfo("ar-EG")))</td>
+                        </tr>
+                    }
+                    <tr class="total-row">
+                        <td colspan="3">@SharedLocalizer["Total"]</td>
+                        <td>@Model.CartItems.Sum(item => item.Quantity * (item.Product?.Price ?? 0)).ToString("C", new System.Globalization.CultureInfo("ar-EG"))</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    }
+    else
+    {
+        <div class="order-summary">
+            <p style="color: #e53e3e; text-align: center;">@SharedLocalizer["NoCartItems"]</p>
+        </div>
+    }
+    <form asp-action="ConfirmOrder" asp-controller="Order" id="orderForm" novalidate>
+        <input type="hidden" asp-for="Address" id="addressOutput">
         <div class="input-group">
-            @* <input type="hidden" asp-for="Address" id="addressOutput"> *@
             <div>
-                <label for="city">@SharedLocalizer["City"]</label>
-                <input type="text" asp-for="Address.City" class="form-control" id="city" placeholder="Enter city" required aria-label="City input">
+                <label for="city" class="form-label">@SharedLocalizer["City"]</label>
+                <input type="text" asp-for="Address.City" class="form-control" id="city" placeholder="@SharedLocalizer["EnterCity"]" required aria-label="City input" pattern="[A-Za-z\s]{2,}">
+                <div class="error-message" id="cityError">@SharedLocalizer["CityRequired"]</div>
             </div>
             <div>
-                <label for="street">@SharedLocalizer["Street"]</label>
-                <input type="text" asp-for="Address.Street" class="form-control" id="street" placeholder="Enter street" required aria-label="Street input">
+                <label for="street" class="form-label">@SharedLocalizer["Street"]</label>
+                <input type="text" asp-for="Address.Street" class="form-control" id="street" placeholder="@SharedLocalizer["EnterStreet"]" required aria-label="Street input" pattern="[A-Za-z0-9\s]{2,}">
+                <div class="error-message" id="streetError">@SharedLocalizer["StreetRequired"]</div>
             </div>
             <div>
-                <label for="building">@SharedLocalizer["Building"]</label>
-                <input type="text" asp-for="Address.Building" class="form-control" id="building" placeholder="Enter building number" required aria-label="Building number input">
+                <label for="building" class="form-label">@SharedLocalizer["Building"]</label>
+                <input type="text" asp-for="Address.Building" class="form-control" id="building" placeholder="@SharedLocalizer["EnterBuilding"]" required aria-label="Building number input" pattern="[A-Za-z0-9\s]{1,}">
+                <div class="error-message" id="buildingError">@SharedLocalizer["BuildingRequired"]</div>
             </div>
         </div>
         <div class="date-group">
             <label for="arrivalDate" class="form-label">@SharedLocalizer["ArrivalDate"]</label>
             <i class="fa-solid fa-calendar"></i>
-            <input type="date" class="form-control"  id="arrivalDate" value="@DateTime.Today.AddDays(2).ToString("yyyy-MM-dd")" disabled aria-label="Arrival date input">
+            <input type="date" class="form-control" id="arrivalDate" value="@DateTime.Today.AddDays(2).ToString("yyyy-MM-dd")" disabled aria-label="Arrival date input">
             <div class="day-display">@DateTime.Today.AddDays(2).ToString("dddd")</div>
         </div>
         <div class="mb-3">
             <label for="paymentMethod" class="form-label">@SharedLocalizer["PaymentMethod"]</label>
-            <select class="form-select" asp-for="PaymentMethod" id="paymentMethod" aria-label="Payment method selection">
+            <select class="form-select" asp-for="PaymentMethod" id="paymentMethod" required aria-label="Payment method selection">
+                <option value="" disabled selected>@SharedLocalizer["SelectPaymentMethod"]</option>
                 <option value="visa" class="payment-option"><i class="fa-brands fa-cc-visa"></i> @SharedLocalizer["visa"]</option>
                 <option value="mastercard" class="payment-option"><i class="fa-brands fa-cc-mastercard"></i> @SharedLocalizer["mastercard"]</option>
+                <option value="fawry" class="payment-option"><i class="fa-solid fa-fawry"></i> @SharedLocalizer["fawry"]</option>
+                <option value="vodafone_cash" class="payment-option"><i class="fa-solid fa-vodafone"></i> @SharedLocalizer["vodafone_cash"]</option>
                 <option value="cash" class="payment-option"><i class="fa-solid fa-money-bill"></i> @SharedLocalizer["cash"]</option>
             </select>
+            <div class="error-message" id="paymentError">@SharedLocalizer["PaymentMethodRequired"]</div>
         </div>
-        <button type="submit" class="btn btn-outline-primary">@SharedLocalizer["order"]</button>
+        <button type="submit" class="btn btn-primary" id="submitButton">@SharedLocalizer["order"]</button>
     </form>
 </div>
 
 <script>
-    // Combine address fields into a single string for backend
-    document.querySelector('form').addEventListener('submit', (e) => {
-        const city = document.getElementById('city').value.trim();
-        const street = document.getElementById('street').value.trim();
-        const building = document.getElementById('building').value.trim();
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('orderForm');
+        const submitButton = document.getElementById('submitButton');
+        const inputs = {
+            city: document.getElementById('city'),
+            street: document.getElementById('street'),
+            building: document.getElementById('building'),
+            paymentMethod: document.getElementById('paymentMethod')
+        };
 
-        // Combine non-empty fields into a single string
-        const addressParts = [city, street, building];
-        const addressString = addressParts.filter(part => part).join(', ');
+        // التحقق من صحة الحقول أثناء الكتابة
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', () => validateField(input));
+            input.addEventListener('blur', () => validateField(input));
+        });
 
-        // Set the combined address to the hidden input
-        document.getElementById('addressOutput').value = addressString;
+        function validateField(input) {
+            const isValid = input.checkValidity();
+            input.classList.toggle('is-invalid', !isValid);
+            return isValid;
+        }
+
+        // معالجة إرسال الفورم
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let isValid = true;
+
+            // التحقق من جميع الحقول
+            Object.values(inputs).forEach(input => {
+                if (!validateField(input)) {
+                    isValid = false;
+                }
+            });
+
+            if (isValid) {
+                // دمج حقول العنوان
+                const addressParts = [
+                    inputs.city.value.trim(),
+                    inputs.street.value.trim(),
+                    inputs.building.value.trim()
+                ];
+                const addressString = addressParts.filter(part => part).join(', ');
+                document.getElementById('addressOutput').value = addressString;
+
+                // إرسال الفورم
+                form.submit();
+            } else {
+                submitButton.disabled = true;
+                setTimeout(() => submitButton.disabled = false, 2000);
+            }
+        });
+
+        // تفعيل/تعطيل زر الإرسال بناءً على صحة الفورم
+        form.addEventListener('input', () => {
+            submitButton.disabled = !form.checkValidity();
+        });
     });
 </script>

@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShoppingHub.DAL.Entities;
 
-namespace ShoppingHub.BLL.ModelVm
+namespace ShoppingHub.BLL.ModelVm.order
 {
 public class Address
 {
@@ -19,7 +20,7 @@ public class CreateOrderVM
         public Address Address { get; set; }
         [Required]
         public string PaymentMethod {  get; set; }
-
+        public List<CartItem>? CartItems { get; set; }
 
     }
 }

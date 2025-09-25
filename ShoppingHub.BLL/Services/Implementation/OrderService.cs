@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using ShoppingHub.BLL.ModelVm;
+using Microsoft.EntityFrameworkCore;
+using ShoppingHub.BLL.ModelVm.order;
 using ShoppingHub.BLL.Services.Abstraction;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
@@ -23,13 +24,13 @@ namespace ShoppingHub.BLL.Services.Implementation
             this.mapper = mapper;
         }
 
-        public (bool, string) create(CreateOrderVM order,List<CartItem> cartitems,string userId)
+        public (bool, string) create(CreateOrderVM order,string userId)
         { 
             try
             {
-                var totalPrice = cartitems.Sum(ci => ci.Quantity * ci.Product.Price);
-                var totalItems = cartitems.Sum(ci => ci.Quantity);
-                var orderitems = cartitems.Select(
+                var totalPrice = order.CartItems.Sum(ci => ci.Quantity * ci.Product.Price);
+                var totalItems = order.CartItems.Sum(ci => ci.Quantity);
+                var orderitems = order.CartItems.Select(
                     ci => new OrderItem
                     {
                         ProductID = ci.ProductID,
@@ -40,8 +41,9 @@ namespace ShoppingHub.BLL.Services.Implementation
                 string address = order.Address.City + "-" + order.Address.Street + "-" + order.Address.Building;
                 Order newOrder = new Order(deliverydate, address, order.PaymentMethod,totalPrice,totalItems,userId, orderitems);
   
-
+                
                 var result = _repo.create(newOrder);
+
 
                 return result ? (result, "") : (result, "we have problem");
             }
@@ -130,7 +132,28 @@ namespace ShoppingHub.BLL.Services.Implementation
                 throw ex;
             }
         }
+        public List<OrderVM> GetUserOrders(string userId)
+        {
+            try
+            {
+                var result=_repo.GetUserOrders(userId).Where(o => o.UserId == userId)
+            .Select(o => new OrderVM
+            {
+                OrderId = o.OrderId,
+                OrderDate = o.OrderDate,
+                Address = o.ShippingAddress,
+                PaymentMethod = o.PaymentMethod,
+                TotalAmount = o.TotalPrice,
+                Status = o.Status,
+                Items = o.orderItems.Select(i => new CartItem(userId,i.ProductID,i.Quantity)).ToList()}).ToList();
+                return result;
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
+        }
 
     }
 }

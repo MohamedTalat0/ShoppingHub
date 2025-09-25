@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShoppingHub.BLL.ModelVm;
+using ShoppingHub.BLL.ModelVm.order;
 using ShoppingHub.BLL.Services.Abstraction;
 using ShoppingHub.BLL.Services.Implementation;
 using ShoppingHub.DAL.Entities;
@@ -25,21 +25,29 @@ namespace ShoppingHub.PL.Controllers
         [HttpGet]
         public IActionResult confirmOrder()
         {
-
-            return View();
+            var userID = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            var cartItems = _cartService.GetAllUserItems(userID).Item3;
+            var order = new CreateOrderVM
+            {
+                Address = new Address(),
+                CartItems = cartItems 
+            };
+            return View(order);
         }
         [HttpPost]
         public IActionResult confirmOrder(CreateOrderVM order)
         {
             var userID = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            var cartItems=_cartService.GetAllUserItems(userID).Item3;
-            //List<CartItem> cartitems = {new CartItem { ProductID=2,UserID=2,Quantity=12} }
-
+            //var cartItems=_cartService.GetAllUserItems(userID).Item3;
+            var cartItems = _cartService.GetAllUserItems(userID).Item3;
+            order.CartItems = cartItems;
+           
             if (!ModelState.IsValid)
             {
                 return View(order);
             }
-           _orderservice.create(order,cartItems,userID);
+           _orderservice.create(order,userID);
+            _cartService.ClearCart(userID);
             return View();
         }
 
@@ -58,6 +66,39 @@ namespace ShoppingHub.PL.Controllers
             var result =_orderservice.updatStatus(orderid,status,userID);
             return RedirectToAction("showAllOrders");
         }
+
+        [HttpGet]
+        public IActionResult MyOrders()
+        {
+            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+
+            var orders = _orderservice.GetUserOrders(userId) ?? new List<OrderVM>();
+
+            return View("MyOrders", orders);
+        }
+
+        [HttpPost]
+        public IActionResult CancelOrder(int orderId)
+        {
+
+            // محاولة إلغاء الطلبية
+            var success = _orderservice.cancelOrder(orderId);
+
+            if (success.Item1)
+            {
+                TempData["Message"] = "The order has been canceled";
+            }
+            else
+            {
+                TempData["Error"] = "The order can't been canceled";
+            }
+
+            return RedirectToAction("MyOrders");
+        }
+
     }
-    
+
+
 }
+    
+
