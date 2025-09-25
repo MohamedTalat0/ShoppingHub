@@ -1,0 +1,224 @@
+﻿using ShoppingHub.BLL.Helper;
+using ShoppingHub.BLL.ModelVm;
+using ShoppingHub.BLL.Services.Abstraction;
+using ShoppingHub.DAL.Entities;
+using ShoppingHub.DAL.Repository.Abstraction;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ShoppingHub.BLL.Services.Implementation
+{
+
+    public class ProductService : IProductService
+    {
+        private readonly IProductRepo _productRepo;
+        private readonly IcategoryRepo _categoryRepo;
+
+        public ProductService(IProductRepo repo, IcategoryRepo categoryRepo)
+        {
+            _productRepo = repo;
+            _categoryRepo = categoryRepo;
+        }
+
+        public (bool, string, GetAllProductsVM ) GetProducts(GetAllProductsVM vm)
+        {
+            try
+            {
+                var productsQuery = _productRepo.GetAllProducts().AsQueryable();
+                if (!string.IsNullOrWhiteSpace(vm.SearchTerm))
+                {
+                    productsQuery = productsQuery
+                        .Where(p => p.ProductName.ToLower().Contains(vm.SearchTerm.ToLower()));
+                }
+
+                
+                if (vm.SelectedCategoryId.HasValue)
+                {
+                    productsQuery = productsQuery
+                        .Where(p => p.CategoryId == vm.SelectedCategoryId.Value);
+                }
+
+             
+                if (vm.MinPrice.HasValue)
+                {
+                    productsQuery = productsQuery
+                        .Where(p => p.Price >= vm.MinPrice.Value);
+                }
+
+            
+                if (vm.MaxPrice.HasValue)
+                {
+                    productsQuery = productsQuery
+                        .Where(p => p.Price <= vm.MaxPrice.Value);
+                }
+
+              
+                var totalItems = productsQuery.Count();
+                var pagedProducts = productsQuery
+                    .Skip((vm.PageNumber - 1) * vm.PageSize)
+                    .Take(vm.PageSize)
+                    .ToList();
+
+           
+                var productItems = pagedProducts.Select(p => new OutDisplayingProduct
+                {
+                    ProductID = p.ProductId,
+                    ProductName = p.ProductName,
+                    Price = p.Price,
+                    ImagePath = p.ImagePath,
+                    CategoryID=p.CategoryId
+                    //ProductNameAR=p.ProductNameAR
+                }).ToList();
+
+             
+                vm.Products = productItems;
+                vm.TotalItems = totalItems;
+
+                return (false, null, vm);
+            }
+            catch (Exception ex)
+            {
+                return (true, ex.Message, null);
+            }
+        }
+
+
+
+
+
+      public EditProductVM? GetProductForEdit(int id)
+{
+    var product = _productRepo.GetProductByID(id);
+    if (product == null) return null;
+
+    return new EditProductVM
+    {
+        ProductID = product.ProductId,
+        //ProductName = product.ProductName,
+        //ProductNameAR=product.ProductNameAR,
+        Price = product.Price,
+        Quantity = product.Quantity,
+        Description = product.Description,
+        ExistingImagePath = product.ImagePath,
+        CategoryId = product.CategoryId
+    };
+}
+
+public (bool, string?) EditProduct(EditProductVM vm)
+{
+    try
+    {
+        var product = _productRepo.GetProductByID(vm.ProductID);
+        if (product == null)
+            return (true, "Product with such ID was not found");
+
+        string imagePath = product.ImagePath;
+        if (vm.NewImageFile != null)
+        {
+            imagePath = Load.UploadFile("Files/images/products", vm.NewImageFile);
+        }
+
+        product.Update(
+            vm.ProductName,
+            //vm.ProductNameAR,
+            //vm.DescriptionAR,
+            vm.Price,
+            vm.Quantity,
+            vm.Description,
+            imagePath,
+            vm.CategoryId
+        );
+
+        _productRepo.EditProduct(product);
+
+        return (false, null);
+    }
+    catch (Exception ex)
+    {
+        return (true, ex.Message);
+    }
+}
+
+
+
+        public (bool, string) AddProduct(AddProductVM vm)
+        {
+            try
+            {
+                var dbproduct = new Product(
+                    vm.ID,
+                    vm.ProductName,
+                    //vm.ProductNameAR,
+                    //vm.DescriptionAR,
+                    vm.Price,
+                    vm.Quantity,
+                    vm.Description,
+                    Load.UploadFile("Files/images/products", vm.ImageFile),
+                    vm.CategoryId
+                 
+                );
+
+                _productRepo.AddProduct(dbproduct);
+                return (false, null);
+            }
+            catch (Exception ex)
+            {
+                return (true, ex.Message);
+            }
+        }
+
+        public (bool, string, ProductDetailsVM) GetProductDetails(int productId)
+        {
+            try
+            {
+                var product = _productRepo.GetProductByID(productId);
+                if (product == null)
+                {
+                    return (true, "Product not found.", null);
+                }
+
+                var vm = new ProductDetailsVM
+                {
+                    ProductName = product.ProductName,
+                    //ProductNameAR=product.ProductNameAR,
+                    //DescriptionAR=product.DescriptionAR,
+                    Price = product.Price,
+                    Description = product.Description,
+                    ImagePath = product.ImagePath,
+                    CategoryName = product.Category?.Name ?? "Uncategorized"
+                    // AverageRating = product.Ratings.Any() ? product.Ratings.Average(r => r.Rate) : 0
+                };
+
+                return (false, "", vm);
+            }
+            catch (Exception ex)
+            {
+                return (true, ex.Message, null);
+            }
+        }
+
+        public (bool, string?) RemoveProduct(int productId)
+        {
+            try
+            {
+                return _productRepo.Remove(productId);
+            }
+            catch (Exception ex)
+            {
+                return (true, ex.Message);
+            }
+        }
+
+        public Product? GetProductByID(int id)
+        {
+            return _productRepo.GetProductByID(id);
+        }
+    }
+
+}
+
+
+

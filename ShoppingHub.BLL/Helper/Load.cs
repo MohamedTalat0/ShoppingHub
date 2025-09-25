@@ -28,7 +28,7 @@ namespace ShoppingHub.BLL.Helper
                     File.CopyTo(Stream);
                 }
 
-                return FileName;
+                return "/" + FolderName.Replace("\\", "/") + "/" + FileName;
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingHub.DAL.DataBase;
 
@@ -11,9 +12,11 @@ using ShoppingHub.DAL.DataBase;
 namespace ShoppingHub.DAL.Migrations
 {
     [DbContext(typeof(shoppingHubDbContext))]
-    partial class shoppingHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250924180217_mar")]
+    partial class mar
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -283,9 +286,6 @@ namespace ShoppingHub.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("AvgRate")
-                        .HasColumnType("float");
-
                     b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
@@ -297,6 +297,7 @@ namespace ShoppingHub.DAL.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ModifiedOn")
@@ -327,9 +328,6 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Rate")
                         .HasColumnType("int");
