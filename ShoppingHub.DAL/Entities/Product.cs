@@ -24,7 +24,7 @@ namespace ShoppingHub.DAL.Entities
         public string ModifiedOn { get; private set; }
         public bool ISRemoved { get; private set; } = false;
         public string DescriptionAR { get; private set; }
-        public string ImagePath { get; private set; }
+      
         //public double? AvgRate { get; private set; }
 
         [ForeignKey("Category")]
