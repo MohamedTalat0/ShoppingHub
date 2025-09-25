@@ -1,4 +1,5 @@
-﻿using ShoppingHub.DAL.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using ShoppingHub.DAL.DataBase;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
 using System;
@@ -82,7 +83,7 @@ namespace ShoppingHub.DAL.Repository.Implementation
         {
             try
             {
-                var result = Db.CartItems.Where(x => x.UserID == userID).ToList();
+                var result = Db.CartItems.Include(ci => ci.Product).Where(x => x.UserID == userID).ToList();
                 return result;
             }
             catch (Exception ex)

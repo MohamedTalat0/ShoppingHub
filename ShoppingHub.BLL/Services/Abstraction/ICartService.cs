@@ -1,9 +1,10 @@
-﻿using ShoppingHub.BLL.ModelVm.Cart;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ShoppingHub.BLL.ModelVm.Cart;
+using ShoppingHub.DAL.Entities;
 
 namespace ShoppingHub.BLL.Services.Abstraction
 {
@@ -15,6 +16,7 @@ namespace ShoppingHub.BLL.Services.Abstraction
         (bool, string) UpdateQuantity(int productID, string userId, int quantity);
         (bool, string) RemoveItem(string userID, int productID);
         (bool, string) ClearCart(string userID);
+        (bool, string, List<CartItem>) GetAllUserItems(string userID);
 
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingHub.DAL.DataBase;
 
@@ -11,9 +12,11 @@ using ShoppingHub.DAL.DataBase;
 namespace ShoppingHub.DAL.Migrations
 {
     [DbContext(typeof(shoppingHubDbContext))]
-    partial class shoppingHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250922223935_convertorder_useridTybe")]
+    partial class convertorder_useridTybe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -164,6 +164,20 @@ namespace ShoppingHub.BLL.Services.Implementation
                 return (true, ex.Message, null);
             }
         }
+        public (bool,string,List<CartItem>) GetAllUserItems(string userID) {
+            try
+            {
+                var result=_cartItemRepo.GetUserItems(userID);
+                if (result != null) return (false, null, result);         
+                
+                return (true, "There is no items in cart", null);
 
+            }
+            catch (Exception ex)
+            {
+
+                return (true, ex.Message, null);
+            }
+        }
     }
 }
