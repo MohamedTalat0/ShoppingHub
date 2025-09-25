@@ -14,8 +14,7 @@ namespace ShoppingHub.DAL.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ProductId { get; private set; }
         public string ProductName { get; private set; }
-        //public string ProductNameAR { get; private set; }
-        //public string DescriptionAR { get; private set; }
+        public string ProductNameAR { get; private set; }
         public double Price { get; private set; }
         public int Quantity { get; private set; }
         public string Description { get; private set; }
@@ -24,6 +23,10 @@ namespace ShoppingHub.DAL.Entities
         public string AddedOn { get; private set; }
         public string ModifiedOn { get; private set; }
         public bool ISRemoved { get; private set; } = false;
+        public string DescriptionAR { get; private set; }
+        public string ImagePath { get; private set; }
+        //public double? AvgRate { get; private set; }
+
         [ForeignKey("Category")]
         public int? CategoryId { get; set; }
         public Category? Category { get; set; }

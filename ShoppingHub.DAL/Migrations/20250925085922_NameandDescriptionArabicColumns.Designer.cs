@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingHub.DAL.DataBase;
 
@@ -11,9 +12,11 @@ using ShoppingHub.DAL.DataBase;
 namespace ShoppingHub.DAL.Migrations
 {
     [DbContext(typeof(shoppingHubDbContext))]
-    partial class shoppingHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250925085922_NameandDescriptionArabicColumns")]
+    partial class NameandDescriptionArabicColumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,33 +191,6 @@ namespace ShoppingHub.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "Electronics"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Clothing"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Books"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Home & Kitchen"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "Sports"
-                        });
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.Order", b =>
@@ -279,27 +255,18 @@ namespace ShoppingHub.DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
-                    b.Property<string>("AddedOn")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("AvgRate")
-                        .HasColumnType("float");
-
-                    b.Property<int?>("CategoryId")
+                    b.Property<int?>("CATID")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("ISRemoved")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ImagePath")
+                    b.Property<string>("DescriptionAR")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ModifiedOn")
+                    b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -319,7 +286,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.HasIndex("CategoryId");
+                    b.HasIndex("CATID");
 
                     b.ToTable("Products");
                 });
@@ -331,9 +298,6 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Rate")
                         .HasColumnType("int");
@@ -539,7 +503,7 @@ namespace ShoppingHub.DAL.Migrations
                 {
                     b.HasOne("ShoppingHub.DAL.Entities.Category", "Category")
                         .WithMany("Products")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CATID");
 
                     b.Navigation("Category");
                 });

@@ -138,11 +138,23 @@
   <data name="Cart" xml:space="preserve">
     <value>Cart</value>
   </data>
+  <data name="Cart is Empty !" xml:space="preserve">
+    <value>Cart is Empty !</value>
+  </data>
+  <data name="Cash" xml:space="preserve">
+    <value>Cash</value>
+  </data>
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
+  <data name="Checkout" xml:space="preserve">
+    <value>Checkout</value>
+  </data>
   <data name="ChooseProfilePicture" xml:space="preserve">
     <value>Choose Profile Picture</value>
+  </data>
+  <data name="Clear cart" xml:space="preserve">
+    <value>Clear cart</value>
   </data>
   <data name="Clothing" xml:space="preserve">
     <value>Clothing</value>
@@ -192,8 +204,17 @@
   <data name="Home&amp;Garden" xml:space="preserve">
     <value>Home&amp;Garden</value>
   </data>
+  <data name="Image" xml:space="preserve">
+    <value>Image</value>
+  </data>
   <data name="ImageSelected" xml:space="preserve">
     <value>Image is selected successfully</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="Items Count" xml:space="preserve">
+    <value>Items Count</value>
   </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
@@ -213,6 +234,9 @@
   <data name="NewArrivals" xml:space="preserve">
     <value>New Arrivals</value>
   </data>
+  <data name="Order Summary" xml:space="preserve">
+    <value>Order Summary</value>
+  </data>
   <data name="Password" xml:space="preserve">
     <value>Password</value>
   </data>
@@ -225,11 +249,20 @@
   <data name="phone_placeHolder" xml:space="preserve">
     <value>Enter your phone Number</value>
   </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy Policy</value>
   </data>
+  <data name="Product" xml:space="preserve">
+    <value>Product</value>
+  </data>
   <data name="ProfileImage" xml:space="preserve">
     <value>Profile Image (Optional)</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
   </data>
   <data name="QuickLinks" xml:space="preserve">
     <value>Quick Links</value>
@@ -245,6 +278,9 @@
   </data>
   <data name="ShippingInfo" xml:space="preserve">
     <value>Shipping Info</value>
+  </data>
+  <data name="Shopping Cart" xml:space="preserve">
+    <value>Shopping Cart</value>
   </data>
   <data name="signInHere" xml:space="preserve">
     <value>Sign in here</value>
@@ -273,7 +309,28 @@
   <data name="UserName_placeHolder" xml:space="preserve">
     <value>Enter User Name</value>
   </data>
+  <data name="VISA" xml:space="preserve">
+    <value>VISA</value>
+  </data>
   <data name="Wishlist" xml:space="preserve">
     <value>Wishlist</value>
+  </data>
+  <data name="Payment Method" xml:space="preserve">
+    <value>Payment Method</value>
+  </data>
+  <data name="Cart has no Items yet!!" xml:space="preserve">
+    <value>Cart has no Items yet!!</value>
+  </data>
+  <data name="Item not found!!!" xml:space="preserve">
+    <value>Item not found!!!</value>
+  </data>
+  <data name="Quantity exceed the stock!!!!" xml:space="preserve">
+    <value>Quantity exceed the stock!!!!</value>
+  </data>
+  <data name="There is an error in deleting item !!!" xml:space="preserve">
+    <value>There is an error in deleting item !!!</value>
+  </data>
+  <data name="There is a problem in adding item!!" xml:space="preserve">
+    <value>There is a problem in adding item!!</value>
   </data>
 </root>
