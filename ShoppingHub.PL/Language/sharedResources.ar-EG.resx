@@ -153,6 +153,9 @@
   <data name="ChooseProfilePicture" xml:space="preserve">
     <value>اختار صورتك</value>
   </data>
+  <data name="Clear cart" xml:space="preserve">
+    <value>افرغ العربة </value>
+  </data>
   <data name="Clothing" xml:space="preserve">
     <value>الملابس</value>
   </data>
@@ -210,6 +213,9 @@
   <data name="Items" xml:space="preserve">
     <value>منتج</value>
   </data>
+  <data name="Items Count" xml:space="preserve">
+    <value>عدد المنتجات</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>اللغة</value>
   </data>
@@ -237,9 +243,6 @@
   <data name="password_placeHolder" xml:space="preserve">
     <value>دخل باسورد قوى</value>
   </data>
-  <data name="Payment Method" xml:space="preserve">
-    <value>طريقة الدفع</value>
-  </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>رقم التليفون</value>
   </data>
@@ -251,6 +254,9 @@
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>ساكن فين؟</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>اسم المنتج</value>
   </data>
   <data name="ProfileImage" xml:space="preserve">
     <value>الصورة الشخصية (اختياري)</value>
@@ -308,5 +314,23 @@
   </data>
   <data name="Wishlist" xml:space="preserve">
     <value>قائمة الرغبات</value>
+  </data>
+  <data name="Payment Method" xml:space="preserve">
+    <value>طريقة الدفع</value>
+  </data>
+  <data name="Cart has no Items yet!!" xml:space="preserve">
+    <value>لا يوجد عناصر في العربة حتي الان !!</value>
+  </data>
+  <data name="Item not found!!!" xml:space="preserve">
+    <value>لم يتم العثور علي المنتج !!</value>
+  </data>
+  <data name="Quantity exceed the stock!!!!" xml:space="preserve">
+    <value>الكمية المطلوبة تتجاوز الكمية المتوفرة  !! في المخزون</value>
+  </data>
+  <data name="There is an error in deleting item !!!" xml:space="preserve">
+    <value>حدث خطأ أثناء حذف العنصر !!!</value>
+  </data>
+  <data name="There is a problem in adding item!!" xml:space="preserve">
+    <value>حدث خطا اثناء اضافه العنصر للعربة !!!</value>
   </data>
 </root>

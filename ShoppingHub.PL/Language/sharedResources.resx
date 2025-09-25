@@ -153,6 +153,9 @@
   <data name="ChooseProfilePicture" xml:space="preserve">
     <value>Choose Profile Picture</value>
   </data>
+  <data name="Clear cart" xml:space="preserve">
+    <value>Clear cart</value>
+  </data>
   <data name="Clothing" xml:space="preserve">
     <value>Clothing</value>
   </data>
@@ -210,6 +213,9 @@
   <data name="Items" xml:space="preserve">
     <value>Items</value>
   </data>
+  <data name="Items Count" xml:space="preserve">
+    <value>Items Count</value>
+  </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -237,9 +243,6 @@
   <data name="password_placeHolder" xml:space="preserve">
     <value>Enter a strong password</value>
   </data>
-  <data name="Payment Method" xml:space="preserve">
-    <value>Payment Method</value>
-  </data>
   <data name="PhoneNumber" xml:space="preserve">
     <value>PhoneNumber</value>
   </data>
@@ -251,6 +254,9 @@
   </data>
   <data name="PrivacyPolicy" xml:space="preserve">
     <value>Privacy Policy</value>
+  </data>
+  <data name="Product" xml:space="preserve">
+    <value>Product</value>
   </data>
   <data name="ProfileImage" xml:space="preserve">
     <value>Profile Image (Optional)</value>
@@ -308,5 +314,23 @@
   </data>
   <data name="Wishlist" xml:space="preserve">
     <value>Wishlist</value>
+  </data>
+  <data name="Payment Method" xml:space="preserve">
+    <value>Payment Method</value>
+  </data>
+  <data name="Cart has no Items yet!!" xml:space="preserve">
+    <value>Cart has no Items yet!!</value>
+  </data>
+  <data name="Item not found!!!" xml:space="preserve">
+    <value>Item not found!!!</value>
+  </data>
+  <data name="Quantity exceed the stock!!!!" xml:space="preserve">
+    <value>Quantity exceed the stock!!!!</value>
+  </data>
+  <data name="There is an error in deleting item !!!" xml:space="preserve">
+    <value>There is an error in deleting item !!!</value>
+  </data>
+  <data name="There is a problem in adding item!!" xml:space="preserve">
+    <value>There is a problem in adding item!!</value>
   </data>
 </root>

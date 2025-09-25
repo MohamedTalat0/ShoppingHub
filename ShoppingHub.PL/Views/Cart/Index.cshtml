@@ -2,6 +2,7 @@
 @model ViewCartVM
 @{
     Layout = "~/Views/Shared/_NewLayout.cshtml";
+   var isRtl = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ar"; 
 }
 <style>
     body {
@@ -169,18 +170,18 @@
                 </div>
                 @if (ViewBag.ErrorMessage != null)
                 {
-                    <p>@ViewBag.ErrorMessage</p>
+                    <p>@SharedLocalizer[ViewBag.ErrorMessage]</p>
                 }
                 else
                 {
                     <div class="cart-header">
                     <div class="col-2 header-image">@SharedLocalizer["Image"]</div>
-                    <div class="col-4">Product</div>
+                    <div class="col-4">@SharedLocalizer["Product"]</div>
                     <div class="col-3 text-center">@SharedLocalizer["Quantity"]</div>
                     <div class="col-2 text-end header-price">@SharedLocalizer["Price"]</div>
                     @* <div class="col-1 text-center"></div>  *@
                     </div>
-                                            @foreach (var item in Model.CartItems)
+                        @foreach (var item in Model.CartItems)
                         {
                             <div class="cart-item">
                                 <div class="col-2">
@@ -189,7 +190,15 @@
 
                                 </div>
                                 <div class="col-4">
+                                @if (isRtl)
+                                {
+                                    <h6 class="fw-bold mb-1">@item.NameAR</h6>
+
+                                }
+                                else
+                                {
                                     <h6 class="fw-bold mb-1">@item.Name</h6>
+                                }
                                     <p class="text-muted mb-0">$@item.PricePerItem</p>
                                 </div>
                                 <div class="col-3 text-center">
@@ -227,7 +236,7 @@
 
 
                         <form asp-action="ClearCart" asp-controller="Cart" class="mt-3 text-start">
-                            <button type="submit" class="clear-cart-link">Clear cart</button>
+                            <button type="submit" class="clear-cart-link">@SharedLocalizer["Clear cart"]</button>
                         </form>
                     
                 }
@@ -238,7 +247,7 @@
             <div class="summary-container">
                 <h5 class="fw-bold">@SharedLocalizer["Order Summary"]</h5>
                 <div class="d-flex justify-content-between my-2">
-                    <span>@SharedLocalizer["Items"]: @Model.TotalItems</span>
+                    <span>@SharedLocalizer["Items Count"]: @Model.TotalItems</span>
                     <span class="fw-bold">$@Model.TotalPrice</span>
                 </div>
                 <hr />

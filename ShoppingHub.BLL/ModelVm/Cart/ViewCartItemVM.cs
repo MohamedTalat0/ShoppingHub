@@ -9,6 +9,7 @@ namespace ShoppingHub.BLL.ModelVm.Cart
     public class ViewCartItemVM
     {
         public string Name { get; set; }
+        public string NameAR { get; set; }
         public int Quantity { get; set; }
         public double PricePerItem { get; set; }
         public double TotalPrice { get; set; }

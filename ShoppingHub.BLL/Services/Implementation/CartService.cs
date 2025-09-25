@@ -160,7 +160,8 @@ namespace ShoppingHub.BLL.Services.Implementation
                             MaxQuantity = product.Quantity,
                             ImagePath = product.ImagePath,
                             ProductID = item.ProductID,
-                            TotalPrice = ItemTotalPrice
+                            TotalPrice = ItemTotalPrice,
+                            NameAR = product.ProductNameAR
                         }
                         );
                         CartTotalPrice += ItemTotalPrice;
