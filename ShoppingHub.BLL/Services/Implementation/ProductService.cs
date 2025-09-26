@@ -186,6 +186,7 @@ public (bool, string?) EditProduct(EditProductVM vm)
 
                 var vm = new ProductDetailsVM
                 {
+                    ProductID = product.ProductId,
                     ProductName = product.ProductName,
                     ProductNameAR = product.ProductNameAR,
                     DescriptionAR = product.DescriptionAR,

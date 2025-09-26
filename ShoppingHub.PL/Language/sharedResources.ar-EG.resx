@@ -147,8 +147,8 @@
   <data name="Categories" xml:space="preserve">
     <value>الفئات</value>
   </data>
-  <data name="Checkout" xml:space="preserve">
-    <value>إتمام الشراء</value>
+  <data name="Order" xml:space="preserve">
+    <value>اطلب</value>
   </data>
   <data name="ChooseProfilePicture" xml:space="preserve">
     <value>اختار صورتك</value>
