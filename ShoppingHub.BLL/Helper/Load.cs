@@ -43,7 +43,7 @@ namespace ShoppingHub.BLL.Helper
 
             try
             {
-                var directory = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Files", FolderName, fileName);
+                var directory = Directory.GetCurrentDirectory() + "/wwwroot/" + FolderName + fileName;
 
                 if (File.Exists(directory))
                 {

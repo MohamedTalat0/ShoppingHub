@@ -1,20 +1,13 @@
-﻿@using ShoppingHub.BLL.ModelVm
-@{
-    ViewData["Title"] = "Login";
+﻿@{
+    ViewData["Title"] = "Edit Profile";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     var isRtl = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ar";
 }
 
-@if (ViewBag.ErrorMessage != null)
-{
-    <div class="alert alert-danger">
-        @ViewBag.ErrorMessage
-    </div>
-}
-@model LoginUserVM
+@model ShoppingHub.BLL.ModelVM.EditUserVM
 
 <style>
-    .login-container {
+    .registration-container {
         background: white;
         border-radius: 20px;
         box-shadow: 0 15px 35px rgba(0,0,0,0.1);
@@ -26,7 +19,7 @@
         direction: @(isRtl ? "rtl" : "ltr");
     }
 
-        .login-container::before {
+        .registration-container::before {
             content: '';
             position: absolute;
             top: 0;
@@ -132,11 +125,10 @@
 
         .file-input-label i {
             margin-@(isRtl ? "left" : "right"): 0.5rem;
-            margin-@(isRtl ? "right" : "left"): 0;
             font-size: 1.1rem;
         }
 
-    .btn-login {
+    .btn-register {
         width: 100%;
         padding: 0.875rem 1rem;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -150,12 +142,12 @@
         margin-top: 1rem;
     }
 
-        .btn-login:hover {
+        .btn-register:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
-        .btn-login:active {
+        .btn-register:active {
             transform: translateY(0);
         }
 
@@ -197,23 +189,6 @@
             object-fit: cover;
         }
 
-    .password-toggle {
-        position: absolute;
-        @(isRtl ? "left" : "right"): 1rem;
-        top: 50%;
-        transform: translateY(-50%);
-        background: none;
-        border: none;
-        color: #667eea;
-        cursor: pointer;
-    }
-
-    /* Alert styling for RTL */
-    .alert {
-        direction: @(isRtl ? "rtl" : "ltr");
-        text-align: @(isRtl ? "right" : "left");
-    }
-
     /* Responsive */
     media (max-width: 576px) {
         .registration-container {
@@ -233,10 +208,9 @@
         .form-control-custom::placeholder {
             text-align: right;
         }
-        
+
         .btn-register i {
             margin-left: 0.5rem;
-            margin-right: 0;
         }
         </text>
     }
@@ -245,61 +219,116 @@
         <text>
         .btn-register i {
             margin-right: 0.5rem;
-            margin-left: 0;
         }
         </text>
     }
 </style>
 
 
-
-<div class="login-container">
+<div class="registration-container">
     <div class="form-header">
-        <h2><i class="fas fa-user-plus"></i> @SharedLocalizer["Signup"]</h2>
-        <p>@SharedLocalizer["signInHere"]</p>
+        <h2><i class="fas fa-user-edit"></i> @SharedLocalizer["EditProfile"]</h2>
+        <p>@SharedLocalizer["UpdateYourInfo"]</p>
     </div>
 
-    <form asp-action="Login" asp-controller="Account" method="post"  id="LoginForm">
+    <form asp-action="EditProfile" asp-controller="Account" method="post" enctype="multipart/form-data" id="editProfileForm">
 
+        <!-- Name -->
         <div class="form-group">
-            <label asp-for ="UserName" class="form-label">@SharedLocalizer["UserName"]</label>
+            <label asp-for="Name" class="form-label">@SharedLocalizer["Name"]</label>
             <div style="position: relative;">
                 <i class="fas fa-user form-icon"></i>
-                <input asp-for="UserName" class="form-control-custom" placeholder="@SharedLocalizer["UserName_placeHolder"]" />
+                <input asp-for="Name" class="form-control-custom" placeholder="@SharedLocalizer["Name_placeHolder"]" />
             </div>
-            <span asp-validation-for="UserName" class="text-danger"></span>
+            <span asp-validation-for="Name" class="text-danger"></span>
         </div>
 
-
+        <!-- Email -->
         <div class="form-group">
-            <label asp-for="Password" class="form-label">@SharedLocalizer["Password"]</label>
+            <label asp-for="Email" class="form-label">@SharedLocalizer["Email"]</label>
             <div style="position: relative;">
-                <i class="fas fa-lock form-icon"></i>
-                <input asp-for="Password" type="password" class="form-control-custom" placeholder="@SharedLocalizer["password_placeHolder"]" id="Password" />
-                <button type="button" class="password-toggle" onclick="togglePassword()">
-                    <i class="fas fa-eye" id="passwordIcon"></i>
-                </button>
+                <i class="fas fa-envelope form-icon"></i>
+                <input asp-for="Email" type="email" class="form-control-custom" placeholder="@SharedLocalizer["Email_placeHolder"]" />
             </div>
-            <span asp-validation-for="Password" class="text-danger"></span>
+            <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
-        
+        <!-- Phone -->
+        <div class="form-group">
+            <label asp-for="PhoneNumber" class="form-label">@SharedLocalizer["PhoneNumber"]</label>
+            <div style="position: relative;">
+                <i class="fas fa-phone form-icon"></i>
+                <input asp-for="PhoneNumber" type="tel" class="form-control-custom" placeholder="@SharedLocalizer["phone_placeHolder"]" />
+            </div>
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
 
-        <button type="submit" class="btn-login">
-            <i class="fas fa-user-plus"></i> @SharedLocalizer["SignUpBtn"]
+        <!-- Address -->
+        <div class="form-group">
+            <label asp-for="Address" class="form-label">@SharedLocalizer["Address"]</label>
+            <div style="position: relative;">
+                <i class="fas fa-map-marker-alt form-icon"></i>
+                <input asp-for="Address" class="form-control-custom" placeholder="@SharedLocalizer["Address_placeHolder"]" />
+            </div>
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+
+        <!-- Profile Image -->
+        <div class="form-group">
+            <label class="form-label">@SharedLocalizer["ProfileImage"]</label>
+            <div class="image-preview">
+                <img src="@(string.IsNullOrEmpty(Model.oldProfileImage)
+                            ? "/images/default-avatar.png"
+                            : "/Files/images/usersImages/" + Model.oldProfileImage)" alt="Profile Picture">
+            </div>
+            <div class="file-input-wrapper mt-2">
+                <input asp-for="newProfileImage" type="file" accept="image/*" class="file-input" onchange="previewImage(event)" id="newProfileImage" />
+                <label for="newProfileImage" class="file-input-label">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    @SharedLocalizer["ChangeProfilePicture"]
+                </label>
+            </div>
+            <div class="image-preview" id="imagePreview"></div>
+            <span asp-validation-for="newProfileImage" class="text-danger"></span>
+        </div>
+
+        <!-- Save Changes -->
+        <button type="submit" class="btn-register">
+            <i class="fas fa-save"></i> @SharedLocalizer["SaveChanges"]
         </button>
     </form>
 
     <div class="form-footer">
-        <p>@SharedLocalizer["Register"] <a asp-action="Register" asp-controller="Account">@SharedLocalizer["signUpHere"]</a></p>
+        <p><a asp-action="Profile" asp-controller="Account">@SharedLocalizer["BackToProfile"]</a></p>
     </div>
 </div>
-
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
-}
-    
 
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('imagePreview');
+            const label = document.querySelector('.file-input-label');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.innerHTML = '<img src="' + e.target.result + '" alt="Profile Preview">';
+                    label.innerHTML = '<i class="fas fa-check"></i> @SharedLocalizer["ImageSelected"]';
+                    label.style.borderColor = '#28a745';
+                    label.style.color = '#28a745';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.innerHTML = '';
+                label.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> @SharedLocalizer["ChangeProfilePicture"]';
+                label.style.borderColor = '#667eea';
+                label.style.color = '#667eea';
+            }
+        }
+    </script>
+}

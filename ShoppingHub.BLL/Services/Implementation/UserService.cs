@@ -1,4 +1,6 @@
-﻿using ShoppingHub.BLL.Helper;
+﻿using Microsoft.Identity.Client;
+using ShoppingHub.BLL.Helper;
+using ShoppingHub.BLL.ModelVm;
 using ShoppingHub.BLL.ModelVM;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
@@ -39,8 +41,35 @@ namespace ShoppingHub.BLL.Service.Implementaion
                 return (true, ex.Message);
             }
         }
-        
-        
+
+       public (bool,string,UserProfileVM?) getUser(string Id)
+        {
+            try
+            {
+                var dbUser = userRepo.GetById(Id);
+                if (dbUser != null)
+                {
+                    var result = new UserProfileVM();
+                    result.Address = dbUser.Address;
+                    result.userName = dbUser.UserName;
+                    result.email = dbUser.Email;
+                    result.phoneNumber = dbUser.PhoneNumber;
+                    result.userImage = dbUser.ImagePath;
+                    result.totalOrders=dbUser.Orders.Count;
+                    return (false, "", result);
+                }
+                else
+                {
+                    return (false, "didnt find user", null);
+                }
+                    
+            }
+            catch (Exception ex) {
+                return (false, $"{ex}", null);
+            }
+           
+            
+        }
     }
 }
 

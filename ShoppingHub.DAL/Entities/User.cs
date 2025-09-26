@@ -1,10 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShoppingHub.DAL.Entities
 {
@@ -22,15 +16,9 @@ namespace ShoppingHub.DAL.Entities
         public List<ProductRating> Ratings { get; private set; } = new List<ProductRating>();
 
         public User (
-            //string userName, 
-            //string Email ,
-            //string Phone ,
             string Role ,
             string ImagePath, 
             string Address,string createdOn) {
-            //this.UserName = userName;
-            //this.Email = Email;
-            //this.PhoneNumber = Phone;
             this.Role = Role;
             this.ImagePath = ImagePath;
             this.Address = Address;
@@ -42,18 +30,14 @@ namespace ShoppingHub.DAL.Entities
 
         public User()
         {
-        }
-
-        public bool update(User user)
+        }        
+        
+        public void updateProfile(string userName,string image,string address)
         {
-            this.UserName = user.UserName;
-            this.Email = user.Email;
-            this.PhoneNumber = user.PhoneNumber;
-            this.Role = user.Role;
-            this.ImagePath = user.ImagePath;
-            this.Address = user.Address;
-            this.isDeleted = user.isDeleted;
-            return true;
+            this.ImagePath=image;
+            this.Address=address;
+            this.UserName = userName;
+            this.lastUpdatedOn = DateTime.Now.ToString();
         }
         public bool delete() { 
             return this.isDeleted=true;
