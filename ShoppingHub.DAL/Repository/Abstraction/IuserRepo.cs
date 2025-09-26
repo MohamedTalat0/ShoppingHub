@@ -8,7 +8,7 @@ namespace ShoppingHub.DAL.Repository.Abstraction
         List<User> GetAllUsers();
         User GetById(string Id);
         bool Create(User user);
-        bool Update(User user);
+        //bool Update(User user);
         bool Delete(string id);
         bool Restore(string id);
     }

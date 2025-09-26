@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ShoppingHub.DAL.DataBase;
 
@@ -11,9 +12,11 @@ using ShoppingHub.DAL.DataBase;
 namespace ShoppingHub.DAL.Migrations
 {
     [DbContext(typeof(shoppingHubDbContext))]
-    partial class shoppingHubDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250922223935_convertorder_useridTybe")]
+    partial class convertorder_useridTybe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -170,7 +173,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("CartItems", (string)null);
+                    b.ToTable("CartItems");
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.Category", b =>
@@ -187,7 +190,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.Order", b =>
@@ -239,7 +242,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.OrderItem", b =>
@@ -257,7 +260,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasIndex("OrderID");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.Product", b =>
@@ -275,10 +278,6 @@ namespace ShoppingHub.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DescriptionAR")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ImagePath")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -290,10 +289,6 @@ namespace ShoppingHub.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProductNameAR")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
@@ -301,7 +296,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasIndex("CATID");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.ProductRating", b =>
@@ -319,7 +314,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("ProductRatings", (string)null);
+                    b.ToTable("ProductRatings");
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.User", b =>

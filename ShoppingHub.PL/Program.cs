@@ -1,9 +1,12 @@
+using System.Globalization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using ShoppingHub.BLL.Mapper;
+using ShoppingHub.BLL.Helper;
 using ShoppingHub.BLL.Service.Implementaion;
 using ShoppingHub.BLL.Services;
 using ShoppingHub.BLL.Services.Abstraction;
@@ -16,7 +19,6 @@ using ShoppingHub.DAL.Repository.Abstraction;
 using ShoppingHub.DAL.Repository.Implementation;
 using ShoppingHub.PL.Language;
 using ShoppingHub.Serviese;
-using System.Globalization;
 
 namespace ShoppingHub.PL
 {
@@ -63,6 +65,8 @@ namespace ShoppingHub.PL
 
             builder.Services.AddDbContext<shoppingHubDbContext>(options =>
             options.UseSqlServer(connectionString));
+            builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
+
             builder.Services.AddScoped<IuserRepo, UserRepo>();
 
             builder.Services.AddScoped<IUserService, UserService>();
@@ -74,6 +78,8 @@ namespace ShoppingHub.PL
             builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
             builder.Services.AddScoped<IProductRepo, ProductRepo>();
             builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<IOrderRepo, OrderRepo>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<IProductRatingRepo, ProductRatingRepo>();
             builder.Services.AddScoped<IProductRatingService, ProductRatingService>();
             builder.Services.AddScoped<ICartService, CartService>();
@@ -83,7 +89,7 @@ namespace ShoppingHub.PL
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                string[] roleNames = { "Admin", "User" };
+                string[] roleNames = { Role.ADMIN, Role.USER};
 
                 foreach (var roleName in roleNames)
                 {
