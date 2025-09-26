@@ -7,7 +7,9 @@ using Microsoft.Extensions.Options;
 using ShoppingHub.BLL.Service.Implementaion;
 using ShoppingHub.BLL.Services;
 using ShoppingHub.BLL.Services.Abstraction;
+using ShoppingHub.BLL.Services.Abstraction.Ratings;
 using ShoppingHub.BLL.Services.Implementation;
+using ShoppingHub.BLL.Services.Implementation.ProductRatingService;
 using ShoppingHub.DAL.DataBase;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
@@ -71,6 +73,9 @@ namespace ShoppingHub.PL
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
             builder.Services.AddScoped<IProductRepo, ProductRepo>();
+            builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<IProductRatingRepo, ProductRatingRepo>();
+            builder.Services.AddScoped<IProductRatingService, ProductRatingService>();
             builder.Services.AddScoped<ICartService, CartService>();
             var app = builder.Build();
 

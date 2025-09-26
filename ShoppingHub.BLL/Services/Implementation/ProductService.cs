@@ -1,5 +1,6 @@
 ﻿using ShoppingHub.BLL.Helper;
 using ShoppingHub.BLL.ModelVm;
+using ShoppingHub.BLL.ModelVm.RatingVM;
 using ShoppingHub.BLL.Services.Abstraction;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
@@ -16,11 +17,12 @@ namespace ShoppingHub.BLL.Services.Implementation
     {
         private readonly IProductRepo _productRepo;
         private readonly IcategoryRepo _categoryRepo;
-
-        public ProductService(IProductRepo repo, IcategoryRepo categoryRepo)
+        private readonly IProductRatingRepo _ratingrepo;
+        public ProductService(IProductRepo repo, IcategoryRepo categoryRepo, IProductRatingRepo ratingrepo)
         {
             _productRepo = repo;
             _categoryRepo = categoryRepo;
+            _ratingrepo = ratingrepo;
         }
 
         public (bool, string, GetAllProductsVM ) GetProducts(GetAllProductsVM vm)
@@ -69,8 +71,8 @@ namespace ShoppingHub.BLL.Services.Implementation
                     ProductName = p.ProductName,
                     Price = p.Price,
                     ImagePath = p.ImagePath,
-                    CategoryID=p.CategoryId
-                    //ProductNameAR=p.ProductNameAR
+                    CategoryID=p.CategoryId,
+                    ProductNameAR = p.ProductNameAR
                 }).ToList();
 
              
@@ -97,8 +99,8 @@ namespace ShoppingHub.BLL.Services.Implementation
     return new EditProductVM
     {
         ProductID = product.ProductId,
-        //ProductName = product.ProductName,
-        //ProductNameAR=product.ProductNameAR,
+        ProductName = product.ProductName,
+        ProductNameAR = product.ProductNameAR,
         Price = product.Price,
         Quantity = product.Quantity,
         Description = product.Description,
@@ -123,8 +125,8 @@ public (bool, string?) EditProduct(EditProductVM vm)
 
         product.Update(
             vm.ProductName,
-            //vm.ProductNameAR,
-            //vm.DescriptionAR,
+            vm.ProductNameAR,
+            vm.DescriptionAR,
             vm.Price,
             vm.Quantity,
             vm.Description,
@@ -151,11 +153,12 @@ public (bool, string?) EditProduct(EditProductVM vm)
                 var dbproduct = new Product(
                     vm.ID,
                     vm.ProductName,
-                    //vm.ProductNameAR,
-                    //vm.DescriptionAR,
+                    vm.ProductNameAR,
+                    vm.DescriptionAR,
                     vm.Price,
                     vm.Quantity,
                     vm.Description,
+                  
                     Load.UploadFile("Files/images/products", vm.ImageFile),
                     vm.CategoryId
                  
@@ -174,6 +177,7 @@ public (bool, string?) EditProduct(EditProductVM vm)
         {
             try
             {
+                var ratings = _ratingrepo.GetRatingsforProduct(productId);
                 var product = _productRepo.GetProductByID(productId);
                 if (product == null)
                 {
@@ -183,13 +187,19 @@ public (bool, string?) EditProduct(EditProductVM vm)
                 var vm = new ProductDetailsVM
                 {
                     ProductName = product.ProductName,
-                    //ProductNameAR=product.ProductNameAR,
-                    //DescriptionAR=product.DescriptionAR,
+                    ProductNameAR = product.ProductNameAR,
+                    DescriptionAR = product.DescriptionAR,
                     Price = product.Price,
                     Description = product.Description,
                     ImagePath = product.ImagePath,
-                    CategoryName = product.Category?.Name ?? "Uncategorized"
-                    // AverageRating = product.Ratings.Any() ? product.Ratings.Average(r => r.Rate) : 0
+                    CategoryName = product.Category?.Name ?? "Uncategorized",
+                    AverageRating = ratings.Any() ? ratings.Average(r => r.Rate) : 0,
+                    Ratings = ratings.Select(r => new PRatingVM
+                       {
+                           UserName = r.User.UserName,
+                           Rate = r.Rate,
+                           Comment = r.Comment
+                       }).ToList()
                 };
 
                 return (false, "", vm);

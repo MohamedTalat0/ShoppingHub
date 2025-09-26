@@ -34,8 +34,8 @@ namespace ShoppingHub.BLL.ModelVm
     {
         public int ProductID { get; set; }
         public string ProductName { get; set; }
-        //public string ProductNameAR { get; set; }
-        
+        public string ProductNameAR { get; set; }
+
         public double Price { get; set; }
 
         public string ImagePath { get; set; }

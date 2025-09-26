@@ -20,5 +20,16 @@ namespace ShoppingHub.DAL.Entities
         [Range(1, 5)]
         public int Rate { get; private set; }
         public string? Comment { get; set; }
+
+
+        public ProductRating(string userId, int productId, int rate, string? comment)
+        {
+            UserID = userId;
+            ProductID = productId;
+            Rate = rate;
+            Comment = comment;
+        }
+
+        private ProductRating() { }
     }
 }

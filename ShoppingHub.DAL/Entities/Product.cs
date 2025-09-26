@@ -60,8 +60,8 @@ namespace ShoppingHub.DAL.Entities
         public Product(
             int productid,
         string ProductName,
-        //string productnamear,
-        //    string descriptionar,
+        string productnamear,
+            string descriptionar,
         double Price,
         int Quantity,
         string Description,
@@ -72,8 +72,8 @@ namespace ShoppingHub.DAL.Entities
         {
             this.ProductId = productid;
             this.ProductName = ProductName;
-            //this.ProductNameAR = productnamear;
-            //this.DescriptionAR = descriptionar;
+            this.ProductNameAR = productnamear;
+            this.DescriptionAR = descriptionar;
 
             this.Price = Price;
             this.Description = Description;
@@ -89,8 +89,8 @@ namespace ShoppingHub.DAL.Entities
 
         public bool Update
             (string productName,
-            // string productnamear,
-            //string descriptionar,
+             string productnamear,
+            string descriptionar,
             double price,
             int quantity,
             string description,
@@ -98,8 +98,8 @@ namespace ShoppingHub.DAL.Entities
           int? id)
         {
             this.ProductName = productName;
-            //this.ProductNameAR = productnamear;
-            //this.DescriptionAR = descriptionar;
+            this.ProductNameAR = productnamear;
+            this.DescriptionAR = descriptionar;
 
             this.Price = price;
             this.Quantity = quantity;
