@@ -444,4 +444,13 @@
   <data name="?" xml:space="preserve">
     <value>؟</value>
   </data>
+  <data name="View Details" xml:space="preserve">
+    <value>عرض التفاصيل </value>
+  </data>
+  <data name="No products available matching your criteria." xml:space="preserve">
+    <value>لا توجد منتجات متاحة تطابق معاييرك.</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>الملف الشخصي</value>
+  </data>
 </root>

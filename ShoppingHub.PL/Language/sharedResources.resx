@@ -444,4 +444,13 @@
   <data name="?" xml:space="preserve">
     <value>?</value>
   </data>
+  <data name="View Details" xml:space="preserve">
+    <value>View Details</value>
+  </data>
+  <data name="No products available matching your criteria." xml:space="preserve">
+    <value>No products available matching your criteria.</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
 </root>
