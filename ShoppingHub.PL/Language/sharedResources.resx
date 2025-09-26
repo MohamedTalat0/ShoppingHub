@@ -333,4 +333,22 @@
   <data name="There is a problem in adding item!!" xml:space="preserve">
     <value>There is a problem in adding item!!</value>
   </data>
+  <data name="Address must not be empty" xml:space="preserve">
+    <value>Address must not be empty</value>
+  </data>
+  <data name="Email must not be empty" xml:space="preserve">
+    <value>Email must not be empty</value>
+  </data>
+  <data name="Invalid UserName Or Password" xml:space="preserve">
+    <value>Invalid UserName Or Password</value>
+  </data>
+  <data name="Name must not be empty" xml:space="preserve">
+    <value>Name must not be empty</value>
+  </data>
+  <data name="Password must not be empty" xml:space="preserve">
+    <value>Password must not be empty</value>
+  </data>
+  <data name="Phone number must not be empty" xml:space="preserve">
+    <value>Phone number must not be empty</value>
+  </data>
 </root>

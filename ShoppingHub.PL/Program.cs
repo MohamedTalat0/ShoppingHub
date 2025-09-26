@@ -1,4 +1,5 @@
 using System.Globalization;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using ShoppingHub.BLL.Mapper;
+using Hangfire;
 using ShoppingHub.BLL.Service.Implementaion;
 using ShoppingHub.BLL.Services.Abstraction;
 using ShoppingHub.BLL.Services.Implementation;
@@ -32,9 +34,6 @@ namespace ShoppingHub.PL
                     options.AccessDeniedPath = new PathString("/    Account/Login");
                 });
 
-            //builder.Services.AddIdentityCore<User>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<shoppingHubDbContext>()
-            //    .AddTokenProvider<DataProtectorTokenProvider<User>>(TokenOptions.DefaultProvider);
 
             builder.Services.AddIdentity<User, IdentityRole>(options =>
             {
@@ -45,11 +44,12 @@ namespace ShoppingHub.PL
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 8;
                 options.Password.RequiredUniqueChars = 0;
+                options.SignIn.RequireConfirmedAccount = true;
             })
             .AddEntityFrameworkStores<shoppingHubDbContext>()
             .AddDefaultTokenProviders() ;
 
-
+            var configuration = builder.Configuration;
             // Add services to the container.
             builder.Services.AddControllersWithViews().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
               .AddDataAnnotationsLocalization(options =>
@@ -63,6 +63,9 @@ namespace ShoppingHub.PL
             options.UseSqlServer(connectionString));
             builder.Services.AddAutoMapper(x => x.AddProfile(new DomainProfile()));
 
+
+            builder.Services.AddHangfire(x => x.UseSqlServerStorage(connectionString));
+            builder.Services.AddHangfireServer();
             builder.Services.AddScoped<IuserRepo, UserRepo>();
 
             builder.Services.AddScoped<IUserService, UserService>();
@@ -71,8 +74,9 @@ namespace ShoppingHub.PL
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<IOrderRepo, OrderRepo>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddTransient<IEmailSender, EmailConfirmeServer>();
             var app = builder.Build();
-
+           
             using (var scope = app.Services.CreateScope())
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
@@ -124,6 +128,7 @@ namespace ShoppingHub.PL
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+            app.UseHangfireDashboard("/hangfire");
 
             app.Run();
         }

@@ -333,4 +333,22 @@
   <data name="There is a problem in adding item!!" xml:space="preserve">
     <value>حدث خطا اثناء اضافه العنصر للعربة !!!</value>
   </data>
+  <data name="Address must not be empty" xml:space="preserve">
+    <value>يجب ادخال العنوان</value>
+  </data>
+  <data name="Email must not be empty" xml:space="preserve">
+    <value>يجب ادخال الايميل</value>
+  </data>
+  <data name="Invalid UserName Or Password" xml:space="preserve">
+    <value>خطأ في اسم المستخدم او كلمه السر</value>
+  </data>
+  <data name="Name must not be empty" xml:space="preserve">
+    <value>يجب ادخال الاسم</value>
+  </data>
+  <data name="Password must not be empty" xml:space="preserve">
+    <value>يجب ادخال كلمة السر</value>
+  </data>
+  <data name="Phone number must not be empty" xml:space="preserve">
+    <value>يجب ادخال رقم الهاتف</value>
+  </data>
 </root>

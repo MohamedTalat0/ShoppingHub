@@ -8,7 +8,7 @@
 @if (ViewBag.ErrorMessage != null)
 {
     <div class="alert alert-danger">
-        @ViewBag.ErrorMessage
+       @SharedLocalizer[$"{@ViewBag.ErrorMessage}"]
     </div>
 }
 @model LoginUserVM
@@ -255,8 +255,7 @@
 
 <div class="login-container">
     <div class="form-header">
-        <h2><i class="fas fa-user-plus"></i> @SharedLocalizer["Signup"]</h2>
-        <p>@SharedLocalizer["Signup"]</p>
+        <h2> @SharedLocalizer["Signup"]</h2>
     </div>
 
     <form asp-action="Login" asp-controller="Account" method="post"  id="LoginForm">
@@ -286,7 +285,7 @@
         
 
         <button type="submit" class="btn-login">
-            <i class="fas fa-user-plus"></i> @SharedLocalizer["SignUpBtn"]
+            @SharedLocalizer["SignUpBtn"]
         </button>
     </form>
 
@@ -300,6 +299,22 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+        <script>
+    function togglePassword() {
+        const passwordInput = document.getElementById("Password");
+        const passwordIcon = document.getElementById("passwordIcon");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            passwordIcon.classList.remove("fa-eye");
+            passwordIcon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            passwordIcon.classList.remove("fa-eye-slash");
+            passwordIcon.classList.add("fa-eye");
+        }
+    }
+</script>
 }
     
 
