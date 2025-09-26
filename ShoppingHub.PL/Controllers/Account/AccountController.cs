@@ -86,7 +86,7 @@ namespace ShoppingHub.PL.Controllers.Account
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("GetAllProducts", "Product");
             }
             else
             {              

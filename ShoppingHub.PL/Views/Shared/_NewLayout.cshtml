@@ -431,7 +431,7 @@
     <!-- Header -->
     <header class="header">
         <div class="header-container">
-            @Html.ActionLink("ShopHub", "Index", "Home", null, new { @class = "logo" })
+            @Html.ActionLink("ShopHub", "GetAllProducts", "Product", null, new { @class = "logo" })
 
             @using (Html.BeginForm("Search", "Products", FormMethod.Get, new { @class = "search-bar" }))
             {
@@ -509,11 +509,11 @@
     </header>
 
     <!-- Navigation -->
-    <nav class="navigation">
+   @*  <nav class="navigation">
         <div class="nav-container">
             <ul class="nav-menu">
-                <li>@Html.ActionLink(@SharedLocalizer["Home"], "Index", "Home")</li>
-                <li class="dropdown">
+                <li>@Html.ActionLink(@SharedLocalizer["Home"], "GetAllProducts", "Product")</li>
+                @* <li class="dropdown">
                     <a href="@Url.Action("Categories", "Products")">
                         @SharedLocalizer["Categories"] <i class="fas fa-chevron-down"></i>
                     </a>
@@ -539,9 +539,9 @@
                 <li>@Html.ActionLink(@SharedLocalizer["NewArrivals"], "NewArrivals", "Products")</li>
                 <li>@Html.ActionLink(@SharedLocalizer["Brands"], "Brands", "Products")</li>
                 <li>@Html.ActionLink(@SharedLocalizer["Contact"], "Contact", "Home")</li>
-            </ul>
+            </ul> 
         </div>
-    </nav>
+    </nav> *@
 
     <!-- Main Content -->
     <main class="main-container">

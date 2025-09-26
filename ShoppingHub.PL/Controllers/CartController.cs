@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ShoppingHub.BLL.ModelVm.Cart;
 using ShoppingHub.BLL.Services.Abstraction;
 
@@ -18,9 +19,10 @@ namespace ShoppingHub.PL.Controllers
             return ViewCart();
         }
         [HttpPost]
+        [Authorize]
         public IActionResult AddToCart( CartItemVM cartItem)
         {
-            var userId = "0880541f-2434-4a01-a913-c247e56de975";
+            var userId = "115ac2f6-b4af-451a-a618-5952578730cc";
             var result = _cartService.AddToCart(userId, cartItem);
             if (result.Item1 == true)
                 ViewBag.Message = result.Item2;
@@ -29,7 +31,7 @@ namespace ShoppingHub.PL.Controllers
         [HttpPost]
         public IActionResult UpdateQuantity(int productID, int quantity)
         {
-            var userId = "0880541f-2434-4a01-a913-c247e56de975";
+            var userId = "115ac2f6-b4af-451a-a618-5952578730cc";
             var result = _cartService.UpdateQuantity(productID, userId, quantity);
             if (result.Item1 == true)
                 ViewBag.Message = result.Item2;
@@ -38,7 +40,7 @@ namespace ShoppingHub.PL.Controllers
         [HttpPost]
         public IActionResult RemoveItem(int productID)
         {
-            var userId = "0880541f-2434-4a01-a913-c247e56de975";
+            var userId = "115ac2f6-b4af-451a-a618-5952578730cc";
             var result = _cartService.RemoveItem(userId, productID);
             if (result.Item1 == true)
                 ViewBag.Message = result.Item2;
@@ -47,7 +49,7 @@ namespace ShoppingHub.PL.Controllers
         [HttpPost]
         public IActionResult ClearCart()
         {
-            var userId = "0880541f-2434-4a01-a913-c247e56de975";
+            var userId = "115ac2f6-b4af-451a-a618-5952578730cc";
             var result = _cartService.ClearCart(userId);
             if (result.Item1 == true)
                 ViewBag.Message = result.Item2;
@@ -56,7 +58,7 @@ namespace ShoppingHub.PL.Controllers
         [HttpGet]
         public IActionResult ViewCart()
         {
-            var userId = "0880541f-2434-4a01-a913-c247e56de975";
+            var userId = "115ac2f6-b4af-451a-a618-5952578730cc";
             var result = _cartService.ViewCart(userId);
             if (result.Item1 == true)
             {

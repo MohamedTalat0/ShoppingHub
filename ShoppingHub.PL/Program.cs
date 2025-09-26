@@ -137,9 +137,13 @@ namespace ShoppingHub.PL
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //app.MapControllerRoute(
+            //    name: "default",
+            //    pattern: "{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute(
-                name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+            name: "default",
+            "{controller=Product}/{action=GetAllProducts}/{id?}");
+
             app.UseHangfireDashboard("/hangfire");
 
             app.Run();

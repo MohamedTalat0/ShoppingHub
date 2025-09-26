@@ -185,8 +185,7 @@
                         {
                             <div class="cart-item">
                                 <div class="col-2">
-                                    @* <img src="~~/Files/@item.ImagePath" class="product-img"> *@
-                                    <img src="~/Files/product.jpg" class="product-img">
+                                    <img src="~~/Files/Products/@item.ImagePath" class="product-img">
 
                                 </div>
                                 <div class="col-4">
@@ -242,7 +241,8 @@
                 }
             </div>
         </div>
-        @if (Model.CartItems != null){
+        @if (Model != null && Model.CartItems != null)
+        {
         <div class="col-lg-3">
             <div class="summary-container">
                 <h5 class="fw-bold">@SharedLocalizer["Order Summary"]</h5>
