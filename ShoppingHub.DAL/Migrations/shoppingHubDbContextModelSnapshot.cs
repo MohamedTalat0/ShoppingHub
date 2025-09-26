@@ -170,7 +170,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("CartItems");
+                    b.ToTable("CartItems", (string)null);
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.Category", b =>
@@ -187,7 +187,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.Order", b =>
@@ -239,7 +239,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.OrderItem", b =>
@@ -257,7 +257,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasIndex("OrderID");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.Product", b =>
@@ -301,7 +301,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasIndex("CATID");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.ProductRating", b =>
@@ -319,7 +319,7 @@ namespace ShoppingHub.DAL.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("ProductRatings");
+                    b.ToTable("ProductRatings", (string)null);
                 });
 
             modelBuilder.Entity("ShoppingHub.DAL.Entities.User", b =>

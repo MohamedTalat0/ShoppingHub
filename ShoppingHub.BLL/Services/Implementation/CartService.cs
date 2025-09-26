@@ -19,14 +19,47 @@ namespace ShoppingHub.BLL.Services.Implementation
             this._cartItemRepo = _cartItemRepo;
             this._productRepo = _productRepo;
         }
-        public (bool, string) AddToCart(string userID,CartItemVM cartitem)
+        //public (bool, string) AddToCart(string userID,CartItemVM cartitem)
+        //{
+        //    try
+        //    {
+        //        var item = _cartItemRepo.GetItem(userID, cartitem.ProductID);
+        //        if (item != null)
+        //        {
+        //            var product = _productRepo.GetProductByID(item.ProductID);
+        //            int maxQuantity = product.Quantity;
+        //            int newQuantity = 1 + item.Quantity;
+        //            if (newQuantity > maxQuantity)
+        //                return (true, "Quantity exceed the stock!!!!");
+        //            else
+        //            {
+        //                var result = _cartItemRepo.Update(item.UserID, item.ProductID, newQuantity);
+        //                return (false, null);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            var newCartItem = new CartItem(item.UserID, item.ProductID, item.Quantity);
+        //            var result = _cartItemRepo.Create(newCartItem);
+        //            if (result)
+        //                return (false, null);
+        //            else
+        //                return (true, "There is a problem in adding item!!");
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return (true, ex.Message);
+        //    }
+        //}
+        public (bool, string) AddToCart(string userID, CartItemVM cartitem)
         {
             try
             {
                 var item = _cartItemRepo.GetItem(userID, cartitem.ProductID);
                 if (item != null)
                 {
-                    var product = _productRepo.GetItem(item.ProductID);
+                    var product = _productRepo.GetProductByID(item.ProductID);
                     int maxQuantity = product.Quantity;
                     int newQuantity = 1 + item.Quantity;
                     if (newQuantity > maxQuantity)
@@ -39,7 +72,7 @@ namespace ShoppingHub.BLL.Services.Implementation
                 }
                 else
                 {
-                    var newCartItem = new CartItem(item.UserID, item.ProductID, item.Quantity);
+                    var newCartItem = new CartItem(userID, cartitem.ProductID, cartitem.Quantity);
                     var result = _cartItemRepo.Create(newCartItem);
                     if (result)
                         return (false, null);
@@ -52,7 +85,6 @@ namespace ShoppingHub.BLL.Services.Implementation
                 return (true, ex.Message);
             }
         }
-
         public (bool, string) ClearCart(string userID)
         {
             try
@@ -110,7 +142,7 @@ namespace ShoppingHub.BLL.Services.Implementation
                 var item = _cartItemRepo.GetItem(userId, productID);
                 if (item != null)
                 {
-                    var product = _productRepo.GetItem(productID);
+                    var product = _productRepo.GetProductByID(productID);
                     int maxQuantity = product.Quantity;
                     int newQuantity = quantity + item.Quantity;
                     if (newQuantity > maxQuantity)
@@ -150,7 +182,7 @@ namespace ShoppingHub.BLL.Services.Implementation
                     int numOfItems = 0;
                     foreach (var item in result)
                     {
-                        var product = _productRepo.GetItem(item.ProductID);
+                        var product = _productRepo.GetProductByID(item.ProductID);
                         double ItemTotalPrice = item.Quantity * product.Price;
                         items.Add(new ViewCartItemVM()
                         {

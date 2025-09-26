@@ -4,12 +4,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using NuGet.Common;
+using Microsoft.Data.SqlClient;
 using ShoppingHub.BLL.Helper;
 using ShoppingHub.BLL.ModelVm;
 using ShoppingHub.BLL.ModelVM;
-using ShoppingHub.BLL.Service.Implementaion;
 using ShoppingHub.DAL.Entities;
-using ShoppingHub.Serviese;
 
 namespace ShoppingHub.PL.Controllers.Account
 {
@@ -36,13 +35,14 @@ namespace ShoppingHub.PL.Controllers.Account
             {
                 return View(usr);
             }
-            var user = new User("User", Load.UploadFile("Files/images/usersImages", usr.profileImage), usr.Address, usr.createdOn.ToString())
+            var user = new User(Role.USER, Load.UploadFile("Files/images/usersImages",
+                usr.profileImage!), usr.Address, usr.createdOn.ToString())
             {
-                UserName =usr.Name,
-                Email =usr.Email,
+                UserName = usr.Name,
+                Email = usr.Email,
                 PhoneNumber = usr.PhoneNumber,
             };
-            var result = await userManger.CreateAsync(user, usr.Password);
+            IdentityResult? result = await userManger.CreateAsync(user, usr.Password);
 
             if (result.Succeeded)
             {
@@ -64,7 +64,7 @@ namespace ShoppingHub.PL.Controllers.Account
                 }
             }
             return View(usr);
-          
+
         }
 
 
@@ -73,6 +73,8 @@ namespace ShoppingHub.PL.Controllers.Account
         {
             return View();
         }
+
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginUserVM usr)
         {
@@ -113,6 +115,137 @@ namespace ShoppingHub.PL.Controllers.Account
             return View();
         }
         
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            // Get the current user
+            var currentUser = await this.userManger.GetUserAsync(User);
+            UserProfileVM result = new UserProfileVM();
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                result.Address = currentUser.Address;
+                result.phoneNumber = currentUser.PhoneNumber!;
+                result.userName = currentUser.UserName!;
+                result.totalOrders = currentUser.Orders.Count;
+                result.email = currentUser.Email!;
+                result.userImage = currentUser.ImagePath;
+            }
+
+
+            return View(result);
+        }
+        [HttpGet]
+        public async Task<IActionResult> EditProfile()
+        {
+            // Get the current user
+            var currentUser = await this.userManger.GetUserAsync(User);
+            EditUserVM result = new EditUserVM();
+            if (currentUser == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            else
+            {
+                result.Address = currentUser.Address;
+                result.PhoneNumber = currentUser.PhoneNumber!;
+                result.Name = currentUser.UserName!;
+                result.Email = currentUser.Email!;
+                result.oldProfileImage = currentUser.ImagePath;
+            }
+            return View(result);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(EditUserVM usr)
+        {
+            // Temporarily use full qualified name to test
+            var currentUser = await this.userManger.GetUserAsync(User) as ShoppingHub.DAL.Entities.User;
+            if (currentUser == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Update phone number
+            if (usr.PhoneNumber != currentUser.PhoneNumber)
+            {
+                var phoneResult = await userManger.SetPhoneNumberAsync(currentUser, usr.PhoneNumber);
+            }
+            if (usr.Email != currentUser.Email)
+            {
+                var emailToken = await userManger.GenerateChangeEmailTokenAsync(currentUser, usr.Email);
+                var emailResult = await userManger.ChangeEmailAsync(currentUser, usr.Email, emailToken);
+
+            }
+            bool test1 = false;
+            if (usr.newProfileImage != null)
+            {
+                if (usr.oldProfileImage != null)
+                {
+                    var test = Load.RemoveFile("Files/images/usersImages", usr.oldProfileImage);
+                    Console.WriteLine(test);
+                    test1 = true;
+                }
+            }
+            Console.WriteLine(test1);
+            currentUser.updateProfile(usr.Name, usr.newProfileImage != null ? Load.UploadFile("Files/images/usersImages", usr.newProfileImage) : usr.oldProfileImage, usr.Address);
+
+
+            var updateResult = await userManger.UpdateAsync(currentUser);
+
+
+            TempData["SuccessMessage"] = "Profile updated successfully!";
+            return RedirectToAction("Profile");
+
+
+
+        }
+        /*   [HttpGet]
+           public async Task<IActionResult> ForgetPassword()
+           {
+               return View();
+           }*/
+
+        /*
+                [HttpPost]*/
+        /*  public async Task<IActionResult> ForgetPassword(string email)
+          {
+              var user = await userManger.FindByEmailAsync(email);
+
+              if (user != null)
+              {
+                  var token = await userManger.GeneratePasswordResetTokenAsync(user);
+
+                  var passwordResetLink = Url.Action("ResetPassword", "Account", new { Email = email, Token = token }, Request.Scheme);
+
+                   MailSender.Mail("Password Reset", passwordResetLink);
+
+                  //logger.Log(LogLevel.Warning, passwordResetLink);
+
+                  return RedirectToAction("ConfirmForgetPassword");
+              }
+
+              return RedirectToAction("ConfirmForgetPassword");
+          }
+          [HttpGet]*/
+        /* public async Task<IActionResult> ResetPassword()
+         {
+             return View();
+         }
+ */
+
+        /*     [HttpPost]*/
+        /*  public async Task<IActionResult> ResetPassword(string email)
+          {
+
+
+          }*/
+
+
+
 
     }
 }
+

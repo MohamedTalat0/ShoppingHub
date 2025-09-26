@@ -8,9 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using ShoppingHub.BLL.Mapper;
 using Hangfire;
+using ShoppingHub.BLL.Helper;
 using ShoppingHub.BLL.Service.Implementaion;
+using ShoppingHub.BLL.Services;
 using ShoppingHub.BLL.Services.Abstraction;
+using ShoppingHub.BLL.Services.Abstraction.Ratings;
 using ShoppingHub.BLL.Services.Implementation;
+using ShoppingHub.BLL.Services.Implementation.ProductRatingService;
 using ShoppingHub.DAL.DataBase;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
@@ -69,19 +73,27 @@ namespace ShoppingHub.PL
             builder.Services.AddScoped<IuserRepo, UserRepo>();
 
             builder.Services.AddScoped<IUserService, UserService>();
+
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductRepo, ProductRepo>();
+            builder.Services.AddScoped<IcategoryRepo, categoryRepo>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<ICartItemRepo, CartItemRepo>();
             builder.Services.AddScoped<IProductRepo, ProductRepo>();
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<IOrderRepo, OrderRepo>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddTransient<IEmailSender, EmailConfirmeServer>();
+            builder.Services.AddScoped<IProductRatingRepo, ProductRatingRepo>();
+            builder.Services.AddScoped<IProductRatingService, ProductRatingService>();
+            builder.Services.AddScoped<ICartService, CartService>();
             var app = builder.Build();
            
             using (var scope = app.Services.CreateScope())
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                string[] roleNames = { "Admin", "User" };
+                string[] roleNames = { Role.ADMIN, Role.USER};
 
                 foreach (var roleName in roleNames)
                 {

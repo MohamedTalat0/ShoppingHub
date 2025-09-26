@@ -20,6 +20,16 @@ namespace ShoppingHub.DAL.DataBase
             modelBuilder.Entity<CartItem>().HasKey(a=> new {a.ProductID,a.UserID });
             modelBuilder.Entity<OrderItem>().HasKey(a => new { a.ProductID, a.OrderID });
             modelBuilder.Entity<ProductRating>().HasKey(a => new { a.ProductID, a.UserID });
+            
+
+            modelBuilder.Entity<Category>().HasData(
+                new Category { Id = 1, Name = "Electronics" },
+                new Category { Id = 2, Name = "Clothing" },
+                new Category { Id = 3, Name = "Books" },
+                new Category { Id = 4, Name = "Home & Kitchen" },
+                  new Category { Id = 5, Name = "Sports" }
+            );
+
 
         }
         public DbSet<User> Users { get; set; }
