@@ -71,26 +71,7 @@ namespace ShoppingHub.DAL.Repository.Implementation
             }
         }
 
-        public bool Update(User user)
-        {
-            try
-            {
-                var result = _db.Users.FirstOrDefault(a => a.Id == user.Id);
-                if (result != null)
-                {
-
-                    if (result.update(user))
-                        _db.SaveChanges();
-                    return true;
-                }
-                return false;
-            }
-
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        
 
         public bool Restore(string id)
         {
