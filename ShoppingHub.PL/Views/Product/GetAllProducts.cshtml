@@ -108,136 +108,345 @@
 
 @{
     ViewData["Title"] = "Products";
-    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    Layout = "~/Views/Shared/_NewLayout.cshtml"; 
     var isRtl = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ar";
 }
 
-<div class="container my-4" style="background: linear-gradient(135deg, #dbeafe, #f0f9ff); border-radius: 12px; padding: 20px;">
-    <h2 class="mb-4 text-center" style="font-size: 2.5rem; color: #4c1d95; font-weight: bold; letter-spacing: 1px;">
+<style>
+    /* Global Product Colors & Variables */
+    :root {
+        --primary-color: #667eea;
+        --secondary-color: #764ba2;
+        --accent-red: #ff6b6b; /* For price */
+        --text-dark: #333;
+        --text-muted: #6c757d;
+        --white: #ffffff;
+        --light-gray: #f8f9fa;
+        --medium-gray: #e9ecef;
+
+        --card-bg: var(--white);
+        --card-border: var(--medium-gray);
+        --card-shadow-light: 0 4px 12px rgba(0, 0, 0, 0.05);
+        --card-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+        background-color: var(--light-gray);
+    }
+
+    /* Page Header */
+    .page-title {
+        font-size: 2.8rem; /* Slightly larger */
+        color: var(--primary-color);
+        font-weight: 800; /* Bolder */
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.08);
+        margin-bottom: 3rem; /* More space */
+    }
+
+    /* Products Container */
+    .products-container {
+        padding: 30px 20px;
+        background-color: var(--white); /* Lighter background for content area */
+        border-radius: 12px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07); /* A subtle lift */
+    }
+    
+    /* ---------------------- Filter Section ---------------------- */
+    .filter-section {
+        background-color: var(--light-gray);
+        border-radius: 10px;
+        padding: 1.5rem;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .filter-section .form-control,
+    .filter-section .form-select {
+        border-radius: 8px;
+        border: 1px solid #ced4da;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .filter-section .form-control:focus,
+    .filter-section .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.25);
+    }
+
+    .filter-section .input-group-text {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border-color: var(--primary-color);
+        border-radius: 8px 0 0 8px;
+    }
+    html[dir='rtl'] .filter-section .input-group-text {
+        border-radius: 0 8px 8px 0;
+    }
+
+    .filter-section .btn-apply-filter {
+        background-color: var(--primary-color);
+        color: var(--white);
+        border-color: var(--primary-color);
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        transition: background-color 0.2s, transform 0.2s;
+    }
+    .filter-section .btn-apply-filter:hover {
+        background-color: var(--secondary-color);
+        border-color: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+
+    /* ---------------------- Product Card (Final Revised) ---------------------- */
+
+    .product-card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        background-color: var(--card-bg);
+        box-shadow: var(--card-shadow-light);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative; /* Needed for positioning admin bar */
+    }
+
+    .product-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--card-shadow-hover);
+    }
+
+    /* Image Container */
+    .product-img-wrapper {
+        position: relative;
+        height: 250px; 
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f0f4f8;
+        border-bottom: 1px solid var(--card-border);
+    }
+
+    .product-img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        display: block;
+        transition: transform 0.4s ease;
+    }
+    
+    .product-card:hover .product-img {
+        transform: scale(1.03);
+    }
+
+    /* Admin Action Bar (New Position) */
+    .admin-actions-bar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        padding: 0.5rem;
+        background: rgba(0, 0, 0, 0.6); /* Dark semi-transparent background */
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.5rem;
+        z-index: 10;
+        opacity: 0; /* Hidden by default */
+        transition: opacity 0.3s ease;
+        border-radius: 12px 12px 0 0;
+    }
+    
+    /* Show Admin bar on Card Hover */
+    .product-card:hover .admin-actions-bar {
+        opacity: 1;
+    }
+
+    .admin-actions-bar .btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+        border-radius: 6px;
+        font-weight: 500;
+        color: var(--white);
+        transition: background-color 0.2s;
+    }
+    .admin-actions-bar .btn-edit {
+        background-color: #2196f3; /* Blue for Edit */
+    }
+    .admin-actions-bar .btn-edit:hover {
+        background-color: #0b7dda;
+    }
+    .admin-actions-bar .btn-delete {
+        background-color: #f44336; /* Red for Delete */
+    }
+    .admin-actions-bar .btn-delete:hover {
+        background-color: #d32f2f;
+    }
+
+
+    /* Card Body, Name, Price and Main Actions kept the same */
+    .product-card .card-body {
+        padding: 1.2rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    .product-name {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 0.6rem;
+        min-height: 2.4em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .product-price {
+        font-size: 1.6rem;
+        font-weight: 800;
+        color: var(--accent-red);
+        margin-bottom: 1.2rem;
+    }
+    
+    .product-actions-group {
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .product-actions-group .btn {
+        font-size: 0.95rem;
+        font-weight: 600;
+        border-radius: 8px;
+        padding: 0.7rem 1rem;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+    }
+
+    .btn-add-to-cart {
+        background-color: var(--primary-color);
+        color: var(--white);
+    }
+    .btn-add-to-cart:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .btn-view-details {
+        background-color: var(--white);
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    .btn-view-details:hover {
+        background-color: var(--primary-color);
+        color: var(--white);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+</style>
+
+<div class="products-container container my-4">
+    <h2 class="text-center page-title">
          @SharedLocalizer["Our Available Products"] 
     </h2>
 
-    <!-- Filter Toggle -->
-    <div class="accordion mb-4" id="filterAccordion">
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="filterHeading">
-                <button class="accordion-button bg-light text-purple fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
-                    <i class="bi bi-funnel"></i>  @SharedLocalizer["Filter Options"]
-                </button>
-            </h2>
-            <div id="filterCollapse" class="accordion-collapse collapse show">
-                <div class="accordion-body">
-                    <form asp-action="GetAllProducts" method="get" class="row g-3">
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <span class="input-group-text bg-purple text-white"><i class="bi bi-search"></i></span>
-                                <input type="text" asp-for="SearchTerm" class="form-control rounded-end" placeholder=@SharedLocalizer["Search products...."] />
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <select asp-for="SelectedCategoryId" class="form-select"
-                                    asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
-                                <option value="">@SharedLocalizer["-- All Categories --"]</option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-2">
-                            <input type="number" asp-for="MinPrice" class="form-control" placeholder=@SharedLocalizer["Min Price"] />
-                        </div>
-
-                        <div class="col-md-2">
-                            <input type="number" asp-for="MaxPrice" class="form-control" placeholder=@SharedLocalizer["Max Price"] />
-                        </div>
-
-                        <div class="col-md-1 d-grid">
-                            <button type="submit" class="btn btn-primary fw-bold">
-                                <i class="bi bi-search"></i> @SharedLocalizer["Filter"]
-                            </button>
-                        </div>
-
-                    </form>
+    <div class="filter-section mb-5">
+        <form asp-action="GetAllProducts" method="get" class="row g-3 align-items-center">
+            <div class="col-lg-4 col-md-6 col-12">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" asp-for="SearchTerm" class="form-control" placeholder=@SharedLocalizer["Search products...."] />
                 </div>
             </div>
-        </div>
+
+            <div class="col-lg-3 col-md-6 col-12">
+                <select asp-for="SelectedCategoryId" class="form-select"
+                        asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
+                    <option value="">@SharedLocalizer["-- All Categories --"]</option>
+                </select>
+            </div>
+
+            <div class="col-lg-2 col-md-6 col-12">
+                <input type="number" asp-for="MinPrice" class="form-control" placeholder=@SharedLocalizer["Min Price"] />
+            </div>
+
+            <div class="col-lg-2 col-md-6 col-12">
+                <input type="number" asp-for="MaxPrice" class="form-control" placeholder=@SharedLocalizer["Max Price"] />
+            </div>
+
+            <div class="col-lg-1 col-12 d-grid">
+                <button type="submit" class="btn btn-apply-filter">
+                    <i class="fas fa-filter"></i> @SharedLocalizer["Filter"]
+                </button>
+            </div>
+        </form>
     </div>
 
-    <!-- Products -->
     <div class="row">
         @if (Model.Products != null && Model.Products.Any())
         {
             foreach (var item in Model.Products)
             {
-                <div class="col-md-3 mb-4">
-                    <div class="card shadow-lg h-100 border-0"
-                         style="background: linear-gradient(135deg, #a78bfa, #60a5fa); border-radius: 16px;">
-                       
-                         <a asp-action="Details" asp-route-id="@item.ProductID">
+                <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
+                    <div class="product-card">
+                        
+                        @if (User.IsInRole("user")) 
+                        {
+                            <div class="admin-actions-bar">
+                                <a asp-action="Edit" asp-route-id="@item.ProductID"
+                                   class="btn btn-edit">
+                                    <i class="fas fa-edit"></i> @SharedLocalizer["Edit"]
+                                </a>
+
+                                <button type="button"
+                                        class="btn btn-delete delete-btn"
+                                        data-product-id="@item.ProductID"
+                                        data-product-name="@(isRtl ? item.ProductNameAR : item.ProductName)">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </div>
+                        }
+
+                        <a asp-action="Details" asp-route-id="@item.ProductID" class="product-img-wrapper">
                             <img src="@Url.Content(item.ImagePath)"
-                                 class="card-img-top mx-auto mt-3 rounded shadow"
-                                 alt="@(isRtl? item.ProductNameAR: item.ProductName)"
-                                 style="height:240px; width:90%; object-fit:cover; border-radius:12px;" />
+                                 class="product-img"
+                                 alt="@item.ProductName" />
                         </a>
                         
-                        <div class="card-body d-flex flex-column text-center text-white">
-                        
-
-                            @if (isRtl)
-                            {
-                                <h5 class="card-title fw-bold" style="font-size: 1.3rem;">@item.ProductNameAR</h5>
+                        <div class="card-body">
+                            @{
+                                var productName = isRtl ? item.ProductNameAR : item.ProductName;
                             }
-                            else
-                            {
-                                <h5 class="card-title fw-bold" style="font-size: 1.3rem;">@item.ProductName</h5>
-                            }
+                            <h5 class="product-name" title="@productName">
+                                @productName
+                            </h5>
+                            
+                            <p class="product-price">
+                                $@item.Price
+                            </p>
 
-                            <p class="card-text fw-bold" style="color: #bbf7d0; font-size: 1.2rem;">$@item.Price</p>
-
-                            <!-- Action Buttons -->
-                            <div class="d-flex justify-content-between mt-auto">
-                                <a asp-action="Edit" asp-route-id="@item.ProductID"
-                                   class="btn btn-sm" style="background-color:#0d6efd; color:white;">
-                                    <i class="bi bi-pencil"></i> @SharedLocalizer["Edit"]
-                                </a>
-
-                                <a asp-action="Details" asp-route-id="@item.ProductID" class="btn btn-info btn-sm text-white">
-                                    <i class="bi bi-info-circle"></i> @SharedLocalizer["Details"]
-                                </a>
-
-                                @if (isRtl)
-                                {
-                                    <button type="button"
-                                            class="btn btn-sm delete-btn"
-                                            style="background-color:#4c1d95; color:white;"
-                                            data-product-id="@item.ProductID"
-                                            data-product-name="@item.ProductNameAR">
-                                        <i class="bi bi-trash"></i> @SharedLocalizer["Delete"]
+                            <div class="product-actions-group">
+                                <form asp-action="AddToCart" asp-controller="Cart" method="post" class="d-grid">
+                                    <input type="hidden" name="ProductID" value="@item.ProductID" />
+                                    <input type="hidden" name="Quantity" value="1" />
+                                    <button type="submit" class="btn btn-add-to-cart">
+                                        <i class="fas fa-cart-plus me-2"></i> @SharedLocalizer["Add to Cart"]
                                     </button>
-                                }
-                                else
-                                {
-                                    <button type="button"
-                                            class="btn btn-sm delete-btn"
-                                            style="background-color:#4c1d95; color:white;"
-                                            data-product-id="@item.ProductID"
-                                            data-product-name="@item.ProductName">
-                                        <i class="bi bi-trash"></i> @SharedLocalizer["Delete"]
-                                    </button>
-                                }
+                                </form>
 
+                                <a asp-action="Details" asp-route-id="@item.ProductID" class="btn btn-view-details">
+                                    <i class="fas fa-info-circle me-2"></i> View Details
+                                </a>
                             </div>
-
-                            <!-- Add to Cart -->
-
-                            <form asp-action="AddToCart" asp-controller="Cart" method="post">
-                                <input type="hidden" name="ProductID" value="@item.ProductID" />
-                                <input type="hidden" name="Quantity" value="1" />
-                                <button type="submit" class="btn btn-light btn-sm mt-3 w-100 fw-bold">
-                                    <i class="bi bi-cart"></i> @SharedLocalizer["Add to Cart"]
-                                </button>
-                            </form>
-
-
                         </div>
                     </div>
                 </div>
@@ -245,22 +454,22 @@
         }
         else
         {
-            <p class="text-center text-muted">@SharedLocalizer["No products available."]</p>
+            <div class="col-12">
+                <p class="text-center text-muted p-5 fs-4">@SharedLocalizer["No products available matching your criteria."]</p>
+            </div>
         }
     </div>
 
-    <!-- Pagination -->
     @if (Model.TotalItems > Model.PageSize)
     {
         var totalPages = (int)Math.Ceiling((double)Model.TotalItems / Model.PageSize);
 
-        <nav>
+        <nav class="mt-5">
             <ul class="pagination justify-content-center">
                 @for (int i = 1; i <= totalPages; i++)
                 {
                     <li class="page-item @(Model.PageNumber == i ? "active" : "")">
-                        <a class="page-link rounded-pill px-3 py-2"
-                           style="color: #4c1d95; font-weight:bold;"
+                        <a class="page-link px-3 py-2"
                            asp-action="GetAllProducts"
                            asp-route-PageNumber="@i"
                            asp-route-SearchTerm="@Model.SearchTerm"
@@ -276,7 +485,6 @@
     }
 </div>
 
-<!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -303,37 +511,30 @@
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const deleteButtons = document.querySelectorAll(".delete-btn");
-            const modal = new bootstrap.Modal(document.getElementById("deleteConfirmModal"));
-            const productNameSpan = document.getElementById("productName");
-            const deleteProductIdInput = document.getElementById("deleteProductId");
-            const deleteForm = document.getElementById("deleteForm");
+            if (typeof bootstrap !== 'undefined') {
+                const modalElement = document.getElementById("deleteConfirmModal");
+                if (modalElement) {
+                    const modal = new bootstrap.Modal(modalElement);
+                    const productNameSpan = document.getElementById("productName");
+                    const deleteProductIdInput = document.getElementById("deleteProductId");
+                    const deleteForm = document.getElementById("deleteForm");
 
-            deleteButtons.forEach(button => {
-                button.addEventListener("click", function () {
-                    const productId = this.getAttribute("data-product-id");
-                    const productName = this.getAttribute("data-product-name");
+                    deleteButtons.forEach(button => {
+                        button.addEventListener("click", function () {
+                            const productId = this.getAttribute("data-product-id");
+                            const productName = this.getAttribute("data-product-name");
 
-                    productNameSpan.textContent = productName;
-                    deleteProductIdInput.value = productId;
+                            productNameSpan.textContent = productName;
+                            deleteProductIdInput.value = productId;
+                            deleteForm.action = "/Product/RemoveConfirmation"; 
 
-                    // form action to controller
-                    deleteForm.action = "/Product/RemoveConfirmation";
-
-                    modal.show();
-                });
-            });
+                            modal.show();
+                        });
+                    });
+                }
+            } else {
+                console.error("Bootstrap 5 is required but not loaded.");
+            }
         });
     </script>
 }
-
-<style>
-    .text-purple {
-        color: #4c1d95 !important;
-    }
-
-    .bg-purple {
-        background-color: #4c1d95 !important;
-    }
-</style>
-
-
