@@ -139,12 +139,12 @@
                     <input type="hidden" name="ProductID" value="@Model.ProductID" />
                     <input type="hidden" name="Quantity" value="1" />
                     <button type="submit" class="btn btn-light btn-sm mt-3 w-100 fw-bold">
-                        <i class="bi bi-cart"></i> Add to Cart
+                        <i class="bi bi-cart"></i> @SharedLocalizer["Add to Cart"]
                     </button>
                 </form>
                 <a asp-action="GetAllProducts" class="btn btn-outline-light btn-lg px-5 py-3"
                    style="border-radius: 10px; font-size: 1.2rem;">
-                    Back to Products
+                    @SharedLocalizer["Back to Products"]
                 </a>
             </div>
         </div>
@@ -153,7 +153,9 @@
     <!-- User Reviews Section -->
     <div class="mt-5 p-4 rounded shadow-lg"
          style="background: linear-gradient(135deg, #1565c0 30%, #4a148c 100%); color: white;">
-        <h3 class="mb-4 fw-bold">User Reviews</h3>
+        <h3 class="mb-4 fw-bold">
+            @SharedLocalizer["User Reviews"]
+        </h3>
 
         @if (Model.Ratings != null && Model.Ratings.Any())
         {
@@ -180,7 +182,7 @@
         }
         else
         {
-            <p>No reviews yet. Be the first to rate this product!</p>
+            <p>@SharedLocalizer["No reviews yet. Be the first to rate this product!"]</p>
         }
     </div>
 </div>

@@ -351,4 +351,97 @@
   <data name="Phone number must not be empty" xml:space="preserve">
     <value>يجب ادخال رقم الهاتف</value>
   </data>
+  <data name="Our Available Products" xml:space="preserve">
+    <value>اكتشف منتجاتنا</value>
+  </data>
+  <data name="Filter Options" xml:space="preserve">
+    <value>فلترة المنتجات</value>
+  </data>
+  <data name="-- All Categories --" xml:space="preserve">
+    <value>-- كل الأقسام --</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>معلومات المنتج</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Add to Cart" xml:space="preserve">
+    <value>اضف للعربة</value>
+  </data>
+  <data name="No products available." xml:space="preserve">
+    <value>لا يوجد منتجات متاحه حاليا !!</value>
+  </data>
+  <data name="Are you sure you want to delete" xml:space="preserve">
+    <value>هل أنت متأكد من حذف</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>تراجع</value>
+  </data>
+  <data name="Yes, Delete" xml:space="preserve">
+    <value>نعم، حذف</value>
+  </data>
+  <data name="Search products...." xml:space="preserve">
+    <value>ابحث عن منتج…</value>
+  </data>
+  <data name="Min Price" xml:space="preserve">
+    <value>أقل سعر</value>
+  </data>
+  <data name="Max Price" xml:space="preserve">
+    <value>أعلى سعر</value>
+  </data>
+  <data name="Confirm Deletion" xml:space="preserve">
+    <value>تاكيد الحذف</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>فلترة</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>تعديل</value>
+  </data>
+  <data name="Edit Product" xml:space="preserve">
+    <value>تعديل المنتج</value>
+  </data>
+  <data name="Save Changes" xml:space="preserve">
+    <value>حفظ التعديلات</value>
+  </data>
+  <data name="-- Select Category --" xml:space="preserve">
+    <value>-- اختر الفئة --</value>
+  </data>
+  <data name="Upload New Image" xml:space="preserve">
+    <value>اختر صورة</value>
+  </data>
+  <data name="Description (Arabic)" xml:space="preserve">
+    <value>الوصف (بالعربية)</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="Product Name (Arabic)" xml:space="preserve">
+    <value>اسم المنتج (بالعربية)</value>
+  </data>
+  <data name="Product Name" xml:space="preserve">
+    <value>اسم المنتج</value>
+  </data>
+  <data name="Add New Product" xml:space="preserve">
+    <value>اضافة منتج جديد </value>
+  </data>
+  <data name="Add Product" xml:space="preserve">
+    <value>اضافة المنتج</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>الفئة</value>
+  </data>
+  <data name="No reviews yet. Be the first to rate this product!" xml:space="preserve">
+    <value>لا توجد تقييمات بعد. كن أول من يقيم هذا المنتج!</value>
+  </data>
+  <data name="Back to Products" xml:space="preserve">
+    <value>العودة للمنتجات</value>
+  </data>
+  <data name="User Reviews" xml:space="preserve">
+    <value>تقييمات المستخدمين</value>
+  </data>
+  <data name="?" xml:space="preserve">
+    <value>؟</value>
+  </data>
 </root>
