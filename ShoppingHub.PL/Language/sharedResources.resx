@@ -453,4 +453,16 @@
   <data name="Profile" xml:space="preserve">
     <value>Profile</value>
   </data>
+  <data name="Rating" xml:space="preserve">
+    <value>Rating</value>
+  </data>
+  <data name="Customer Reviews" xml:space="preserve">
+    <value>Customer Reviews</value>
+  </data>
+  <data name="No reviews yet." xml:space="preserve">
+    <value>No reviews yet.</value>
+  </data>
+  <data name="Not rated yet" xml:space="preserve">
+    <value>Not rated yet</value>
+  </data>
 </root>

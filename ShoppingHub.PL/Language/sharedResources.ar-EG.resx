@@ -453,4 +453,16 @@
   <data name="Profile" xml:space="preserve">
     <value>الملف الشخصي</value>
   </data>
+  <data name="Rating" xml:space="preserve">
+    <value>التقييم</value>
+  </data>
+  <data name="Customer Reviews" xml:space="preserve">
+    <value>تقيمات العملاء</value>
+  </data>
+  <data name="No reviews yet." xml:space="preserve">
+    <value>لا يوجد تقييمات حتي الان </value>
+  </data>
+  <data name="Not rated yet" xml:space="preserve">
+    <value>لم يقيم بعد.</value>
+  </data>
 </root>
