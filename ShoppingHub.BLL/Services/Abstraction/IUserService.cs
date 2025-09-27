@@ -1,7 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
-using ShoppingHub.BLL.ModelVm;
-using ShoppingHub.BLL.ModelVM;
+using ShoppingHub.BLL.ModelVm.UserVM;
 
 namespace ShoppingHub.Serviese
 {

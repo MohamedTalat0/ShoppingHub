@@ -8,8 +8,8 @@ namespace ShoppingHub.BLL.Helper
 {
     public static class Role
     {
-        public const string USER = "user";
-        public const string ADMIN = "admin";
-        public const string DElIVERY = "delivery";
+        public const string USER = "User";
+        public const string ADMIN = "Admin";
+        public const string DElIVERY = "Delivery";
     }
 }

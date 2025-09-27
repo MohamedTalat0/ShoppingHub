@@ -33,6 +33,10 @@ namespace ShoppingHub.DAL.Entities
         public List<CartItem> cartItems { get; private set; } = new List<CartItem>();
         public List<OrderItem> orderItems { get; private set; } = new List<OrderItem>();
         public List<ProductRating>? Ratings { get; private set; } = new List<ProductRating>();
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4ea336c7eaf79dcd14e18f5816e4732f8b4d1e73
 
 
         public bool updateQuantity(int quantity)

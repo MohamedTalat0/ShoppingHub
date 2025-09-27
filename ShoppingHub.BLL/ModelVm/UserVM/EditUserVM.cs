@@ -2,10 +2,10 @@
 using System.ComponentModel.DataAnnotations;
 
 
-namespace ShoppingHub.BLL.ModelVM
+namespace ShoppingHub.BLL.ModelVm.UserVM
 {
     
-    public class CreateUserVM
+    public class EditUserVM
     {
         [Required(ErrorMessage ="Name must not be empty")]
         public string Name { get;  set; }
@@ -18,10 +18,8 @@ namespace ShoppingHub.BLL.ModelVM
         
         [Required(ErrorMessage = "Address must not be empty")]
         public string Address { get;  set; }
-
-        public DateTime createdOn { get; set; }= DateTime.Now;
-
-        public IFormFile? profileImage { get; set; }
+        public string oldProfileImage {  get; set; }
+        public IFormFile? newProfileImage { get; set; }
 
 
     }

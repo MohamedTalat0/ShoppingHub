@@ -1,13 +1,13 @@
 ﻿using Hangfire;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 using NuGet.Common;
-using Microsoft.Data.SqlClient;
 using ShoppingHub.BLL.Helper;
-using ShoppingHub.BLL.ModelVm;
-using ShoppingHub.BLL.ModelVM;
+using ShoppingHub.BLL.ModelVm.UserVM;
 using ShoppingHub.DAL.Entities;
 
 namespace ShoppingHub.PL.Controllers.Account
@@ -46,7 +46,7 @@ namespace ShoppingHub.PL.Controllers.Account
 
             if (result.Succeeded)
             {
-                var resultRole = await userManger.AddToRoleAsync(user, "User");
+                var resultRole = await userManger.AddToRoleAsync(user, Role.USER);
 
                 var link = await userManger.GenerateEmailConfirmationTokenAsync(user);
 
@@ -243,8 +243,34 @@ namespace ShoppingHub.PL.Controllers.Account
 
           }*/
 
-
-
+        [HttpGet]
+        [Authorize(Roles = Role.ADMIN)]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = userManger.Users.ToList();
+            
+            return View(users);
+        }
+        [HttpPost]
+        [Authorize(Roles = Role.ADMIN)]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> MakeAdmin(string userId)
+        {
+            var user = await userManger.FindByIdAsync(userId);
+            
+            if (user != null)
+            {
+                Console.WriteLine("Wahhhh");
+                await userManger.RemoveFromRoleAsync(user,Role.USER);
+                await userManger.AddToRoleAsync(user, Role.ADMIN);
+                user.changeRole(Role.ADMIN);
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
 
     }
 }
