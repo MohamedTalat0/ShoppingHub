@@ -1,7 +1,6 @@
 ﻿using Microsoft.Identity.Client;
 using ShoppingHub.BLL.Helper;
-using ShoppingHub.BLL.ModelVm;
-using ShoppingHub.BLL.ModelVM;
+using ShoppingHub.BLL.ModelVm.UserVM;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
 using ShoppingHub.Serviese;

@@ -1,10 +1,11 @@
-﻿@{
+﻿@using ShoppingHub.BLL.ModelVm.UserVM
+@{
     ViewData["Title"] = "Register";
     Layout = "~/Views/Shared/_NewLayout.cshtml";
     var isRtl = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ar";
 }
 
-@model ShoppingHub.BLL.ModelVM.CreateUserVM
+@model CreateUserVM
 
 <style>
     .registration-container {

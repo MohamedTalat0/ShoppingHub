@@ -46,6 +46,10 @@ namespace ShoppingHub.DAL.Entities
         {
             return this.isDeleted=false;
         }
+        public void changeRole(string role)
+        {
+            Role = role ;
+        }
 
     }
 }

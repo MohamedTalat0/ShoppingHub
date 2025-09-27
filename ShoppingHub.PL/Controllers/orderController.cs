@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using ShoppingHub.BLL.Helper;
 using ShoppingHub.BLL.ModelVm.order;
 using ShoppingHub.BLL.Services.Abstraction;
 using ShoppingHub.BLL.Services.Implementation;
@@ -52,6 +54,7 @@ namespace ShoppingHub.PL.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles =Role.ADMIN)]
         public IActionResult showAllOrders() {
             var orders = _orderservice.getAll();
             //if (orders.Item1)

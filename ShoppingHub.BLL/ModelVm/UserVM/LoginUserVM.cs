@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ShoppingHub.BLL.ModelVm
+namespace ShoppingHub.BLL.ModelVm.UserVM
 {
     public class LoginUserVM
     {

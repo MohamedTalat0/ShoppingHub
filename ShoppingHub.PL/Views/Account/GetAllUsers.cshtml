@@ -1,0 +1,703 @@
+﻿@using ShoppingHub.BLL.Helper
+@using ShoppingHub.DAL.Entities
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery Antiforgery
+
+@{
+    ViewData["Title"] = "User Management";
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+
+    // Generate anti-forgery token
+    var tokenSet = Antiforgery.GetAndStoreTokens(Context);
+}
+
+@model List<User>
+
+<!-- Add anti-forgery token here -->
+@Html.AntiForgeryToken()
+
+<div class="admin-container">
+    <!-- Admin Header -->
+    <div class="admin-header">
+        <div class="admin-title">
+            <h1><i class="fas fa-users-cog"></i> @SharedLocalizer["UserManagement"]</h1>
+            <p>@SharedLocalizer["ManageUserRolesAndPermissions"]</p>
+        </div>
+        <div class="admin-stats">
+            <div class="stat-badge">
+                <span class="stat-number">@Model.Count</span>
+                <span class="stat-label">@SharedLocalizer["TotalUsers"]</span>
+            </div>
+            <div class="stat-badge">
+                <span class="stat-number">@Model.Count(u => u.Role == Role.ADMIN)</span>
+                <span class="stat-label">@SharedLocalizer["AdminUsers"]</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="admin-toolbar">
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="userSearch" placeholder="@SharedLocalizer["SearchUsers..."]">
+        </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">@SharedLocalizer["All"]</button>
+            <button class="filter-btn" data-filter="admin">@SharedLocalizer["Admins"]</button>
+            <button class="filter-btn" data-filter="user">@SharedLocalizer["Users"]</button>
+        </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="users-table-container">
+        <div class="table-responsive">
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>@SharedLocalizer["User"]</th>
+                        <th>@SharedLocalizer["Email"]</th>
+                        <th>@SharedLocalizer["RegistrationDate"]</th>
+                        <th>@SharedLocalizer["Status"]</th>
+                        <th>@SharedLocalizer["Role"]</th>
+                        <th>@SharedLocalizer["Actions"]</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr class="user-row @(user.Role == Role.ADMIN ? "admin-user" : "")" data-user-id="@user.Id">
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-avatar">
+                                        <img src="@(string.IsNullOrEmpty(user.ImagePath) ? "/images/default-avatar.png" : user.ImagePath)"
+                                             alt="@user.UserName">
+                                    </div>
+                                    <div class="user-details">
+                                        <span class="user-name">@user.UserName</span>
+                                        <span class="user-id">ID: @user.Id.Substring(0, 8)...</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="user-email">@user.Email</td>
+                            <td class="registration-date">@user.createdOn</td>
+                            <td>
+                                <span class="status-badge @(user.isDeleted ? "inactive" : "active")">
+                                    <i class="fas fa-circle"></i>
+                                    @(user.isDeleted? SharedLocalizer["Inactive"] : SharedLocalizer["Active"])
+                                </span>
+                            </td>
+                            <td>
+                                <span class="role-badge @(user.Role == Role.ADMIN ? "admin" : "user")">
+                                    @if (user.Role == Role.ADMIN)
+                                    {
+                                        <i class="fas fa-crown"></i>
+                                        @SharedLocalizer["Administrator"]
+                                    }
+                                    else
+                                    {
+                                        <i class="fas fa-user"></i>
+                                        @SharedLocalizer["User"]
+                                    }
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-buttons">
+                                    @if (user.Role == Role.ADMIN)
+                                    {
+                                        <button class="btn-action btn-remove-admin"
+                                                data-user-id="@user.Id"
+                                                data-user-name="@user.UserName"
+                                                title="@SharedLocalizer["RemoveAdmin"]">
+                                            <i class="fas fa-user-minus"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn-action btn-make-admin"
+                                                data-user-id="@user.Id"
+                                                data-user-name="@user.UserName"
+                                                title="@SharedLocalizer["MakeAdmin"]">
+                                            <i class="fas fa-user-shield"></i>
+                                        </button>
+                                    }
+
+                                    <button class="btn-action btn-view"
+                                            onclick="viewUserDetails('@user.Id')"
+                                            title="@SharedLocalizer["ViewDetails"]">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+
+                                    @if (!(user.Role == Role.ADMIN))
+                                    {
+                                        <button class="btn-action btn-delete"
+                                                data-user-id="@user.Id"
+                                                data-user-name="@user.UserName"
+                                                title="@SharedLocalizer["DeleteUser"]">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination-container">
+        <div class="pagination">
+            <button class="page-btn disabled"><i class="fas fa-chevron-left"></i></button>
+            <button class="page-btn active">1</button>
+            <button class="page-btn">2</button>
+            <button class="page-btn">3</button>
+            <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Modal -->
+<div class="modal fade" id="confirmationModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">@SharedLocalizer["ConfirmAction"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Content will be inserted dynamically -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">@SharedLocalizer["Cancel"]</button>
+                <button type="button" class="btn btn-primary" id="confirmAction">@SharedLocalizer["Confirm"]</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User Details Modal -->
+<div class="modal fade" id="userDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@SharedLocalizer["UserDetails"]</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="userDetailsContent">
+                <!-- User details will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Your existing CSS remains the same */
+    .admin-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+    }
+
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        padding: 2rem;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .admin-title h1 {
+        font-size: 2.5rem;
+        background: var(--primary-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .admin-title p {
+        color: #666;
+        font-size: 1.1rem;
+    }
+
+    .admin-stats {
+        display: flex;
+        gap: 1.5rem;
+    }
+
+    .stat-badge {
+        text-align: center;
+        padding: 1rem 1.5rem;
+        background: var(--light-bg);
+        border-radius: 10px;
+        min-width: 120px;
+    }
+
+    .stat-number {
+        display: block;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .stat-label {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .admin-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        position: relative;
+        flex: 1;
+        max-width: 400px;
+    }
+
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #666;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+            .search-box input:focus {
+                outline: none;
+                border-color: var(--primary-color);
+            }
+
+    .filter-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .filter-btn {
+        padding: 10px 20px;
+        border: 2px solid #e9ecef;
+        background: white;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-weight: 500;
+    }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+    .users-table-container {
+        background: white;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        margin-bottom: 2rem;
+    }
+
+    .users-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .users-table th {
+            background: var(--light-bg);
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #333;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .users-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .users-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .users-table tr:hover {
+            background: #f8f9fa;
+        }
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .user-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .user-details {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .user-name {
+        font-weight: 600;
+        color: #333;
+    }
+
+    .user-id {
+        font-size: 0.8rem;
+        color: #666;
+    }
+
+    .user-email {
+        color: #666;
+    }
+
+    .registration-date {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .status-badge, .role-badge {
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .status-badge.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.inactive {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .role-badge.admin {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .role-badge.user {
+            background: #d1edff;
+            color: #004085;
+        }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .btn-action {
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 8px;
+        background: var(--light-bg);
+        color: #666;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-action.btn-make-admin:hover {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-action.btn-remove-admin:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-action.btn-view:hover {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .btn-action.btn-delete:hover {
+            background: #dc3545;
+            color: white;
+        }
+
+    .pagination-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .pagination {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .page-btn {
+        width: 40px;
+        height: 40px;
+        border: 2px solid #e9ecef;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .page-btn.active,
+        .page-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .page-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+    .modal-content {
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .modal-header {
+        background: var(--primary-gradient);
+        color: white;
+        border-radius: 15px 15px 0 0;
+        border: none;
+    }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
+
+    @@media (max-width: 768px) {
+        .admin-header {
+            flex-direction: column;
+            text-align: center;
+            gap: 1.5rem;
+        }
+
+        .admin-toolbar {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .search-box {
+            max-width: none;
+        }
+
+        .filter-buttons {
+            justify-content: center;
+        }
+
+        .users-table {
+            font-size: 0.9rem;
+        }
+
+        .user-info {
+            flex-direction: column;
+            text-align: center;
+            gap: 0.5rem;
+        }
+
+        .action-buttons {
+            justify-content: center;
+        }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        // Search functionality
+        document.getElementById('userSearch').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('.user-row');
+
+            rows.forEach(row => {
+                const userName = row.querySelector('.user-name').textContent.toLowerCase();
+                const userEmail = row.querySelector('.user-email').textContent.toLowerCase();
+
+                if (userName.includes(searchTerm) || userEmail.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.dataset.filter;
+                const rows = document.querySelectorAll('.user-row');
+
+                rows.forEach(row => {
+                    switch (filter) {
+                        case 'all':
+                            row.style.display = '';
+                            break;
+                        case 'admin':
+                            row.style.display = row.classList.contains('admin-user') ? '' : 'none';
+                            break;
+                        case 'user':
+                            row.style.display = row.classList.contains('admin-user') ? 'none' : '';
+                            break;
+                    }
+                });
+            });
+        });
+
+        // Make Admin functionality - SIMPLIFIED (NO ANTI-FORGERY TOKEN)
+        document.querySelectorAll('.btn-make-admin').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const userId = this.dataset.userId;
+                const userName = this.dataset.userName;
+
+                if (confirm(`Are you sure you want to make "${userName}" an administrator?`)) {
+                    makeAdmin(userId);
+                }
+            });
+        });
+
+        // Remove Admin functionality - SIMPLIFIED (NO ANTI-FORGERY TOKEN)
+        document.querySelectorAll('.btn-remove-admin').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const userId = this.dataset.userId;
+                const userName = this.dataset.userName;
+
+                if (confirm(`Are you sure you want to remove admin privileges from "${userName}"?`)) {
+                    removeAdmin(userId);
+                }
+            });
+        });
+
+        // Delete User functionality - SIMPLIFIED (NO ANTI-FORGERY TOKEN)
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const userId = this.dataset.userId;
+                const userName = this.dataset.userName;
+
+                if (confirm(`Are you sure you want to delete user "${userName}"? This action cannot be undone.`)) {
+                    deleteUser(userId);
+                }
+            });
+        });
+
+        async function makeAdmin(userId) {
+            try {
+                console.log('Making user admin with ID:', userId);
+
+                // SIMPLIFIED - NO ANTI-FORGERY TOKEN
+                const response = await fetch(`/Account/MakeAdmin/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    alert('User promoted to admin successfully!');
+                    location.reload();
+                } else {
+                    alert('Error making user admin. Status: ' + response.status);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error making user admin: ' + error.message);
+            }
+        }
+
+        async function removeAdmin(userId) {
+            try {
+                console.log('Removing admin from user with ID:', userId);
+
+                // SIMPLIFIED - NO ANTI-FORGERY TOKEN
+                const response = await fetch(`/Account/RemoveAdmin/${userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    alert('Admin privileges removed successfully!');
+                    location.reload();
+                } else {
+                    alert('Error removing admin role. Status: ' + response.status);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error removing admin role: ' + error.message);
+            }
+        }
+
+        async function deleteUser(userId) {
+            try {
+                console.log('Deleting user with ID:', userId);
+
+                // SIMPLIFIED - NO ANTI-FORGERY TOKEN
+                const response = await fetch(`/Account/DeleteUser/${userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    alert('User deleted successfully!');
+                    location.reload();
+                } else {
+                    alert('Error deleting user. Status: ' + response.status);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error deleting user: ' + error.message);
+            }
+        }
+
+        function viewUserDetails(userId) {
+            alert('View user details for: ' + userId);
+        }
+    </script>
+}
