@@ -146,6 +146,20 @@ namespace ShoppingHub.DAL.Repository.Implementation
                 return false;
             }
         }
+        public bool updateQuantity(int productId,int quantity)
+        {
+            try
+            {
+                var result = _shoppingHubDbContext.Products.FirstOrDefault(i => i.ProductId == productId).updateQuantity(quantity);
+                _shoppingHubDbContext.SaveChanges();
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
         public Product? GetProductWithRatings(int productId)
         {
             return _shoppingHubDbContext.Products

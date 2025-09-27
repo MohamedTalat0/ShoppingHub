@@ -10,11 +10,13 @@ namespace ShoppingHub.PL.Controllers
     {
         private readonly IOrderService _orderservice;
         private readonly ICartService _cartService;
+        private readonly IProductService _productService;
 
-        public orderController(IOrderService _service, ICartService cartService)
+        public orderController(IOrderService _service, ICartService cartService, IProductService productService)
         {
             _orderservice = _service;
             _cartService = cartService;
+            _productService = productService;
         }
 
         public IActionResult Index()
@@ -47,9 +49,10 @@ namespace ShoppingHub.PL.Controllers
                 return View(order);
             }
             _orderservice.create(order,userID);
-            //foreach (var item in order.CartItems) { 
-                
-            //}
+            foreach (var item in order.CartItems)
+            {
+                _productService.updateQuantity(item.ProductID, item.Quantity);
+            }
             _cartService.ClearCart(userID);
             return View();
         }

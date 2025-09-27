@@ -17,6 +17,7 @@ namespace ShoppingHub.BLL.Services.Abstraction
         (bool, string, ProductDetailsVM) GetProductDetails(int productId,string?userid=null);
         Product? GetProductByID(int id);
         //public EditProductVM? GetProductForEdit(int id);
+        bool updateQuantity(int pId, int quantity);
         (bool, string) UpdateProduct(Product product);
     }
 }

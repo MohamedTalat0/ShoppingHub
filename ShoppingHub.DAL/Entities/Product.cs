@@ -35,7 +35,15 @@ namespace ShoppingHub.DAL.Entities
         public List<ProductRating>? Ratings { get; private set; } = new List<ProductRating>();
 
 
-
+        public bool updateQuantity(int quantity)
+        {
+            if (quantity <= 0 || quantity > Quantity)
+            {
+                return false;
+            }
+            Quantity-=quantity;
+            return true;
+        }
 
         //public bool Update(Product updated)
         //{

@@ -271,6 +271,18 @@ namespace ShoppingHub.BLL.Services.Implementation
             }
         }
 
+        public bool updateQuantity(int pId, int quantity) {
+            try
+            {
+                var result =_productRepo.updateQuantity(pId, quantity);
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }  
     }
 
 }
