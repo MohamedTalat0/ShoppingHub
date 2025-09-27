@@ -1,4 +1,4 @@
-﻿@* @ *@@* model ShoppingHub.BLL.ModelVm.ProductDetailsVM
+﻿@model ShoppingHub.BLL.ModelVm.ProductDetailsVM
 
 @{
     ViewData["Title"] = "Product Details";
@@ -6,182 +6,333 @@
     var isRtl = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ar";
 }
 
-<div class="container my-5">
-    <!-- Product Card -->
-    <div class="row shadow-lg mx-auto"
-         style="max-width: 1200px;
-                border-radius: 16px;
-                background: linear-gradient(135deg, #4a148c 30%, #1565c0 100%);
-                color: white;
-                padding: 40px;">
+<style>
+    /* Use variables from the main layout for consistency */
+    :root {
+        --primary-color: #667eea; /* Light Purple/Blue */
+        --secondary-color: #764ba2; /* Darker Purple */
+        --price-color: #ef4444; /* Bright Red */
+        --text-dark: #333;
+        --white: #ffffff;
+        --light-bg: #f8f9fa;
+        --shadow-elevation: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
 
-        <!-- Product Image -->
-        <div class="col-md-6 text-center d-flex align-items-center justify-content-center">
-            <div class="bg-white rounded shadow-sm p-4"
-                 style="width: 100%; max-height: 600px;">
+    /* Main Container Styles */
+    .details-card {
+        max-width: 1200px;
+        margin: 0 auto;
+        border-radius: 16px;
+        background-color: var(--white);
+        box-shadow: var(--shadow-elevation);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+    
+    .details-card:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Product Image Section - UPDATED */
+    .product-image-section {
+        background-color: transparent; /* Changed to transparent, will inherit .details-card background */
+        padding: 2rem;
+        border-right: 1px solid #eee;
+        display: flex; /* Make it a flex container */
+        align-items: center; /* Center content vertically */
+        justify-content: center; /* Center content horizontally */
+    }
+    html[dir='rtl'] .product-image-section {
+        border-right: none;
+        border-left: 1px solid #eee;
+    }
+
+    .product-image-wrapper {
+        /* Removed fixed height, will expand based on image and flex parent */
+        width: 100%; /* Take full width */
+        height: 550px; /* Increased fixed height for image area */
+        display: flex; /* Flexbox for centering image */
+        align-items: center; /* Center image vertically */
+        justify-content: center; /* Center image horizontally */
+        overflow: hidden; /* Hide anything overflowing */
+        border-radius: 10px; /* Rounded corners for the wrapper */
+        background-color: var(--light-bg); /* Light background behind the image */
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Subtle shadow for the image area */
+    }
+    .product-image-wrapper img {
+        max-width: 95%; /* Limit image width to 95% of its wrapper */
+        max-height: 95%; /* Limit image height to 95% of its wrapper */
+        object-fit: contain; /* Ensure entire image is visible without cropping */
+        display: block;
+        border-radius: 8px; /* Slightly rounded image itself */
+    }
+
+    /* Product Info Section */
+    .product-info-section {
+        padding: 2.5rem;
+        color: var(--text-dark);
+    }
+
+    /* Product Name */
+    .product-name {
+        font-size: 3rem;
+        font-weight: 800;
+        color: var(--secondary-color);
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+        border-bottom: 3px solid var(--primary-color);
+        padding-bottom: 0.5rem;
+    }
+
+    /* Price */
+    .product-price {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: var(--price-color);
+        margin-bottom: 1rem;
+    }
+
+    /* Rating Stars */
+    .rating-stars i {
+        font-size: 1.4rem;
+        color: gold;
+        margin-right: 2px;
+    }
+    .rating-text {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+    }
+
+    /* Description */
+    .product-description {
+        line-height: 1.8;
+        font-size: 1.1rem;
+        color: var(--text-dark);
+        margin-top: 1.5rem;
+    }
+    
+    /* Quantity and Buy Actions */
+    .quantity-buy-group {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        margin-top: 2rem;
+    }
+
+    /* Quantity Input */
+    .quantity-input {
+        width: 120px;
+        border: 2px solid var(--primary-color);
+        border-radius: 8px;
+        text-align: center;
+        font-size: 1.2rem;
+        font-weight: 600;
+        height: 50px;
+        padding: 0 0.5rem;
+    }
+    .quantity-input:focus {
+        border-color: var(--secondary-color);
+        box-shadow: 0 0 0 0.25rem rgba(118, 75, 162, 0.25);
+    }
+
+    /* Add to Cart Button */
+    .btn-add-to-cart-lg {
+        background-color: var(--primary-color);
+        color: var(--white);
+        font-size: 1.2rem;
+        font-weight: 700;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+    .btn-add-to-cart-lg:hover {
+        background-color: var(--secondary-color);
+        color: var(--white);
+        transform: translateY(-1px);
+    }
+
+    /* Back Button */
+    .btn-back {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--text-dark);
+        border: 1px solid var(--medium-gray);
+        border-radius: 8px;
+        transition: background-color 0.3s;
+    }
+    .btn-back:hover {
+        background-color: var(--medium-gray);
+    }
+
+    /* Reviews Section */
+    .reviews-section {
+        margin-top: 3rem;
+        padding: 2rem;
+        background-color: var(--white);
+        border-radius: 12px;
+        box-shadow: var(--shadow-elevation);
+    }
+    .reviews-section h3 {
+        color: var(--secondary-color);
+        font-weight: 700;
+        border-bottom: 2px solid var(--medium-gray);
+        padding-bottom: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    .review-item {
+        border-bottom: 1px dashed #ddd;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+    }
+    .review-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+    }
+    .review-user-name {
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+    .review-rating-stars i {
+        color: gold;
+        font-size: 1rem;
+    }
+
+    /* Responsive adjustments */
+    @@media (max-width: 992px) {
+        .product-image-section {
+            border-right: none;
+            border-bottom: 1px solid #eee;
+        }
+        .product-info-section {
+            padding: 2rem;
+        }
+        .product-name {
+            font-size: 2.5rem;
+        }
+        .product-price {
+            font-size: 2rem;
+        }
+        .quantity-buy-group {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+        }
+        .quantity-input {
+            width: 100%;
+        }
+        .btn-add-to-cart-lg {
+            width: 100%;
+        }
+        .product-image-wrapper {
+            height: 400px; /* Adjust height for smaller screens */
+        }
+    }
+</style>
+
+
+<div class="container my-5">
+    <div class="row details-card">
+
+        <div class="col-lg-6 product-image-section">
+            <div class="product-image-wrapper">
                 <img src="@Url.Content(Model.ImagePath)"
                      class="img-fluid"
-                     alt="@Model.ProductName"
-                     style="object-fit: contain; max-height: 550px; width: auto;" />
+                     alt="@Model.ProductName" />
             </div>
         </div>
 
-        <!-- Product Info -->
-        <div class="col-md-6 d-flex flex-column justify-content-center ps-5">
-            <!-- Product Name -->
-            <!-- Product Name -->
-            <h1 class="fw-bold mb-4"
-                style="font-size: 3rem; color: #ffe600; line-height: 1.2; text-align:@(isRtl ? "right" : "left");">
+        <div class="col-lg-6 product-info-section d-flex flex-column justify-content-center">
+            
+            <h1 class="product-name" style="text-align:@(isRtl ? "right" : "left");">
                 @(isRtl ? Model.ProductNameAR : Model.ProductName)
             </h1>
 
-          
-            <!-- Price -->
-            <h2 class="fw-bold mb-4" style="color: #00ff99; font-size: 2.5rem;">
+            <h2 class="product-price">
                 $@Model.Price
             </h2>
 
-            <!-- Product Description -->
-            <p style="line-height: 1.8; font-size: 1.2rem; color: #f1f1f1; text-align:@(isRtl ? "right" : "left");">
-                @(isRtl ? Model.DescriptionAR : Model.Description)
-            </p>
-          
-
-            <!-- Action Buttons -->
-            <div class="mt-5 d-flex flex-wrap gap-4">
-                <a href="#" class="btn btn-lg shadow px-5 py-3"
-                   style="background: #ffe600; color: #222; font-weight: bold; border-radius: 10px; font-size: 1.2rem;">
-                    <i class="bi bi-cart-plus"></i> Add to Cart
-                </a>
-                <a asp-action="GetAllProducts" class="btn btn-outline-light btn-lg px-5 py-3"
-                   style="border-radius: 10px; font-size: 1.2rem;">
-                    Back to Products
-                </a>
-            </div>
-        </div>
-    </div>
-</div> *@
-
-@model ShoppingHub.BLL.ModelVm.ProductDetailsVM
-
-@{
-    ViewData["Title"] = "Product Details";
-    Layout = "~/Views/Shared/_NewLayout.cshtml";
-    var isRtl = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ar";
-}
-
-<div class="container my-5">
-    <!-- Product Card -->
-    <div class="row shadow-lg mx-auto"
-         style="max-width: 1200px;
-                border-radius: 16px;
-                background: linear-gradient(135deg, #4a148c 30%, #1565c0 100%);
-                color: white;
-                padding: 40px;">
-
-        <!-- Product Image -->
-        <div class="col-md-6 text-center d-flex align-items-center justify-content-center">
-            <div class="bg-white rounded shadow-sm p-4"
-                 style="width: 100%; max-height: 600px;">
-                <img src="@Url.Content(Model.ImagePath)"
-                     class="img-fluid"
-                     alt="@Model.ProductName"
-                     style="object-fit: contain; max-height: 550px; width: auto;" />
-            </div>
-        </div>
-
-        <!-- Product Info -->
-        <div class="col-md-6 d-flex flex-column justify-content-center ps-5">
-            <!-- Product Name -->
-            <h1 class="fw-bold mb-4"
-                style="font-size: 3rem; color: #ffe600; line-height: 1.2; text-align:@(isRtl ? "right" : "left");">
-                @(isRtl ? Model.ProductNameAR : Model.ProductName)
-            </h1>
-
-            <!-- Price -->
-            <h2 class="fw-bold mb-4" style="color: #00ff99; font-size: 2.5rem;">
-                $@Model.Price
-            </h2>
-
-            <!-- ⭐ Average Rating -->
             @if (Model.AverageRating.HasValue)
             {
-                <div class="mb-4">
-                    <span style="font-size: 1.5rem; color: gold;">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="rating-stars">
                         @for (int i = 1; i <= 5; i++)
                         {
-                            if (i <= Model.AverageRating)
+                            // Using Font Awesome stars (Assuming it's included via _NewLayout)
+                            if (i <= (int)Model.AverageRating)
                             {
-                                <i class="bi bi-star-fill"></i>
+                                <i class="fas fa-star"></i>
                             }
                             else if (i - Model.AverageRating < 1)
                             {
-                                <i class="bi bi-star-half"></i>
+                                <i class="fas fa-star-half-alt"></i>
                             }
                             else
                             {
-                                <i class="bi bi-star"></i>
+                                <i class="far fa-star"></i>
                             }
                         }
-                    </span>
-                    <span class="ms-2">(@Model.AverageRating.Value.ToString("0.0"))</span>
+                    </div>
+                    <span class="ms-3 rating-text">(@Model.AverageRating.Value.ToString("0.0")) based on @Model.Ratings.Count() reviews</span>
                 </div>
             }
 
-            <!-- Product Description -->
-            <p style="line-height: 1.8; font-size: 1.2rem; color: #f1f1f1; text-align:@(isRtl ? "right" : "left");">
-                @(isRtl ? Model.DescriptionAR : Model.Description)
-            </p>
+            <div class="product-description" style="text-align:@(isRtl ? "right" : "left");">
+                <p>@(isRtl ? Model.DescriptionAR : Model.Description)</p>
+            </div>
 
-            <!-- Action Buttons -->
-            <div class="mt-5 d-flex flex-wrap gap-4">
-                <form asp-action="AddToCart" asp-controller="Cart" method="post">
+            <div class="quantity-buy-group">
+                <form asp-action="AddToCart" asp-controller="Cart" method="post" class="d-flex gap-3 align-items-center w-100">
                     <input type="hidden" name="ProductID" value="@Model.ProductID" />
-                    <input type="hidden" name="Quantity" value="1" />
-                    <button type="submit" class="btn btn-light btn-sm mt-3 w-100 fw-bold">
-                        <i class="bi bi-cart"></i> Add to Cart
+                    
+                    <input type="number" id="Quantity" name="Quantity" value="1" min="1" class="form-control quantity-input" />
+                    
+                    <button type="submit" class="btn btn-add-to-cart-lg flex-grow-1">
+                        <i class="fas fa-cart-plus me-2"></i> Add to Cart
                     </button>
                 </form>
-                <a asp-action="GetAllProducts" class="btn btn-outline-light btn-lg px-5 py-3"
-                   style="border-radius: 10px; font-size: 1.2rem;">
-                    Back to Products
+            </div>
+            
+            <div class="mt-4">
+                <a asp-action="GetAllProducts" class="btn btn-back btn-lg w-100">
+                    <i class="fas fa-arrow-left me-2"></i> Back to Products
                 </a>
             </div>
+
         </div>
     </div>
 
-    <!-- User Reviews Section -->
-    <div class="mt-5 p-4 rounded shadow-lg"
-         style="background: linear-gradient(135deg, #1565c0 30%, #4a148c 100%); color: white;">
-        <h3 class="mb-4 fw-bold">User Reviews</h3>
+    <div class="reviews-section">
+        <h3><i class="fas fa-comments me-2"></i> User Reviews</h3>
 
         @if (Model.Ratings != null && Model.Ratings.Any())
         {
             foreach (var r in Model.Ratings)
             {
-                <div class="border-bottom pb-3 mb-3">
-                    <strong>@r.UserName</strong>
-                    <span class="ms-2 text-warning">
-                        @for (int i = 1; i <= 5; i++)
-                        {
-                            if (i <= r.Rate)
+                <div class="review-item">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <strong class="review-user-name">@r.UserName</strong>
+                        <div class="review-rating-stars">
+                            @for (int i = 1; i <= 5; i++)
                             {
-                                <i class="bi bi-star-fill"></i>
+                                @if (i <= r.Rate)
+                                {
+                                    <i class="fas fa-star"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-star"></i>
+                                }
                             }
-                            else
-                            {
-                                <i class="bi bi-star"></i>
-                            }
-                        }
-                    </span>
-                    <p class="mt-2">@r.Comment</p>
+                        </div>
+                    </div>
+                    <p class="mt-2 text-muted">@r.Comment</p>
                 </div>
             }
         }
         else
         {
-            <p>No reviews yet. Be the first to rate this product!</p>
+            <p class="text-muted">No reviews yet. Be the first to share your thoughts!</p>
         }
     </div>
 </div>
-

@@ -399,7 +399,7 @@
                 <div class="col-xl-3 col-lg-4 col-md-6 mb-4">
                     <div class="product-card">
                         
-                        @if (User.IsInRole("user")) 
+                        @if (User.IsInRole("Admin")) 
                         {
                             <div class="admin-actions-bar">
                                 <a asp-action="Edit" asp-route-id="@item.ProductID"
@@ -431,7 +431,7 @@
                             </h5>
                             
                             <p class="product-price">
-                                $@item.Price
+                               @item.Price LE
                             </p>
 
                             <div class="product-actions-group">
