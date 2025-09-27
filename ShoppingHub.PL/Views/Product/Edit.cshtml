@@ -101,15 +101,7 @@
                         </div>
 
                         <!-- Category -->
-                        <div class="mb-3">
-                            <label asp-for="CategoryId" class="form-label fw-bold text-secondary">@SharedLocalizer["Category"]</label>
-                            <select asp-for="CategoryId" class="form-select border-primary shadow-sm"
-                                    asp-items="@(new SelectList(Model.Categories, "Id", "Name"))">
-                                <option value="">@SharedLocalizer["-- Select Category --"]</option>
-                            </select>
-                            <span asp-validation-for="CategoryId" class="text-danger"></span>
-                        </div>
-
+                     
                         <!-- Submit -->
                         <div class="d-grid">
                             <button type="submit" class="btn text-white fw-bold py-2"

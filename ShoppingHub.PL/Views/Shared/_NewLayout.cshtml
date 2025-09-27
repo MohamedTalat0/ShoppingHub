@@ -1,4 +1,4 @@
-﻿﻿
+﻿
 <!DOCTYPE html>
 <html lang="@System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName"
       dir="@(System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ar" ? "rtl" : "ltr")">
@@ -80,48 +80,6 @@
                 text-decoration: none;
             }
 
-        /* New Search Bar Style: Integrated and Sleek */
-        .search-bar {
-            flex: 1;
-            max-width: 500px; /* Wider search bar */
-            position: relative;
-            display: flex;
-            align-items: center;
-        }
-
-            .search-bar input {
-                width: 100%;
-                padding: 0.8rem 1.5rem 0.8rem 1.5rem;
-                border: none;
-                border-radius: 25px;
-                font-size: 1rem;
-                outline: none;
-                background: rgba(255, 255, 255, 0.9); /* Slightly transparent white for a clean look */
-                color: #333;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-                transition: background 0.3s, box-shadow 0.3s ease;
-            }
-
-                .search-bar input::placeholder {
-                    color: #999;
-                }
-
-                .search-bar input:focus {
-                    background: white;
-                    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
-                }
-
-        .search-btn {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--primary-color);
-            font-size: 1.2rem;
-            cursor: pointer;
-        }
 
         .header-actions {
             display: flex;
@@ -312,11 +270,6 @@
                 order: 1;
             }
 
-            .search-bar {
-                order: 2;
-                width: 100%;
-                max-width: none;
-            }
 
             .header-actions {
                 order: 3;
@@ -358,20 +311,10 @@
 
             @Html.ActionLink("ShopHub", "GetAllProducts", "Product", null, new { @class = "logo" })
 
-            @using (Html.BeginForm("Search", "Products", FormMethod.Get, new { @class = "search-bar" }))
-            {
-                @Html.TextBox("query", ViewBag.SearchQuery as string, new { @placeholder = @SharedLocalizer["Search products..."], @class = "form-control" })
-                <button type="submit" class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-            }
 
             <div class="header-actions">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a href="@Url.Action("Wishlist", "Products")" class="header-action" title="@SharedLocalizer["Wishlist"]">
-                        <i class="fas fa-heart"></i> <span class="d-none d-lg-inline">@SharedLocalizer["Wishlist"]</span>
-                    </a>
                     <a href="@Url.Action("Index", "Cart")" class="header-action" title="@SharedLocalizer["Cart"]">
                         <i class="fas fa-shopping-cart"></i> <span class="d-none d-lg-inline">@SharedLocalizer["Cart"]</span>
                         <span class="cart-count">@ViewBag.CartCount</span>

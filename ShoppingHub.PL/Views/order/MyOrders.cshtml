@@ -197,7 +197,7 @@
                     <th>@SharedLocalizer["PaymentMethod"]</th>
                     <th>@SharedLocalizer["Total"]</th>
                     <th>@SharedLocalizer["Status"]</th>
-                    <th>@SharedLocalizer["Items"]</th>
+                    @* <th>@SharedLocalizer["Items"]</th>  *@
                     <th>@SharedLocalizer["Action"]</th>
                 </tr>
             </thead>
@@ -211,7 +211,8 @@
                         <td>@SharedLocalizer[order.PaymentMethod]</td>
                         <td>@order.TotalAmount.ToString("C", new System.Globalization.CultureInfo("ar-EG"))</td>
                         <td>@SharedLocalizer[order.Status]</td>
-                        <td class="items-cell">
+                        @* <td>@order</td> *@
+                        @* <td class="items-cell">
                             <div class="order-items">
                                 <ul>
                                     @foreach (var item in order.Items)
@@ -220,7 +221,7 @@
                                     }
                                 </ul>
                             </div>
-                        </td>
+                        </td> *@
                         <td>
                             @if (order.Status == "Pending")
                             {

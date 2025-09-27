@@ -252,15 +252,6 @@
                 </div>
                 <hr />
                     <form asp-action="confirmOrder" asp-controller="order">
-                    <label class="form-label">@SharedLocalizer["Payment Method"]:</label><br />
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="paymentMethod" id="Cash" value="Cash" checked>
-                        <label class="form-check-label" for="cash">@SharedLocalizer["Cash"]</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="paymentMethod" id="VISA" value="VISA">
-                        <label class="form-check-label" for="VISA">@SharedLocalizer["VISA"]</label>
-                    </div>
                     <button type="submit" class="btn btn-order w-100 mt-3">@SharedLocalizer["Order"]</button>
                 </form>
             </div>

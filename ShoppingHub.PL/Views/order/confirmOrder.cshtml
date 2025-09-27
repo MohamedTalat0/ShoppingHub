@@ -399,9 +399,9 @@
             <select class="form-select" asp-for="PaymentMethod" id="paymentMethod" required aria-label="Payment method selection">
                 <option value="" disabled selected>@SharedLocalizer["SelectPaymentMethod"]</option>
                 <option value="visa" class="payment-option"><i class="fa-brands fa-cc-visa"></i> @SharedLocalizer["visa"]</option>
-                <option value="mastercard" class="payment-option"><i class="fa-brands fa-cc-mastercard"></i> @SharedLocalizer["mastercard"]</option>
+                @* <option value="mastercard" class="payment-option"><i class="fa-brands fa-cc-mastercard"></i> @SharedLocalizer["mastercard"]</option>
                 <option value="fawry" class="payment-option"><i class="fa-solid fa-fawry"></i> @SharedLocalizer["fawry"]</option>
-                <option value="vodafone_cash" class="payment-option"><i class="fa-solid fa-vodafone"></i> @SharedLocalizer["vodafone_cash"]</option>
+                <option value="vodafone_cash" class="payment-option"><i class="fa-solid fa-vodafone"></i> @SharedLocalizer["vodafone_cash"]</option> *@
                 <option value="cash" class="payment-option"><i class="fa-solid fa-money-bill"></i> @SharedLocalizer["cash"]</option>
             </select>
             <div class="error-message" id="paymentError">@SharedLocalizer["PaymentMethodRequired"]</div>

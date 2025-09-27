@@ -7,136 +7,137 @@
 }
 
 <style>
-    /* Use variables from the main layout for consistency */
+    /* Global Variables (Match GetAllProducts) */
     :root {
         --primary-color: #667eea; /* Light Purple/Blue */
         --secondary-color: #764ba2; /* Darker Purple */
-        --price-color: #ef4444; /* Bright Red */
+        --price-color: #e53935; /* Strong Red for Price */
         --text-dark: #333;
+        --text-muted: #6c757d;
         --white: #ffffff;
         --light-bg: #f8f9fa;
-        --shadow-elevation: 0 10px 30px rgba(0, 0, 0, 0.1);
+        --shadow-elevation: 0 12px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    body {
+        background-color: var(--light-bg);
     }
 
-    /* Main Container Styles */
-    .details-card {
+    /* Main Product Details Card */
+    .details-card-container {
         max-width: 1200px;
         margin: 0 auto;
         border-radius: 16px;
         background-color: var(--white);
         box-shadow: var(--shadow-elevation);
         overflow: hidden;
-        transition: transform 0.3s ease;
     }
     
-    .details-card:hover {
-        transform: translateY(-2px);
+    .details-card-content {
+        padding: 40px;
     }
 
-    /* Product Image Section - UPDATED */
+    /* 1. Product Image Section (FIXED) */
     .product-image-section {
-        background-color: transparent; /* Changed to transparent, will inherit .details-card background */
-        padding: 2rem;
-        border-right: 1px solid #eee;
-        display: flex; /* Make it a flex container */
-        align-items: center; /* Center content vertically */
-        justify-content: center; /* Center content horizontally */
+        background-color: var(--light-bg); /* Use light background for clean image space */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        /* Separator line for non-RTL */
+        border-right: 1px solid #eee; 
     }
     html[dir='rtl'] .product-image-section {
         border-right: none;
         border-left: 1px solid #eee;
     }
 
-    .product-image-wrapper {
-        /* Removed fixed height, will expand based on image and flex parent */
-        width: 100%; /* Take full width */
-        height: 550px; /* Increased fixed height for image area */
-        display: flex; /* Flexbox for centering image */
-        align-items: center; /* Center image vertically */
-        justify-content: center; /* Center image horizontally */
-        overflow: hidden; /* Hide anything overflowing */
-        border-radius: 10px; /* Rounded corners for the wrapper */
-        background-color: var(--light-bg); /* Light background behind the image */
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05); /* Subtle shadow for the image area */
-    }
-    .product-image-wrapper img {
-        max-width: 95%; /* Limit image width to 95% of its wrapper */
-        max-height: 95%; /* Limit image height to 95% of its wrapper */
-        object-fit: contain; /* Ensure entire image is visible without cropping */
-        display: block;
-        border-radius: 8px; /* Slightly rounded image itself */
+    .image-wrapper-box {
+        width: 100%;
+        height: 550px; /* FIXED HEIGHT: Ensures uniform image area */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        padding: 1rem;
     }
 
-    /* Product Info Section */
+    .image-wrapper-box img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain; /* CRUCIAL: Ensures the whole image is visible */
+        border-radius: 8px;
+        transition: transform 0.3s;
+    }
+    
+    .details-card-container:hover .image-wrapper-box img {
+        transform: scale(1.02);
+    }
+
+    /* 2. Product Info Section */
     .product-info-section {
         padding: 2.5rem;
         color: var(--text-dark);
     }
 
-    /* Product Name */
     .product-name {
         font-size: 3rem;
         font-weight: 800;
         color: var(--secondary-color);
         line-height: 1.2;
-        margin-bottom: 1.5rem;
-        border-bottom: 3px solid var(--primary-color);
-        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
     }
 
-    /* Price */
     .product-price {
-        font-size: 2.8rem;
+        font-size: 2.5rem;
         font-weight: 800;
         color: var(--price-color);
         margin-bottom: 1rem;
     }
 
-    /* Rating Stars */
-    .rating-stars i {
+    /* Rating Display */
+    .rating-display {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        color: var(--text-muted);
+    }
+    .rating-display .fas, .rating-display .far {
         font-size: 1.4rem;
         color: gold;
         margin-right: 2px;
     }
-    .rating-text {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--text-dark);
-    }
-
-    /* Description */
     .product-description {
         line-height: 1.8;
         font-size: 1.1rem;
         color: var(--text-dark);
-        margin-top: 1.5rem;
+        border-top: 1px solid #eee;
+        padding-top: 1.5rem;
     }
     
-    /* Quantity and Buy Actions */
-    .quantity-buy-group {
+    /* 3. Action Buttons (Cleaned up) */
+    .action-buttons-group {
+        margin-top: 3rem;
+        display: flex;
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 1rem;
+        width: 100%;
+    }
+
+    .quantity-group {
         display: flex;
         align-items: center;
-        gap: 1.5rem;
-        margin-top: 2rem;
+        gap: 10px;
+        margin-bottom: 1rem;
     }
 
-    /* Quantity Input */
     .quantity-input {
-        width: 120px;
-        border: 2px solid var(--primary-color);
-        border-radius: 8px;
+        width: 80px;
         text-align: center;
-        font-size: 1.2rem;
         font-weight: 600;
-        height: 50px;
-        padding: 0 0.5rem;
-    }
-    .quantity-input:focus {
-        border-color: var(--secondary-color);
-        box-shadow: 0 0 0 0.25rem rgba(118, 75, 162, 0.25);
+        border-color: var(--primary-color);
+        border-radius: 8px;
     }
 
-    /* Add to Cart Button */
     .btn-add-to-cart-lg {
         background-color: var(--primary-color);
         color: var(--white);
@@ -145,40 +146,39 @@
         padding: 0.75rem 2rem;
         border-radius: 8px;
         transition: background-color 0.3s, transform 0.2s;
+        width: 100%;
     }
     .btn-add-to-cart-lg:hover {
         background-color: var(--secondary-color);
-        color: var(--white);
         transform: translateY(-1px);
     }
 
-    /* Back Button */
     .btn-back {
         font-size: 1.1rem;
         font-weight: 600;
         color: var(--text-dark);
-        border: 1px solid var(--medium-gray);
+        border: 1px solid var(--text-muted);
         border-radius: 8px;
         transition: background-color 0.3s;
+        width: 100%;
     }
     .btn-back:hover {
-        background-color: var(--medium-gray);
+        background-color: var(--light-bg);
     }
 
-    /* Reviews Section */
-    .reviews-section {
+    /* 4. Reviews/Rating Sections (Uniform Design) */
+    .review-section-card {
         margin-top: 3rem;
-        padding: 2rem;
         background-color: var(--white);
         border-radius: 12px;
         box-shadow: var(--shadow-elevation);
+        overflow: hidden;
     }
-    .reviews-section h3 {
-        color: var(--secondary-color);
+    .review-section-card .card-header {
+        background-color: var(--secondary-color);
+        color: var(--white);
+        font-size: 1.3rem;
         font-weight: 700;
-        border-bottom: 2px solid var(--medium-gray);
-        padding-bottom: 0.5rem;
-        margin-bottom: 1.5rem;
     }
     .review-item {
         border-bottom: 1px dashed #ddd;
@@ -187,16 +187,14 @@
     }
     .review-item:last-child {
         border-bottom: none;
-        margin-bottom: 0;
     }
-    .review-user-name {
-        font-weight: 700;
-        color: var(--text-dark);
-    }
-    .review-rating-stars i {
-        color: gold;
+    .review-item .text-warning i {
         font-size: 1rem;
     }
+    .rating-form-card .card-header {
+        background-color: var(--primary-color) !important;
+    }
+
 
     /* Responsive adjustments */
     @@media (max-width: 992px) {
@@ -208,41 +206,30 @@
             padding: 2rem;
         }
         .product-name {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
         }
         .product-price {
             font-size: 2rem;
         }
-        .quantity-buy-group {
-            flex-direction: column;
-            align-items: stretch;
-            gap: 1rem;
-        }
-        .quantity-input {
-            width: 100%;
-        }
-        .btn-add-to-cart-lg {
-            width: 100%;
-        }
-        .product-image-wrapper {
-            height: 400px; /* Adjust height for smaller screens */
+        .image-wrapper-box {
+            height: 400px;
         }
     }
 </style>
 
 
 <div class="container my-5">
-    <div class="row details-card">
-
+    <div class="row details-card-container">
+        
         <div class="col-lg-6 product-image-section">
-            <div class="product-image-wrapper">
+            <div class="image-wrapper-box">
                 <img src="@Url.Content(Model.ImagePath)"
                      class="img-fluid"
-                     alt="@Model.ProductName" />
+                     alt="@(isRtl ? Model.ProductNameAR : Model.ProductName)" />
             </div>
         </div>
 
-        <div class="col-lg-6 product-info-section d-flex flex-column justify-content-center">
+        <div class="col-lg-6 product-info-section">
             
             <h1 class="product-name" style="text-align:@(isRtl ? "right" : "left");">
                 @(isRtl ? Model.ProductNameAR : Model.ProductName)
@@ -252,18 +239,19 @@
                 $@Model.Price
             </h2>
 
-            @if (Model.AverageRating.HasValue)
-            {
-                <div class="d-flex align-items-center mb-3">
-                    <div class="rating-stars">
+            <div class="rating-display d-flex align-items-center">
+                <span class="me-2"><strong>@SharedLocalizer["Rating"]:</strong></span>
+                @if (Model.AverageRating.HasValue && Model.AverageRating.Value > 0)
+                {
+                    <span class="text-warning me-2">
                         @for (int i = 1; i <= 5; i++)
                         {
-                            // Using Font Awesome stars (Assuming it's included via _NewLayout)
-                            if (i <= (int)Model.AverageRating)
+                            var rate = Model.AverageRating.Value;
+                            if (i <= Math.Floor(rate))
                             {
                                 <i class="fas fa-star"></i>
                             }
-                            else if (i - Model.AverageRating < 1)
+                            else if (i - rate <= 0.5 && i > Math.Floor(rate))
                             {
                                 <i class="fas fa-star-half-alt"></i>
                             }
@@ -272,67 +260,104 @@
                                 <i class="far fa-star"></i>
                             }
                         }
-                    </div>
-                    <span class="ms-3 rating-text">(@Model.AverageRating.Value.ToString("0.0")) based on @Model.Ratings.Count() reviews</span>
-                </div>
-            }
+                    </span>
+                    <span class="rating-text">(@Model.AverageRating.Value.ToString("0.0"))</span>
+                }
+                else
+                {
+                    <span class="text-muted">@SharedLocalizer["Not rated yet"]</span>
+                }
+            </div>
 
             <div class="product-description" style="text-align:@(isRtl ? "right" : "left");">
                 <p>@(isRtl ? Model.DescriptionAR : Model.Description)</p>
             </div>
 
-            <div class="quantity-buy-group">
-                <form asp-action="AddToCart" asp-controller="Cart" method="post" class="d-flex gap-3 align-items-center w-100">
+            <div class="action-buttons-group">
+                <form asp-action="AddToCart" asp-controller="Cart" method="post" class="d-flex flex-column gap-3">
                     <input type="hidden" name="ProductID" value="@Model.ProductID" />
                     
-                    <input type="number" id="Quantity" name="Quantity" value="1" min="1" class="form-control quantity-input" />
+                    <div class="quantity-group">
+                        <label for="Quantity" class="form-label mb-0 fw-bold" style="min-width: 80px;">
+                            @SharedLocalizer["Quantity"]:
+                        </label>
+                        <input type="number" id="Quantity" name="Quantity" value="1" min="1" class="form-control quantity-input" />
+                    </div>
                     
-                    <button type="submit" class="btn btn-add-to-cart-lg flex-grow-1">
-                        <i class="fas fa-cart-plus me-2"></i> Add to Cart
+                    <button type="submit" class="btn btn-add-to-cart-lg">
+                        <i class="fas fa-cart-plus me-2"></i> @SharedLocalizer["Add to Cart"]
                     </button>
                 </form>
-            </div>
-            
-            <div class="mt-4">
-                <a asp-action="GetAllProducts" class="btn btn-back btn-lg w-100">
-                    <i class="fas fa-arrow-left me-2"></i> Back to Products
+
+                <a asp-action="GetAllProducts" class="btn btn-back">
+                    <i class="fas fa-arrow-left me-2"></i> @SharedLocalizer["Back to Products"]
                 </a>
             </div>
-
         </div>
     </div>
 
-    <div class="reviews-section">
-        <h3><i class="fas fa-comments me-2"></i> User Reviews</h3>
-
-        @if (Model.Ratings != null && Model.Ratings.Any())
-        {
-            foreach (var r in Model.Ratings)
+    <div class="card review-section-card">
+        <div class="card-header">
+            <i class="fas fa-comments me-2"></i> @SharedLocalizer["Customer Reviews"]
+        </div>
+        <div class="card-body">
+            @if (Model.Ratings != null && Model.Ratings.Any())
             {
-                <div class="review-item">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <strong class="review-user-name">@r.UserName</strong>
-                        <div class="review-rating-stars">
-                            @for (int i = 1; i <= 5; i++)
-                            {
-                                @if (i <= r.Rate)
+                @foreach (var r in Model.Ratings)
+                {
+                    <div class="review-item">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <strong>@r.UserName</strong>
+                            <div class="text-warning">
+                                @for (int i = 1; i <= 5; i++)
                                 {
-                                    <i class="fas fa-star"></i>
+                                    @if (i <= r.Rate)
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="far fa-star"></i>
+                                    }
                                 }
-                                else
-                                {
-                                    <i class="far fa-star"></i>
-                                }
-                            }
+                            </div>
                         </div>
+                        <p class="mt-1 text-muted">@r.Comment</p>
                     </div>
-                    <p class="mt-2 text-muted">@r.Comment</p>
-                </div>
+                }
             }
-        }
-        else
-        {
-            <p class="text-muted">No reviews yet. Be the first to share your thoughts!</p>
-        }
+            else
+            {
+                <p class="text-muted">@SharedLocalizer["No reviews yet."]</p>
+            }
+        </div>
     </div>
+
+    @if (Model.CanRate)
+    {
+        <div class="card review-section-card rating-form-card">
+            <div class="card-header">
+                <i class="fas fa-star me-2"></i> @SharedLocalizer["Rate this Product"]
+            </div>
+            <div class="card-body">
+                <form asp-action="RateProduct" method="post">
+                    <input type="hidden" name="productId" value="@Model.ProductID" />
+
+                    <div class="mb-3">
+                        <label for="rate" class="form-label">@SharedLocalizer["Your Rating"] (1–5)</label>
+                        <input type="number" name="rate" min="1" max="5" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">@SharedLocalizer["Comment"]</label>
+                        <textarea name="comment" rows="3" class="form-control"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-paper-plane me-2"></i> @SharedLocalizer["Submit Rating"]
+                    </button>
+                </form>
+            </div>
+        </div>
+    }
 </div>

@@ -68,12 +68,12 @@ namespace ShoppingHub.PL.Controllers
 
 
 
-        public IActionResult Details(int id)
+        public IActionResult Details(int id,string? userid)
         {
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var (hasError, errorMessage, product) = productService.GetProductDetails(id);
+            var (hasError, errorMessage, product) = productService.GetProductDetails(id,userid);
 
             if (hasError)
             {

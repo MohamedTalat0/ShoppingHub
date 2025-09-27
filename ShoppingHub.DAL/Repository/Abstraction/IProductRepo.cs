@@ -16,11 +16,9 @@ namespace ShoppingHub.DAL.Repository.Abstraction
          (bool, string?) Remove(int id);
 
         Product GetProductByIdEditversion(int id);
-<<<<<<< HEAD
         bool updateQuantity(int productId, int quantity);
 
-=======
->>>>>>> 4ea336c7eaf79dcd14e18f5816e4732f8b4d1e73
+
         bool UpdateProduct(Product product);
         public Product? GetProductWithRatings(int productId);
 

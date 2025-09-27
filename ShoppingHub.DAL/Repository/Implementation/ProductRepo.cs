@@ -146,7 +146,6 @@ namespace ShoppingHub.DAL.Repository.Implementation
                 return false;
             }
         }
-<<<<<<< HEAD
         public bool updateQuantity(int productId,int quantity)
         {
             try
@@ -161,8 +160,7 @@ namespace ShoppingHub.DAL.Repository.Implementation
                 throw ex;
             }
         }
-=======
->>>>>>> 4ea336c7eaf79dcd14e18f5816e4732f8b4d1e73
+
         public Product? GetProductWithRatings(int productId)
         {
             return _shoppingHubDbContext.Products

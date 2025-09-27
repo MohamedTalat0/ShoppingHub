@@ -130,7 +130,7 @@ namespace ShoppingHub.PL.Controllers.Account
                 result.Address = currentUser.Address;
                 result.phoneNumber = currentUser.PhoneNumber!;
                 result.userName = currentUser.UserName!;
-                result.totalOrders = currentUser.Orders.Count;
+                result.totalOrders = currentUser.Orders.Count();
                 result.email = currentUser.Email!;
                 result.userImage = currentUser.ImagePath;
             }
