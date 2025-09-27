@@ -46,7 +46,10 @@ namespace ShoppingHub.PL.Controllers
             {
                 return View(order);
             }
-           _orderservice.create(order,userID);
+            _orderservice.create(order,userID);
+            //foreach (var item in order.CartItems) { 
+                
+            //}
             _cartService.ClearCart(userID);
             return View();
         }

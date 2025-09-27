@@ -4,6 +4,7 @@ using ShoppingHub.BLL.ModelVm.RatingVM;
 using ShoppingHub.BLL.Services.Abstraction;
 using ShoppingHub.DAL.Entities;
 using ShoppingHub.DAL.Repository.Abstraction;
+using ShoppingHub.DAL.Repository.Implementation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,13 @@ namespace ShoppingHub.BLL.Services.Implementation
         private readonly IProductRepo _productRepo;
         private readonly IcategoryRepo _categoryRepo;
         private readonly IProductRatingRepo _ratingrepo;
-        public ProductService(IProductRepo repo, IcategoryRepo categoryRepo, IProductRatingRepo ratingrepo)
+        private readonly IOrderRepo _orderRepo;
+        public ProductService(IProductRepo repo, IcategoryRepo categoryRepo, IProductRatingRepo ratingrepo, IOrderRepo orderRepo)
         {
             _productRepo = repo;
             _categoryRepo = categoryRepo;
             _ratingrepo = ratingrepo;
+            _orderRepo = orderRepo;
         }
 
         public (bool, string, GetAllProductsVM ) GetProducts(GetAllProductsVM vm)
@@ -91,58 +94,58 @@ namespace ShoppingHub.BLL.Services.Implementation
 
 
 
-      public EditProductVM? GetProductForEdit(int id)
-{
-    var product = _productRepo.GetProductByID(id);
-    if (product == null) return null;
+//      public EditProductVM? GetProductForEdit(int id)
+//{
+//    var product = _productRepo.GetProductByID(id);
+//    if (product == null) return null;
 
-    return new EditProductVM
-    {
-        ProductID = product.ProductId,
-        ProductName = product.ProductName,
-        ProductNameAR = product.ProductNameAR,
-        Price = product.Price,
-        Quantity = product.Quantity,
-        Description = product.Description,
-        ExistingImagePath = product.ImagePath,
-        CategoryId = product.CategoryId
-    };
-}
+//    return new EditProductVM
+//    {
+//        ProductID = product.ProductId,
+//        ProductName = product.ProductName,
+//        ProductNameAR = product.ProductNameAR,
+//        Price = product.Price,
+//        Quantity = product.Quantity,
+//        Description = product.Description,
+//        ExistingImagePath = product.ImagePath,
+//        CategoryId = product.CategoryId
+//    };
+//}
 
-public (bool, string?) EditProduct(EditProductVM vm)
-{
-    try
-    {
-        var product = _productRepo.GetProductByID(vm.ProductID);
-        if (product == null)
-            return (true, "Product with such ID was not found");
+//public (bool, string?) EditProduct(EditProductVM vm)
+//{
+//    try
+//    {
+//        var product = _productRepo.GetProductByID(vm.ProductID);
+//        if (product == null)
+//            return (true, "Product with such ID was not found");
 
-        string imagePath = product.ImagePath;
-        if (vm.NewImageFile != null)
-        {
-            imagePath = Load.UploadFile("Files/images/products", vm.NewImageFile);
-        }
+//        string imagePath = product.ImagePath;
+//        if (vm.NewImageFile != null)
+//        {
+//            imagePath = Load.UploadFile("Files/images/products", vm.NewImageFile);
+//        }
 
-        product.Update(
-            vm.ProductName,
-            vm.ProductNameAR,
-            vm.DescriptionAR,
-            vm.Price,
-            vm.Quantity,
-            vm.Description,
-            imagePath,
-            vm.CategoryId
-        );
+//        product.Update(
+//            vm.ProductName,
+//            vm.ProductNameAR,
+//            vm.DescriptionAR,
+//            vm.Price,
+//            vm.Quantity,
+//            vm.Description,
+//            imagePath,
+//            vm.CategoryId
+//        );
 
-        _productRepo.EditProduct(product);
+//        _productRepo.EditProduct(product);
 
-        return (false, null);
-    }
-    catch (Exception ex)
-    {
-        return (true, ex.Message);
-    }
-}
+//        return (false, null);
+//    }
+//    catch (Exception ex)
+//    {
+//        return (true, ex.Message);
+//    }
+//}
 
 
 
@@ -173,15 +176,21 @@ public (bool, string?) EditProduct(EditProductVM vm)
             }
         }
 
-        public (bool, string, ProductDetailsVM) GetProductDetails(int productId)
+        public (bool, string, ProductDetailsVM) GetProductDetails(int productId,string? userid=null)
         {
             try
             {
                 var ratings = _ratingrepo.GetRatingsforProduct(productId);
+                var ratedproducted = _productRepo.GetProductWithRatings(productId);
                 var product = _productRepo.GetProductByID(productId);
                 if (product == null)
                 {
                     return (true, "Product not found.", null);
+                }
+                bool canRate = false;
+                if (!string.IsNullOrEmpty(userid))
+                {
+                    canRate = _orderRepo.HasUserPurchasedProduct(userid, productId);
                 }
 
                 var vm = new ProductDetailsVM
@@ -194,13 +203,25 @@ public (bool, string?) EditProduct(EditProductVM vm)
                     Description = product.Description,
                     ImagePath = product.ImagePath,
                     CategoryName = product.Category?.Name ?? "Uncategorized",
-                    AverageRating = ratings.Any() ? ratings.Average(r => r.Rate) : 0,
-                    Ratings = ratings.Select(r => new PRatingVM
-                       {
-                           UserName = r.User.UserName,
-                           Rate = r.Rate,
-                           Comment = r.Comment
-                       }).ToList()
+                    AverageRating = product.AvgRate ?? 0,
+                    
+                    //Ratings = product.Ratings,  // list of all user reviews
+                    CanRate = canRate,
+
+
+                    //AverageRating = ratings.Any() ? ratings.Average(r => r.Rate) : 0,
+                    //Ratings = ratings.Select(r => new PRatingVM
+                    //   {
+                    //       UserName = r.User.UserName,
+                    //       Rate = r.Rate,
+                    //       Comment = r.Comment
+                    //   }).ToList()
+                    Ratings = product.Ratings.Select(r => new ProductRatingVM
+                    {
+                        UserName = r.User?.UserName ?? "Anonymous",
+                        Rate = r.Rate,
+                        Comment = r.Comment
+                    }).ToList(),
                 };
 
                 return (false, "", vm);
@@ -227,9 +248,34 @@ public (bool, string?) EditProduct(EditProductVM vm)
         {
             return _productRepo.GetProductByID(id);
         }
+
+        public (bool, string) UpdateProduct(Product product)
+        {
+            try
+            {
+                var existingProduct = _productRepo.GetProductByIdEditversion(product.ProductId);
+                if (existingProduct == null)
+                    return (true, "Product not found");
+
+                // ✅ EF is already tracking the product if attached
+                var result = _productRepo.UpdateProduct(product);
+
+                if (!result)
+                    return (true, "Failed to update product");
+
+                return (false, ""); // no error
+            }
+            catch (Exception ex)
+            {
+                return (true, ex.Message);
+            }
+        }
+
     }
 
 }
+
+
 
 
 

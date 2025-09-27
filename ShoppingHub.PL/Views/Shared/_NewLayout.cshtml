@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿﻿
+<!DOCTYPE html>
 <html lang="@System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName"
       dir="@(System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ar" ? "rtl" : "ltr")">
 <head>
@@ -33,7 +34,7 @@
             color: #333;
             background-color: var(--light-bg);
         }
-        
+
         /* Main Container padding adjustment now that Secondary Nav is gone */
         .main-container {
             padding: 2rem 1rem;
@@ -73,11 +74,11 @@
             transition: transform 0.3s ease;
         }
 
-        .logo:hover {
-            transform: scale(1.05);
-            color: white;
-            text-decoration: none;
-        }
+            .logo:hover {
+                transform: scale(1.05);
+                color: white;
+                text-decoration: none;
+            }
 
         /* New Search Bar Style: Integrated and Sleek */
         .search-bar {
@@ -88,27 +89,27 @@
             align-items: center;
         }
 
-        .search-bar input {
-            width: 100%;
-            padding: 0.8rem 1.5rem 0.8rem 1.5rem;
-            border: none;
-            border-radius: 25px;
-            font-size: 1rem;
-            outline: none;
-            background: rgba(255, 255, 255, 0.9); /* Slightly transparent white for a clean look */
-            color: #333;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            transition: background 0.3s, box-shadow 0.3s ease;
-        }
+            .search-bar input {
+                width: 100%;
+                padding: 0.8rem 1.5rem 0.8rem 1.5rem;
+                border: none;
+                border-radius: 25px;
+                font-size: 1rem;
+                outline: none;
+                background: rgba(255, 255, 255, 0.9); /* Slightly transparent white for a clean look */
+                color: #333;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+                transition: background 0.3s, box-shadow 0.3s ease;
+            }
 
-        .search-bar input::placeholder {
-            color: #999;
-        }
+                .search-bar input::placeholder {
+                    color: #999;
+                }
 
-        .search-bar input:focus {
-            background: white;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); 
-        }
+                .search-bar input:focus {
+                    background: white;
+                    box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+                }
 
         .search-btn {
             position: absolute;
@@ -127,7 +128,7 @@
             gap: 1.2rem; /* Increased gap */
             align-items: center;
         }
-        
+
         /* Action buttons now focus on icons and text is optional for smaller screens */
         .header-action {
             color: white;
@@ -144,12 +145,12 @@
             font-weight: 500;
         }
 
-        .header-action:hover {
-            background: rgba(255,255,255,0.3);
-            transform: scale(1.05);
-            color: white;
-            text-decoration: none;
-        }
+            .header-action:hover {
+                background: rgba(255,255,255,0.3);
+                transform: scale(1.05);
+                color: white;
+                text-decoration: none;
+            }
 
         .cart-count {
             background: var(--accent-red);
@@ -183,13 +184,13 @@
             border-radius: 6px;
         }
 
-        .dropdown-item:hover {
-            background: var(--primary-color);
-            color: white;
-        }
+            .dropdown-item:hover {
+                background: var(--primary-color);
+                color: white;
+            }
 
         /* ---------------------- Footer Styles ---------------------- */
-        
+
         .footer {
             background: var(--dark-bg);
             color: var(--text-light);
@@ -228,19 +229,20 @@
             line-height: 1.8; /* Increased line-height for cleaner list */
             font-size: 0.95rem;
             display: block; /* Block display for full-width hover */
-            padding: 0.2rem 0; 
+            padding: 0.2rem 0;
             transition: color 0.3s ease, transform 0.3s ease;
         }
-        
-        /* Removing icon space from dropdown and footer links */
-        .footer-section a i, .dropdown-item i {
-            display: none !important;
-        }
-        .footer-section a:hover {
-            color: var(--primary-color);
-            transform: translateX(5px);
-            text-decoration: none;
-        }
+
+            /* Removing icon space from dropdown and footer links */
+            .footer-section a i, .dropdown-item i {
+                display: none !important;
+            }
+
+            .footer-section a:hover {
+                color: var(--primary-color);
+                transform: translateX(5px);
+                text-decoration: none;
+            }
 
         /* Newsletter Form Style */
         .newsletter-form .form-control {
@@ -249,13 +251,13 @@
             color: white;
         }
 
-        .newsletter-form .form-control::placeholder {
-            color: #ccc;
-        }
-        
+            .newsletter-form .form-control::placeholder {
+                color: #ccc;
+            }
+
         .newsletter-form .btn-primary {
-             background: #667eea !important; 
-             border-color: #667eea !important; 
+            background: #667eea !important;
+            border-color: #667eea !important;
         }
 
         /* Social Links */
@@ -264,22 +266,22 @@
             gap: 1rem;
         }
 
-        .social-links-new .social-icon {
-            background: #34495e;
-            color: white;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: background 0.3s, transform 0.3s;
-        }
+            .social-links-new .social-icon {
+                background: #34495e;
+                color: white;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                transition: background 0.3s, transform 0.3s;
+            }
 
-        .social-links-new .social-icon:hover {
-            background: var(--primary-color);
-            transform: translateY(-3px) scale(1.1);
-        }
+                .social-links-new .social-icon:hover {
+                    background: var(--primary-color);
+                    transform: translateY(-3px) scale(1.1);
+                }
 
         .footer-bottom {
             text-align: center;
@@ -289,15 +291,15 @@
             font-size: 0.9rem;
             font-weight: 400;
         }
-        
-        .footer-bottom .footer-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 0;
-            padding-bottom: 0;
-            margin-top: 0;
-        }
+
+            .footer-bottom .footer-container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding-top: 0;
+                padding-bottom: 0;
+                margin-top: 0;
+            }
 
         /* ---------------------- Responsive Design ---------------------- */
 
@@ -305,27 +307,33 @@
             .header-container {
                 flex-direction: column;
             }
+
             .logo {
                 order: 1;
             }
+
             .search-bar {
                 order: 2;
                 width: 100%;
                 max-width: none;
             }
+
             .header-actions {
                 order: 3;
                 width: 100%;
                 justify-content: space-around;
             }
+
             .header-action {
                 padding: 0.6rem 0.8rem;
                 flex: 1;
                 justify-content: center;
             }
-            .header-action span.d-none.d-lg-inline {
-                display: inline !important; /* Show text on mobile now that space is freed up */
-            }
+
+                .header-action span.d-none.d-lg-inline {
+                    display: inline !important; /* Show text on mobile now that space is freed up */
+                }
+
             .footer-container {
                 grid-template-columns: 1fr 1fr;
             }
@@ -335,6 +343,7 @@
             .footer-container {
                 grid-template-columns: 1fr;
             }
+
             .footer-bottom .footer-container {
                 flex-direction: column;
                 gap: 1rem;
@@ -346,7 +355,7 @@
 <body>
     <header class="header">
         <div class="header-container">
-            
+
             @Html.ActionLink("ShopHub", "GetAllProducts", "Product", null, new { @class = "logo" })
 
             @using (Html.BeginForm("Search", "Products", FormMethod.Get, new { @class = "search-bar" }))
@@ -373,7 +382,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li><a class="dropdown-item" href="@Url.Action("Profile", "Account")">@SharedLocalizer["Profile"]</a></li>
-                            @if (User.IsInRole("Admin")) 
+                            @if (User.IsInRole("Admin"))
                             {
                                 <li><a class="dropdown-item" href="@Url.Action("Index", "Admin")">@SharedLocalizer["AdminDashboard"]</a></li>
                             }
@@ -431,7 +440,7 @@
                     <li><a href="@Url.Action("Privacy", "Home")">@SharedLocalizer["PrivacyPolicy"]</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-section">
                 <h3>@SharedLocalizer["Categories"]</h3>
                 <ul class="list-unstyled">
@@ -441,7 +450,7 @@
                     <li><a href="@Url.Action("Category", "Products", new { category = "Sports" })">@SharedLocalizer["Sports"]</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-section">
                 <h3>@SharedLocalizer["CustomerService"]</h3>
                 <ul class="list-unstyled">
@@ -461,11 +470,11 @@
                 </form>
             </div>
         </div>
-        
+
         <div class="footer-bottom">
             <div class="footer-container">
                 <p class="mb-0">&copy; @DateTime.Now.Year ShopHub. @SharedLocalizer["AllRightsReserved"].</p>
-                
+
                 <div class="social-links-new">
                     <a href="#" class="social-icon" title="Facebook"><i class="fab fa-facebook-f fa-lg"></i></a>
                     <a href="#" class="social-icon" title="Twitter"><i class="fab fa-twitter fa-lg"></i></a>

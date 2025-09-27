@@ -17,6 +17,8 @@ namespace ShoppingHub.DAL.Repository.Abstraction
         Order getById(int id);
         List<Order> getAllOrders();
         List<Order> GetUserOrders(string userId);
+        //added for ratings
+        public bool HasUserPurchasedProduct(string userId, int productId);
 
     }
 }
