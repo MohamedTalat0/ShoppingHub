@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Hangfire;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using NuGet.Common;
 using Microsoft.Data.SqlClient;
 using ShoppingHub.BLL.Helper;
 using ShoppingHub.BLL.ModelVm;
@@ -11,13 +14,14 @@ namespace ShoppingHub.PL.Controllers.Account
 {
     public class AccountController : Controller
     {
+        private readonly IEmailSender emailSender;
         private readonly UserManager<User> userManger;
         private readonly SignInManager<User> signInManager;
-        public AccountController(UserManager<User> userManger, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManger, SignInManager<User> signInManager, IEmailSender emlSender)
         {
             this.userManger = userManger;
             this.signInManager = signInManager;
-
+            this.emailSender = emlSender;
         }
         [HttpGet]
         public async Task<IActionResult> Register()
@@ -29,9 +33,7 @@ namespace ShoppingHub.PL.Controllers.Account
         {
             if (!ModelState.IsValid)
             {
-
                 return View(usr);
-
             }
             var user = new User(Role.USER, Load.UploadFile("Files/images/usersImages",
                 usr.profileImage!), usr.Address, usr.createdOn.ToString())
@@ -44,7 +46,14 @@ namespace ShoppingHub.PL.Controllers.Account
 
             if (result.Succeeded)
             {
-                var resultRole = await userManger.AddToRoleAsync(user, Role.USER);
+                var resultRole = await userManger.AddToRoleAsync(user, "User");
+
+                var link = await userManger.GenerateEmailConfirmationTokenAsync(user);
+
+                var confirmationLink = Url.Action("ConfirmEmail", "Account",
+                    new { userId = user.Id, token = link }, Request.Scheme);
+                BackgroundJob.Enqueue(() => emailSender.SendEmailAsync(user.Email, "Confirm your email",
+                   $"Please confirm your account by <a href='{confirmationLink}'>clicking here</a>."));
                 return RedirectToAction("Login");
             }
             else
@@ -69,19 +78,22 @@ namespace ShoppingHub.PL.Controllers.Account
         [HttpPost]
         public async Task<IActionResult> Login(LoginUserVM usr)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(usr);
+            }
             var result = await signInManager.PasswordSignInAsync(usr.UserName, usr.Password, false, false);
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("GetAllProducts", "Product");
             }
             else
-            {
+            {              
                 ViewBag.ErrorMessage = "Invalid UserName Or Password";
                 return View(usr);
 
             }
-
         }
 
         [HttpGet]
@@ -90,6 +102,19 @@ namespace ShoppingHub.PL.Controllers.Account
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null)
+                return BadRequest();
+
+            var user = await userManger.FindByIdAsync(userId);
+            if (user == null)
+                return NotFound();
+
+            var result = await userManger.ConfirmEmailAsync(user, token);
+            return View();
+        }
+        
         [HttpGet]
         public async Task<IActionResult> Profile()
         {

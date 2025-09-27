@@ -9,8 +9,8 @@ namespace ShoppingHub.BLL.ModelVm
 {
    public class ProductDetailsVM
     {
-   
-public int id { get; set; }
+
+        public int ProductID { get; set; }
         public string ProductName { get; set; }
         public string ProductNameAR { get;  set; }
         public string? DescriptionAR { get;  set; }

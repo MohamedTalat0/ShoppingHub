@@ -147,8 +147,8 @@
   <data name="Categories" xml:space="preserve">
     <value>Categories</value>
   </data>
-  <data name="Checkout" xml:space="preserve">
-    <value>Checkout</value>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
   </data>
   <data name="ChooseProfilePicture" xml:space="preserve">
     <value>Choose Profile Picture</value>
@@ -332,5 +332,125 @@
   </data>
   <data name="There is a problem in adding item!!" xml:space="preserve">
     <value>There is a problem in adding item!!</value>
+  </data>
+  <data name="Address must not be empty" xml:space="preserve">
+    <value>Address must not be empty</value>
+  </data>
+  <data name="Email must not be empty" xml:space="preserve">
+    <value>Email must not be empty</value>
+  </data>
+  <data name="Invalid UserName Or Password" xml:space="preserve">
+    <value>Invalid UserName Or Password</value>
+  </data>
+  <data name="Name must not be empty" xml:space="preserve">
+    <value>Name must not be empty</value>
+  </data>
+  <data name="Password must not be empty" xml:space="preserve">
+    <value>Password must not be empty</value>
+  </data>
+  <data name="Phone number must not be empty" xml:space="preserve">
+    <value>Phone number must not be empty</value>
+  </data>
+  <data name="Our Available Products" xml:space="preserve">
+    <value>Our Available Products</value>
+  </data>
+  <data name="Filter Options" xml:space="preserve">
+    <value>Filter Options</value>
+  </data>
+  <data name="-- All Categories --" xml:space="preserve">
+    <value>-- All Categories --</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Add to Cart" xml:space="preserve">
+    <value>Add to Cart</value>
+  </data>
+  <data name="No products available." xml:space="preserve">
+    <value>No products available.</value>
+  </data>
+  <data name="Are you sure you want to delete" xml:space="preserve">
+    <value>Are you sure you want to delete</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Yes, Delete" xml:space="preserve">
+    <value>Yes, Delete</value>
+  </data>
+  <data name="Search products...." xml:space="preserve">
+    <value>Search products....</value>
+  </data>
+  <data name="Min Price" xml:space="preserve">
+    <value>Min Price</value>
+  </data>
+  <data name="Max Price" xml:space="preserve">
+    <value>Max Price</value>
+  </data>
+  <data name="Confirm Deletion" xml:space="preserve">
+    <value>Confirm Deletion</value>
+  </data>
+  <data name="Filter" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Edit Product" xml:space="preserve">
+    <value>Edit Product</value>
+  </data>
+  <data name="Save Changes" xml:space="preserve">
+    <value>Save Changes</value>
+  </data>
+  <data name="-- Select Category --" xml:space="preserve">
+    <value>-- Select Category --</value>
+  </data>
+  <data name="Upload New Image" xml:space="preserve">
+    <value>Upload New Image</value>
+  </data>
+  <data name="Description (Arabic)" xml:space="preserve">
+    <value>Description (Arabic)</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Product Name (Arabic)" xml:space="preserve">
+    <value>Product Name (Arabic)</value>
+  </data>
+  <data name="Product Name" xml:space="preserve">
+    <value>Product Name</value>
+  </data>
+  <data name="Add New Product" xml:space="preserve">
+    <value>Add New Product</value>
+  </data>
+  <data name="Add Product" xml:space="preserve">
+    <value>Add Product</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="No reviews yet. Be the first to rate this product!" xml:space="preserve">
+    <value>No reviews yet. Be the first to rate this product!</value>
+  </data>
+  <data name="Back to Products" xml:space="preserve">
+    <value>Back to Products</value>
+  </data>
+  <data name="User Reviews" xml:space="preserve">
+    <value>User Reviews</value>
+  </data>
+  <data name="?" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="View Details" xml:space="preserve">
+    <value>View Details</value>
+  </data>
+  <data name="No products available matching your criteria." xml:space="preserve">
+    <value>No products available matching your criteria.</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
   </data>
 </root>

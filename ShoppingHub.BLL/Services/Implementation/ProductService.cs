@@ -195,6 +195,7 @@ namespace ShoppingHub.BLL.Services.Implementation
 
                 var vm = new ProductDetailsVM
                 {
+                    ProductID = product.ProductId,
                     ProductName = product.ProductName,
                     ProductNameAR = product.ProductNameAR,
                     DescriptionAR = product.DescriptionAR,

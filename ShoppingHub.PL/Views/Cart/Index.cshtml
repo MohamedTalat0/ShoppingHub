@@ -109,7 +109,7 @@
         }
 
 
-    .btn-checkout {
+    .btn-order {
         background: linear-gradient(45deg, #764ba2, #667eea);
         border: none;
         color: white;
@@ -120,7 +120,7 @@
         transition: transform 0.2s ease-in-out;
     }
 
-        .btn-checkout:hover {
+        .btn-order:hover {
             transform: scale(1.05);
         }
 
@@ -185,9 +185,8 @@
                         {
                             <div class="cart-item">
                                 <div class="col-2">
-                                    @* <img src="~~/Files/@item.ImagePath" class="product-img"> *@
-                                    <img src="~/Files/product.jpg" class="product-img">
-
+                                    @* <img src="~/Files/images/Products/@item.ImagePath" class="product-img"> *@
+                                <img src="@Url.Content(item.ImagePath)" class="product-img" />
                                 </div>
                                 <div class="col-4">
                                 @if (isRtl)
@@ -202,7 +201,7 @@
                                     <p class="text-muted mb-0">$@item.PricePerItem</p>
                                 </div>
                                 <div class="col-3 text-center">
-                                    <form id="Minus" asp-action="UpdateQuantity" asp-controller="Cart" asp-route-productID="@item.ProductID" asp-route-quantity="-1" class="d-inline Minus">
+                                    <form asp-action="UpdateQuantity" asp-controller="Cart" asp-route-productID="@item.ProductID" asp-route-quantity="-1" class="d-inline Minus">
                                         @* <input type="hidden" name="productID" value="@item.ProductID" />
                                 <input type="hidden" name="quantity" value="-1" /> *@
                                         <button type="submit" class="qty-btn">−</button>
@@ -242,7 +241,8 @@
                 }
             </div>
         </div>
-        @if (Model.CartItems != null){
+        @if (Model != null && Model.CartItems != null)
+        {
         <div class="col-lg-3">
             <div class="summary-container">
                 <h5 class="fw-bold">@SharedLocalizer["Order Summary"]</h5>
@@ -251,7 +251,7 @@
                     <span class="fw-bold">$@Model.TotalPrice</span>
                 </div>
                 <hr />
-                <form asp-action="Checkout" asp-controller= "" >
+                    <form asp-action="confirmOrder" asp-controller="order">
                     <label class="form-label">@SharedLocalizer["Payment Method"]:</label><br />
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="radio" name="paymentMethod" id="Cash" value="Cash" checked>
@@ -261,7 +261,7 @@
                         <input class="form-check-input" type="radio" name="paymentMethod" id="VISA" value="VISA">
                         <label class="form-check-label" for="VISA">@SharedLocalizer["VISA"]</label>
                     </div>
-                    <button type="submit" class="btn btn-checkout w-100 mt-3">@SharedLocalizer["Checkout"]</button>
+                    <button type="submit" class="btn btn-order w-100 mt-3">@SharedLocalizer["Order"]</button>
                 </form>
             </div>
         </div>

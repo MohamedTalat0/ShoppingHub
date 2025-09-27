@@ -1,0 +1,18 @@
+﻿@using ShoppingHub.BLL.ModelVm
+@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+    var isRtl = System.Threading.Thread.CurrentThread.CurrentUICulture.TwoLetterISOLanguageName == "ar";
+}
+
+@if (isRtl)
+{
+    <h2 style="color: green; text-align:center; margin-top:50px;">
+        ✅ تم تأكيد بريدك الإلكتروني بنجاح
+    </h2 >
+}
+else {
+    <h2 style="color: green; text-align:center; margin-top:50px;">
+        ✅ Your email has been confirmed successfully
+    </h2>
+}
+
