@@ -21,15 +21,19 @@ namespace ShoppingHub.DAL.Entities
         public int Rate { get; private set; }
         public string? Comment { get; set; }
 
+        public void UpdateRating(int rate, string? comment = null)
+        {
+            Rate = rate;
+            Comment = comment;
+        }
+        private ProductRating() { }
 
-        public ProductRating(string userId, int productId, int rate, string? comment)
+        public ProductRating(string userId, int productId, int rate, string? comment = null)
         {
             UserID = userId;
             ProductID = productId;
             Rate = rate;
             Comment = comment;
         }
-
-        private ProductRating() { }
     }
 }

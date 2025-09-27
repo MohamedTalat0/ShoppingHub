@@ -103,30 +103,32 @@
                 $@Model.Price
             </h2>
 
-            <!-- ⭐ Average Rating -->
-            @if (Model.AverageRating.HasValue)
-            {
-                <div class="mb-4">
-                    <span style="font-size: 1.5rem; color: gold;">
+            <!-- Average Rating -->
+            <div class="mb-3">
+                <strong>Rating:</strong>
+                @if (Model.AverageRating.HasValue && Model.AverageRating.Value > 0)
+                {
+                    <span class="text-warning">
                         @for (int i = 1; i <= 5; i++)
                         {
-                            if (i <= Model.AverageRating)
+                            if (i <= Math.Round(Model.AverageRating.Value))
                             {
                                 <i class="bi bi-star-fill"></i>
-                            }
-                            else if (i - Model.AverageRating < 1)
-                            {
-                                <i class="bi bi-star-half"></i>
                             }
                             else
                             {
                                 <i class="bi bi-star"></i>
                             }
                         }
+                        <span class="ms-2">(@Model.AverageRating.Value.ToString("0.0"))</span>
                     </span>
-                    <span class="ms-2">(@Model.AverageRating.Value.ToString("0.0"))</span>
-                </div>
-            }
+                }
+                else
+                {
+                    <span class="text-muted">Not rated yet</span>
+                }
+            </div>
+
 
             <!-- Product Description -->
             <p style="line-height: 1.8; font-size: 1.2rem; color: #f1f1f1; text-align:@(isRtl ? "right" : "left");">
@@ -147,7 +149,44 @@
         </div>
     </div>
 
-    <!-- User Reviews Section -->
+    <div class="card mt-4">
+        <div class="card-header bg-secondary text-white">
+            Customer Reviews
+        </div>
+        <div class="card-body">
+            @if (Model.Ratings != null && Model.Ratings.Any())
+            {
+                @foreach (var r in Model.Ratings)
+                {
+                    <div class="mb-3 border-bottom pb-2">
+                        <strong>@r.UserName</strong>
+                        <span class="text-warning">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                if (i <= r.Rate)
+                                {
+                                    <i class="bi bi-star-fill"></i>
+                                }
+                                else
+                                {
+                                    <i class="bi bi-star"></i>
+                                }
+                            }
+                        </span>
+                        <p class="mt-1">@r.Comment</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-muted">No reviews yet.</p>
+            }
+        </div>
+    </div>
+
+
+
+  @*   <!-- User Reviews Section -->
     <div class="mt-5 p-4 rounded shadow-lg"
          style="background: linear-gradient(135deg, #1565c0 30%, #4a148c 100%); color: white;">
         <h3 class="mb-4 fw-bold">User Reviews</h3>
@@ -178,7 +217,39 @@
         else
         {
             <p>No reviews yet. Be the first to rate this product!</p>
-        }
+        } *@
+    @if (Model.CanRate)
+    {
+        <!-- Rating form -->
+        <div class="card mt-4">
+            <div class="card-header bg-primary text-white">
+                Rate this Product
+            </div>
+            <div class="card-body">
+                
+                    <form asp-action="RateProduct" method="post">
+                        <input type="hidden" name="productId" value="@Model.id" />
+
+                        <!-- Numeric Rating -->
+                        <div class="mb-3">
+                            <label for="rate" class="form-label">Your Rating (1–5)</label>
+                            <input type="number" name="rate" min="1" max="5"
+                                   class="form-control" required />
+                        </div>
+
+                        <!-- Optional Comment -->
+                        <div class="mb-3">
+                            <label for="comment" class="form-label">Comment</label>
+                            <textarea name="comment" rows="3" class="form-control"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">Submit Rating</button>
+                    </form>
+                
+            </div>
+        </div>
+    }
+
     </div>
 </div>
 

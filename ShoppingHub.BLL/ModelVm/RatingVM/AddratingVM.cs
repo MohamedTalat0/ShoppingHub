@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ShoppingHub.BLL.ModelVm.RatingVM
 {
- public   class AddratingVM
+ public   class ratingVM
     {
         public int ProductId { get; set; }
         public string UserId { get; set; }

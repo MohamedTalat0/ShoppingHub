@@ -134,7 +134,13 @@ namespace ShoppingHub.DAL.Repository.Implementation
             }
                 
         }
+        //added for ratings
+        public bool HasUserPurchasedProduct(string userId, int productId)
+        {
+            return dbContext.OrderItems
+                           .Include(oi => oi.Order)
+                           .Any(oi => oi.ProductID == productId && oi.Order.UserId == userId);
+        }
 
-     
     }
 }

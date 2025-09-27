@@ -11,11 +11,12 @@ namespace ShoppingHub.BLL.Services.Abstraction
   public  interface IProductService
     {
         public (bool, string, GetAllProductsVM) GetProducts(GetAllProductsVM vm);
-        (bool, string) EditProduct(EditProductVM productvm);
+        //(bool, string) EditProduct(EditProductVM productvm);
         (bool, string) AddProduct(AddProductVM vm);
         (bool, string) RemoveProduct(int productId);
-        (bool, string, ProductDetailsVM) GetProductDetails(int productId);
+        (bool, string, ProductDetailsVM) GetProductDetails(int productId,string?userid=null);
         Product? GetProductByID(int id);
-        public EditProductVM? GetProductForEdit(int id);
+        //public EditProductVM? GetProductForEdit(int id);
+        (bool, string) UpdateProduct(Product product);
     }
 }

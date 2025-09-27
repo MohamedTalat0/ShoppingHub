@@ -12,11 +12,12 @@ namespace ShoppingHub.DAL.Repository.Abstraction
         List<Product> GetAllProducts();
         Product GetProductByID(int id);
         (bool,string?) AddProduct(Product product);
-        public void EditProduct(Product product);
+        //public void EditProduct(Product product);
          (bool, string?) Remove(int id);
-    
-        
-          
+
+        Product GetProductByIdEditversion(int id);
+        bool UpdateProduct(Product product);
+        public Product? GetProductWithRatings(int productId);
 
     }
 }

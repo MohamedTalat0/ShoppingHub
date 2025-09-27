@@ -23,6 +23,7 @@ public int id { get; set; }
 
         public double? AverageRating { get; set; }
 
-        public List<PRatingVM>? Ratings { get; set; } = new();
+        public List<ProductRatingVM>? Ratings { get; set; } = new();
+        public bool CanRate { get; set; }
     }
 }

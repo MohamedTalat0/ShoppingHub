@@ -9,6 +9,7 @@ namespace ShoppingHub.BLL.Services.Abstraction.Ratings
 {
   public  interface IProductRatingService
     {
-        (bool, string) AddRating(AddratingVM vm);
+        //(bool, string) AddRating(AddratingVM vm);
+        public (bool Success, string Message) RateProduct(int productId, string userId, int rate, string? comment);
     }
 }

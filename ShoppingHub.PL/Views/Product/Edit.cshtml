@@ -58,7 +58,7 @@
                             <span asp-validation-for="DescriptionAR" class="text-danger"></span>
                         </div>
 
-                      @*   <!-- Existing Image -->
+                        @* <!-- Existing Image -->
                         @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
                         {
                             <div class="mb-3 text-center">
@@ -69,6 +69,17 @@
                                 </div>
                             </div>
                         } *@
+
+                        @if (!string.IsNullOrEmpty(Model.ExistingImagePath))
+                        {
+                            <div class="mb-3 text-center">
+                                <label class="form-label fw-bold text-secondary">Current Image</label>
+                                <div>
+                                    <img src="@Url.Content(Model.ExistingImagePath)" alt="Product Image"
+                                         class="img-fluid rounded shadow-sm" style="max-height: 200px;" />
+                                </div>
+                            </div>
+                        }
 
                         <!-- Upload New Image -->
                         <div class="mb-3">
